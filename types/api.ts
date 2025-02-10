@@ -1,4 +1,4 @@
-export interface Challenge {
+export interface Challenges {
   id: string;
   created_at: Date;
   name: string;

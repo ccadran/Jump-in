@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { Challenge } from "~/types/api";
+import type { Challenges } from "~/types/api";
 
 const user = useSupabaseUser();
 
@@ -59,6 +59,96 @@ const handleSubmit = async (e: Event) => {
 const { data: challenges, error } = useFetch<Challenge[]>("/api/challenges", {
   key: "challenges",
 });
+
+const showForm = ref(false);
+const formComplete = ref({
+  title: "",
+  cover: "",
+  description: "",
+  challenge: "",
+});
+
+const completeChallenge = async (e: Event) => {
+  e.preventDefault();
+  showForm.value = true;
+  try {
+    const response = await $fetch("/api/challenges/complete", {
+      method: "POST",
+      body: {
+        completeChallenge: formComplete.value,
+        userId: user.value?.id,
+      },
+    });
+
+    refreshNuxtData("challenges");
+
+    formComplete.value = {
+      title: "",
+      cover: "",
+      description: "",
+      challenge: "",
+    };
+  } catch (error) {
+    console.error("Erreur:", error);
+  }
+};
+
+const saveChallenge = async (id: string) => {
+  console.log(user.value!.id);
+
+  try {
+    const response = await $fetch(`/api/challenges/save`, {
+      method: "POST",
+      body: { user_id: user.value!.id, challenge_id: id },
+    });
+    savedChallenges.value.push(id);
+
+    console.log("Challenge saved", response);
+  } catch (error) {
+    console.error("Error saving challenge", error);
+  }
+};
+
+const savedChallenges = ref<string[]>([]);
+const fetchSavedChallenges = async () => {
+  if (!user.value) return;
+
+  try {
+    const response = await $fetch<Challenges[]>(
+      `/api/users/${user.value.id}/saved`
+    );
+    console.log("Response", response);
+
+    savedChallenges.value = response.map((challenge) => challenge.id);
+
+    console.log("Saved challenges", savedChallenges.value);
+  } catch (error) {
+    console.error("Error fetching saved challenges", error);
+  }
+};
+
+const removeFromSave = async (id: number) => {
+  try {
+    const response = await $fetch(`/api/challenges/save`, {
+      method: "DELETE",
+      body: { user_id: user.value!.id, challenge_id: id },
+    });
+
+    savedChallenges.value = savedChallenges.value.filter(
+      (challenge) => !savedChallenges.value.includes(challenge)
+    );
+
+    console.log("Challenge removed", response);
+  } catch (error) {
+    console.error("Error removing challenge", error);
+  }
+};
+
+watchEffect(() => {
+  if (user.value) {
+    fetchSavedChallenges();
+  }
+});
 </script>
 
 <template>
@@ -80,6 +170,31 @@ const { data: challenges, error } = useFetch<Challenge[]>("/api/challenges", {
       <img :src="challenge.cover" alt="cover" />
       <p>{{ challenge.description }}</p>
       <p @click="deleteChallenge(challenge.id)">Delete</p>
+      <p
+        v-if="!savedChallenges.includes(challenge.id)"
+        @click="saveChallenge(challenge.id)"
+      >
+        SAVE
+      </p>
+      <p v-else @click="removeFromSave(challenge.id)">ALREADY SAVED</p>
     </div>
+  </div>
+  <p @click="showForm = !showForm">SHOW COMPLETE FORM</p>
+  <div class="complete">
+    <form v-if="showForm" @submit="completeChallenge">
+      <input v-model="formComplete.title" type="text" placeholder="Nom" />
+      <input v-model="formComplete.cover" type="text" placeholder="Cover" />
+      <input
+        v-model="formComplete.description"
+        type="text"
+        placeholder="Description"
+      />
+      <input
+        v-model="formComplete.challenge"
+        type="text"
+        placeholder="challenge"
+      />
+      <button type="submit">Envoyer</button>
+    </form>
   </div>
 </template>

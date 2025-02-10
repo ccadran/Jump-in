@@ -2,7 +2,7 @@
 import type { Guilds } from "~/types/api";
 
 const user = useSupabaseUser();
-console.log("User", user.value);
+// console.log("User", user.value);
 
 const { data, error } = await useFetch<Guilds[]>(
   `/api/users/${user.value!.id}/guilds`,
@@ -10,8 +10,16 @@ const { data, error } = await useFetch<Guilds[]>(
     key: "guilds",
   }
 );
+const { data: savedChallenge } = await useFetch<Guilds[]>(
+  `/api/users/${user.value!.id}/saved`,
+  {
+    key: "saved_challenges",
+  }
+);
 
-console.log(data.value);
+console.log(savedChallenge.value);
+
+// console.log(data.value);
 
 async function leaveGuild(guildId: string) {
   try {

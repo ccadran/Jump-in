@@ -81,36 +81,46 @@ export type Database = {
       };
       complete_challenges: {
         Row: {
-          challenge: string | null;
+          challenge_id: string | null;
           cover: string | null;
           created_at: string;
           description: string | null;
-          id: number;
+          id: string;
           title: string | null;
+          user_id: string | null;
         };
         Insert: {
-          challenge?: string | null;
+          challenge_id?: string | null;
           cover?: string | null;
           created_at?: string;
           description?: string | null;
-          id?: number;
+          id?: string;
           title?: string | null;
+          user_id?: string | null;
         };
         Update: {
-          challenge?: string | null;
+          challenge_id?: string | null;
           cover?: string | null;
           created_at?: string;
           description?: string | null;
-          id?: number;
+          id?: string;
           title?: string | null;
+          user_id?: string | null;
         };
         Relationships: [
           {
-            foreignKeyName: "complete_challenge_challenge_fkey";
-            columns: ["challenge"];
+            foreignKeyName: "complete_challenges_challenge_id_fkey";
+            columns: ["challenge_id"];
             isOneToOne: false;
             referencedRelation: "challenges";
             referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "complete_challenges_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["user_id"];
           }
         ];
       };
@@ -149,6 +159,36 @@ export type Database = {
           }
         ];
       };
+      saved_challenges: {
+        Row: {
+          challenge_id: string;
+          user_id: string;
+        };
+        Insert: {
+          challenge_id?: string;
+          user_id: string;
+        };
+        Update: {
+          challenge_id?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "user_saved_challenge_challenge_id_fkey";
+            columns: ["challenge_id"];
+            isOneToOne: false;
+            referencedRelation: "challenges";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "user_saved_challenge_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
       user_guilds: {
         Row: {
           guild_id: string;
@@ -176,36 +216,6 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: "users";
             referencedColumns: ["user_id"];
-          }
-        ];
-      };
-      user_saved_challenges: {
-        Row: {
-          challenge_id: string;
-          user_id: string;
-        };
-        Insert: {
-          challenge_id?: string;
-          user_id: string;
-        };
-        Update: {
-          challenge_id?: string;
-          user_id?: string;
-        };
-        Relationships: [
-          {
-            foreignKeyName: "user_saved_challenge_challenge_id_fkey";
-            columns: ["challenge_id"];
-            isOneToOne: false;
-            referencedRelation: "challenges";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "user_saved_challenge_user_id_fkey";
-            columns: ["user_id"];
-            isOneToOne: false;
-            referencedRelation: "users";
-            referencedColumns: ["id"];
           }
         ];
       };
