@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import type { Challenge } from "~/types/api";
 
+const user = useSupabaseUser();
+
 const formData = ref({
   name: "",
   cover: "",
@@ -35,7 +37,10 @@ const handleSubmit = async (e: Event) => {
   try {
     const response = await $fetch("/api/challenge", {
       method: "POST",
-      body: formData.value,
+      body: {
+        challengeData: formData.value,
+        created_by: user.value?.id,
+      },
     });
 
     refreshNuxtData("challenges");
@@ -74,7 +79,6 @@ const { data: challenges, error } = useFetch<Challenge[]>("/api/challenge", {
       <h2>{{ challenge.name }}</h2>
       <img :src="challenge.cover" alt="cover" />
       <p>{{ challenge.description }}</p>
-      <p>{{ challenge.guild }}</p>
       <p @click="deleteChallenge(challenge.id)">Delete</p>
     </div>
   </div>

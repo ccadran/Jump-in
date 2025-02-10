@@ -6,7 +6,7 @@ const formData = ref({
   cover: "",
   description: "",
 });
-
+const user = useSupabaseUser();
 const deleteGuild = async (id: string) => {
   try {
     const response = await fetch(`/api/guild/${id}`, {
@@ -32,7 +32,10 @@ const handleSubmit = async (e: Event) => {
   try {
     const response = await $fetch("/api/guild", {
       method: "POST",
-      body: formData.value,
+      body: {
+        owner_id: user.value?.id,
+        guildData: formData.value,
+      },
     });
 
     refreshNuxtData("guilds");
