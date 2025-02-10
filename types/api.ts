@@ -16,3 +16,20 @@ export interface Guild {
   cover: string;
   owner_id: string;
 }
+
+export interface UserData {
+  firstName: string;
+  name: string;
+  username: string;
+  description: string;
+  profilePicture: string;
+}
+
+export interface LoginPayload {
+  email: string;
+  password: string;
+}
+
+export interface RegisterPayload extends LoginPayload {
+  userData: UserData;
+}

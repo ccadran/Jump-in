@@ -1,0 +1,25 @@
+// server/api/auth/login.post.ts
+import { serverSupabaseClient } from "#supabase/server";
+
+export default defineEventHandler(async (event) => {
+  const { email, password } = await readBody(event);
+  console.log(email, password);
+
+  const client = await serverSupabaseClient(event);
+
+  try {
+    const { data, error } = await client.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) throw error;
+
+    return { data };
+  } catch (error: any) {
+    throw createError({
+      statusCode: 400,
+      message: error.message,
+    });
+  }
+});
