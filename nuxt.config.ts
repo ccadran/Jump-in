@@ -3,9 +3,9 @@ export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
   modules: ["@nuxtjs/supabase", "@nuxt/test-utils/module"],
-  supabase: {
-    redirect: false,
-  },
+  // supabase: {
+  //   redirect: false,
+  // },
   runtimeConfig: {
     public: {
       SUPABASE_URL: process.env.SUPABASE_URL,

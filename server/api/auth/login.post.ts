@@ -3,7 +3,6 @@ import { serverSupabaseClient } from "#supabase/server";
 
 export default defineEventHandler(async (event) => {
   const { email, password } = await readBody(event);
-  console.log(email, password);
 
   const client = await serverSupabaseClient(event);
 
