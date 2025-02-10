@@ -17,8 +17,15 @@ logs
 .DS_Store
 .fleet
 .idea
+.vscode
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # Local env files
 .env
 .env.*
 !.env.example
+
+# Nuxt specific files/folders
+/.output/
