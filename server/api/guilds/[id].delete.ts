@@ -8,24 +8,21 @@ export default eventHandler(async (event) => {
     if (!id) {
       throw createError({
         statusCode: 400,
-        statusMessage: "ID du challenge manquant",
+        statusMessage: "ID de la guild manquant",
       });
     }
 
-    // Suppression du challenge
-    const { data, error } = await client
-      .from("challenge")
-      .delete()
-      .eq("id", id);
+    // Suppression de la guild
+    const { data, error } = await client.from("guilds").delete().eq("id", id);
 
     if (error) throw error;
 
     return { success: true, data };
   } catch (error) {
-    console.error("Error deleting challenge:", error);
+    console.error("Error deleting guild:", error);
     return createError({
       statusCode: 500,
-      statusMessage: "Erreur lors de la suppression du challenge",
+      statusMessage: "Erreur lors de la suppression de la guild",
     });
   }
 });

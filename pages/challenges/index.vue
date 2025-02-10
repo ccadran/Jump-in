@@ -12,7 +12,7 @@ const formData = ref({
 
 const deleteChallenge = async (id: string) => {
   try {
-    const response = await fetch(`/api/challenge/${id}`, {
+    const response = await fetch(`/api/challenges/${id}`, {
       method: "DELETE",
     });
 
@@ -35,7 +35,7 @@ const handleSubmit = async (e: Event) => {
   console.log("formData", formData.value);
 
   try {
-    const response = await $fetch("/api/challenge", {
+    const response = await $fetch("/api/challenges", {
       method: "POST",
       body: {
         challengeData: formData.value,
@@ -56,7 +56,7 @@ const handleSubmit = async (e: Event) => {
   }
 };
 
-const { data: challenges, error } = useFetch<Challenge[]>("/api/challenge", {
+const { data: challenges, error } = useFetch<Challenge[]>("/api/challenges", {
   key: "challenges",
 });
 </script>

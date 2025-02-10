@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { Guild } from "~/types/api";
+import type { Guilds } from "~/types/api";
 
 const formData = ref({
   name: "",
@@ -9,7 +9,7 @@ const formData = ref({
 const user = useSupabaseUser();
 const deleteGuild = async (id: string) => {
   try {
-    const response = await fetch(`/api/guild/${id}`, {
+    const response = await fetch(`/api/guilds/${id}`, {
       method: "DELETE",
     });
 
@@ -30,7 +30,7 @@ const handleSubmit = async (e: Event) => {
   console.log("formData", formData.value);
 
   try {
-    const response = await $fetch("/api/guild", {
+    const response = await $fetch("/api/guilds", {
       method: "POST",
       body: {
         owner_id: user.value?.id,
@@ -50,9 +50,21 @@ const handleSubmit = async (e: Event) => {
   }
 };
 
-const { data: guilds, error } = useFetch<Guild[]>("/api/guild", {
+const { data: guilds, error } = useFetch<Guilds[]>("/api/guilds", {
   key: "guilds",
 });
+
+async function joinGuild(guildId: string) {
+  try {
+    const response = await $fetch(`/api/guilds/${guildId}/user`, {
+      method: "POST",
+      body: { user_id: user.value!.id },
+    });
+    console.log("Ajouté à la guilde", response);
+  } catch (error) {
+    console.error("Erreur d'ajout", error);
+  }
+}
 </script>
 
 <template>
@@ -72,6 +84,7 @@ const { data: guilds, error } = useFetch<Guild[]>("/api/guild", {
       <h2>{{ guild.name }}</h2>
       <img :src="guild.cover" alt="cover" />
       <p>{{ guild.description }}</p>
+      <h1 @click="joinGuild(guild.id)">Add to my guild</h1>
 
       <p @click="deleteGuild(guild.id)">Delete</p>
     </div>

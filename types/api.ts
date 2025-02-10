@@ -8,7 +8,7 @@ export interface Challenge {
   created_by: string;
 }
 
-export interface Guild {
+export interface Guilds {
   id: string;
   created_at: Date;
   name: string;

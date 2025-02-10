@@ -12,7 +12,7 @@ export default eventHandler(async (event) => {
     });
 
     const { data, error } = await client
-      .from("user")
+      .from("users")
       .insert({
         user_id: authData?.user?.id,
         first_name: userData.firstName,

@@ -4,7 +4,7 @@ export default eventHandler(async (event) => {
   try {
     const client = await serverSupabaseClient(event);
 
-    const { data, error } = await client.from("guild").select("*");
+    const { data, error } = await client.from("challenges").select("*");
 
     if (error) throw error;
 

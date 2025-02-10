@@ -4,16 +4,15 @@ import type { Database } from "~/types/supabase";
 export default eventHandler(async (event) => {
   try {
     const client = await serverSupabaseClient<Database>(event);
-    const { challengeData, created_by } = await readBody(event);
+    const { guildData, owner_id } = await readBody(event);
 
     const { data, error } = await client
-      .from("challenge")
+      .from("guilds")
       .insert({
-        name: challengeData.name,
-        cover: challengeData.cover,
-        description: challengeData.description,
-        guild: challengeData.guild,
-        created_by,
+        name: guildData.name,
+        cover: guildData.cover,
+        description: guildData.description,
+        owner_id,
       })
       .select();
 
