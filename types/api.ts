@@ -17,6 +17,15 @@ export interface Guilds {
   owner_id: string;
 }
 
+export interface CompleteChallenges {
+  id: string;
+  created_at: Date;
+  title: string;
+  description: string;
+  challenge_id: string;
+  user_id: string;
+}
+
 export interface UserData {
   firstName: string;
   name: string;

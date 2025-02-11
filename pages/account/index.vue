@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { Guilds } from "~/types/api";
+import type { Challenges, CompleteChallenges, Guilds } from "~/types/api";
 
 const user = useSupabaseUser();
 
@@ -9,12 +9,20 @@ const { data, error } = await useFetch<Guilds[]>(
     key: "guilds",
   }
 );
-const { data: savedChallenge } = await useFetch<Guilds[]>(
+const { data: savedChallenge } = await useFetch<Challenges[]>(
   `/api/users/challenges/save/${user.value!.id}`,
   {
     key: "saved_challenges",
   }
 );
+
+const { data: completeChallenges } = await useFetch<CompleteChallenges[]>(
+  `/api/users/challenges/complete/${user.value!.id}`,
+  {
+    key: "complete_challenges",
+  }
+);
+console.log(completeChallenges);
 
 async function leaveGuild(guildId: string) {
   try {
@@ -40,6 +48,18 @@ async function deleteChallengeSaved(challenge_id: string) {
     console.error("Erreur de suppression", error);
   }
 }
+async function deleteCompletedChallenge(id: string) {
+  try {
+    const response = await $fetch(`/api/users/challenges/complete`, {
+      method: "DELETE",
+      body: { userId: user.value!.id, id: id },
+    });
+
+    refreshNuxtData("complete_challenges");
+  } catch (error) {
+    console.error("Erreur de suppression", error);
+  }
+}
 </script>
 
 <template>
@@ -52,10 +72,20 @@ async function deleteChallengeSaved(challenge_id: string) {
         <button @click="leaveGuild(guild.id)">Quitter</button>
       </li>
     </ul>
+    <h2>Challenge saved</h2>
     <ul>
       <li v-for="challenge in savedChallenge" :key="challenge.id">
         <p>{{ challenge.name }}</p>
         <button @click="deleteChallengeSaved(challenge.id)">Supprimer</button>
+      </li>
+    </ul>
+    <h2>Challenge complete</h2>
+    <ul>
+      <li v-for="challenge in completeChallenges" :key="challenge.id">
+        <p>{{ challenge.title }}</p>
+        <button @click="deleteCompletedChallenge(challenge.id)">
+          Supprimer
+        </button>
       </li>
     </ul>
   </div>

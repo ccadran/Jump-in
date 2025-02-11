@@ -50,17 +50,17 @@ const { data: guilds, error } = useFetch<Guilds[]>("/api/guilds", {
   key: "guilds",
 });
 
-async function joinGuild(guildId: string) {
+const joinGuild = async (guildId: string) => {
   try {
     const response = await $fetch(`/api/users/guilds`, {
       method: "POST",
-      body: { userId: user.value!.id, guild_id: guildId },
+      body: { userId: user.value!.id, guildId: guildId },
     });
     console.log("Ajouté à la guilde", response);
   } catch (error) {
     console.error("Erreur d'ajout", error);
   }
-}
+};
 </script>
 
 <template>

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { Challenges } from "~/types/api";
+import type { Challenges, CompleteChallenges } from "~/types/api";
 
 const user = useSupabaseUser();
 
@@ -114,9 +114,10 @@ const fetchSavedChallenges = async () => {
   if (!user.value) return;
 
   try {
-    const response = await $fetch<Challenges[]>(`/api/users/challenges/save`, {
-      body: { userId: user.value.id },
-    });
+    const response = await $fetch<Challenges[]>(
+      `/api/users/challenges/save/${user.value.id}`,
+      {}
+    );
     console.log("Response", response);
 
     savedChallenges.value = response.map((challenge) => challenge.id);
@@ -131,11 +132,11 @@ const removeFromSave = async (challenge_id: string) => {
   try {
     const response = await $fetch(`/api/users/challenges/save`, {
       method: "DELETE",
-      body: { user_id: user.value!.id, challenge_id: challenge_id },
+      body: { userId: user.value!.id, challenge_id: challenge_id },
     });
 
     savedChallenges.value = savedChallenges.value.filter(
-      (challenge) => !savedChallenges.value.includes(challenge)
+      (savedChallenge) => savedChallenge !== challenge_id
     );
 
     console.log("Challenge removed", response);
@@ -144,10 +145,21 @@ const removeFromSave = async (challenge_id: string) => {
   }
 };
 
-watchEffect(() => {
-  if (user.value) {
-    fetchSavedChallenges();
+const fetchCompleteChallenges = async (id: string) => {
+  if (!user.value) return;
+
+  try {
+    const response = await $fetch<CompleteChallenges[]>(
+      `/api/challenges/${id}`
+    );
+    console.log("Complete challenges", response);
+  } catch (error) {
+    console.error("Error fetching complete challenges", error);
   }
+};
+
+onMounted(() => {
+  fetchSavedChallenges();
 });
 </script>
 
@@ -169,6 +181,7 @@ watchEffect(() => {
       <h2>{{ challenge.name }}</h2>
       <img :src="challenge.cover" alt="cover" />
       <p>{{ challenge.description }}</p>
+      <p @click="fetchCompleteChallenges(challenge.id)">Complete challenge</p>
       <p @click="deleteChallenge(challenge.id)">Delete</p>
       <p
         v-if="!savedChallenges.includes(challenge.id)"
