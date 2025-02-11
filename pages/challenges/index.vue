@@ -56,7 +56,7 @@ const handleSubmit = async (e: Event) => {
   }
 };
 
-const { data: challenges, error } = useFetch<Challenge[]>("/api/challenges", {
+const { data: challenges, error } = useFetch<Challenges[]>("/api/challenges", {
   key: "challenges",
 });
 
@@ -72,7 +72,7 @@ const completeChallenge = async (e: Event) => {
   e.preventDefault();
   showForm.value = true;
   try {
-    const response = await $fetch("/api/challenges/complete", {
+    const response = await $fetch("/api/users/challenges/complete", {
       method: "POST",
       body: {
         completeChallenge: formComplete.value,
@@ -97,9 +97,9 @@ const saveChallenge = async (id: string) => {
   console.log(user.value!.id);
 
   try {
-    const response = await $fetch(`/api/challenges/save`, {
+    const response = await $fetch(`/api/users/challenges/save`, {
       method: "POST",
-      body: { user_id: user.value!.id, challenge_id: id },
+      body: { userId: user.value!.id, challenge_id: id },
     });
     savedChallenges.value.push(id);
 
@@ -114,9 +114,9 @@ const fetchSavedChallenges = async () => {
   if (!user.value) return;
 
   try {
-    const response = await $fetch<Challenges[]>(
-      `/api/users/${user.value.id}/saved`
-    );
+    const response = await $fetch<Challenges[]>(`/api/users/challenges/save`, {
+      body: { userId: user.value.id },
+    });
     console.log("Response", response);
 
     savedChallenges.value = response.map((challenge) => challenge.id);
@@ -127,11 +127,11 @@ const fetchSavedChallenges = async () => {
   }
 };
 
-const removeFromSave = async (id: number) => {
+const removeFromSave = async (challenge_id: string) => {
   try {
-    const response = await $fetch(`/api/challenges/save`, {
+    const response = await $fetch(`/api/users/challenges/save`, {
       method: "DELETE",
-      body: { user_id: user.value!.id, challenge_id: id },
+      body: { user_id: user.value!.id, challenge_id: challenge_id },
     });
 
     savedChallenges.value = savedChallenges.value.filter(

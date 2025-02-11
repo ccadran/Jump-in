@@ -2,19 +2,15 @@ import { serverSupabaseClient } from "#supabase/server";
 import { Database } from "~/types/supabase";
 
 export default defineEventHandler(async (event) => {
-  const { user_id, challenge_id } = await readBody(event);
-  console.log(user_id, challenge_id);
+  const { userId, guildId } = await readBody(event);
 
   const client = await serverSupabaseClient<Database>(event);
-  const { data, error } = await client.from("saved_challenges").insert([
+  const { data, error } = await client.from("user_guilds").insert([
     {
-      user_id: user_id,
-      challenge_id: challenge_id,
+      user_id: userId,
+      guild_id: guildId,
     },
   ]);
-
-  console.log(data);
-  console.log(error);
 
   if (error) {
     return createError({ statusCode: 500, message: error.message });

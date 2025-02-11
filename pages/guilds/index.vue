@@ -9,13 +9,9 @@ const formData = ref({
 const user = useSupabaseUser();
 const deleteGuild = async (id: string) => {
   try {
-    const response = await fetch(`/api/guilds/${id}`, {
+    const response = await $fetch(`/api/guilds/${id}`, {
       method: "DELETE",
     });
-
-    if (!response.ok) {
-      throw new Error("Erreur lors de la suppression");
-    }
 
     if (guilds.value) {
       guilds.value = guilds.value.filter((guild) => guild.id !== id);
@@ -56,9 +52,9 @@ const { data: guilds, error } = useFetch<Guilds[]>("/api/guilds", {
 
 async function joinGuild(guildId: string) {
   try {
-    const response = await $fetch(`/api/guilds/${guildId}/user`, {
+    const response = await $fetch(`/api/users/guilds`, {
       method: "POST",
-      body: { user_id: user.value!.id },
+      body: { userId: user.value!.id, guild_id: guildId },
     });
     console.log("Ajouté à la guilde", response);
   } catch (error) {

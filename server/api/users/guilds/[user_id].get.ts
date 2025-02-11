@@ -2,18 +2,20 @@ import { serverSupabaseClient } from "#supabase/server";
 import { Database } from "~/types/supabase";
 
 export default defineEventHandler(async (event) => {
-  const userId = getRouterParam(event, "user_id");
-  const guildId = getRouterParam(event, "guild_id");
-
+  const userId = getRouterParam(event, "user_id") as string;
   const client = await serverSupabaseClient<Database>(event);
+
+  console.log("userId", userId);
+
   const { data, error } = await client
     .from("user_guilds")
-    .delete()
-    .match({ user_id: userId, guild_id: guildId });
+    .select("guilds(*)")
+    .eq("user_id", userId);
 
   if (error) {
     return createError({ statusCode: 500, message: error.message });
   }
+  const guilds = data.map((item) => item.guilds);
 
-  return { message: "Utilisateur retiré de la guilde", data };
+  return guilds;
 });
