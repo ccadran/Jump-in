@@ -1,18 +1,18 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { createSupabaseClient } from "../../supabaseClient";
 
-describe("GET /api/guilds", () => {
+describe("GET /api/challenges/complete", () => {
   afterEach(() => {
     vi.restoreAllMocks();
   });
 
-  it("GET /api/guilds (simulé avec plusieurs guildes, mais seulement celui avec challenge_id = 1)", async () => {
+  it("séléctionner les challenges complete d'un challenge ", async () => {
     const supabase = createSupabaseClient();
 
     const mockData = {
       data: [
         {
-          challenge_id: 1,
+          challenge_id: "1",
           id: 1,
           name: "Challenge 1",
           cover: "cover1.jpg",
@@ -38,16 +38,16 @@ describe("GET /api/guilds", () => {
     const { data, error } = await supabase
       .from("complete_challenges")
       .select("*")
-      .eq("challenge_id", 1);
+      .eq("challenge_id", "1");
 
     expect(spy).toHaveBeenCalled();
     expect(mockSelect).toHaveBeenCalled();
-    expect(mockEq).toHaveBeenCalledWith("challenge_id", 1);
+    expect(mockEq).toHaveBeenCalledWith("challenge_id", "1");
 
     expect(data).toBeDefined();
     expect(data!.length).toBe(1);
     expect(data![0]).toEqual({
-      challenge_id: 1,
+      challenge_id: "1",
       id: 1,
       name: "Challenge 1",
       cover: "cover1.jpg",

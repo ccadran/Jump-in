@@ -6,7 +6,7 @@ describe("GET /api/guilds", () => {
     vi.restoreAllMocks();
   });
 
-  it("GET /api/guilds (simulé avec plusieurs guildes)", async () => {
+  it("récupérer l'ensemble des guilds", async () => {
     const supabase = createSupabaseClient();
 
     // Simulation de la réponse de Supabase pour la récupération des guildes

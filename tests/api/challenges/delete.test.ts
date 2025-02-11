@@ -3,11 +3,11 @@ import { createSupabaseClient } from "../supabaseClient";
 import type { Database } from "~/types/supabase";
 import type { Challenges } from "~/types/api";
 
-describe("DELETE /api/guild", () => {
+describe("DELETE /api/challenges", () => {
   afterEach(() => {
     vi.restoreAllMocks();
   });
-  it("DELETE /api/guild (simulé)", async () => {
+  it("supprimer un challenge avec son id(simulé)", async () => {
     const supabase = createSupabaseClient();
 
     const spy = vi.spyOn(supabase, "from").mockImplementation(
@@ -29,19 +29,19 @@ describe("DELETE /api/guild", () => {
         } as any)
     );
 
-    const guildId = "1";
+    const challengeId = "1";
 
     // Simuler la suppression
     const { data, error } = (await supabase
       .from("challenges")
       .delete()
-      .eq("id", guildId)) as unknown as { data: Challenges[]; error: any };
+      .eq("id", challengeId)) as unknown as { data: Challenges[]; error: any };
 
     // Vérification que la méthode "from" a bien été appelée
     expect(spy).toHaveBeenCalled();
 
     // Vérification que "delete" a bien été appelée
-    expect(spy).toHaveBeenCalledWith("challenges"); // Vérifie l'appel avec le nom de la table
+    expect(spy).toHaveBeenCalledWith("challenges");
 
     // Vérifie que delete a bien été appelé
     expect(spy.mock.results[0].value.delete).toHaveBeenCalled();

@@ -2,12 +2,12 @@ import { describe, it, expect, vi, afterEach } from "vitest";
 import { createSupabaseClient } from "../../../supabaseClient";
 import type { Database } from "~/types/supabase";
 
-describe("DELETE /api/guild", () => {
+describe("DELETE /api/users/challenges/complete", () => {
   afterEach(() => {
     vi.restoreAllMocks();
   });
 
-  it("DELETE /api/guild (supprime un utilisateur d'une guilde)", async () => {
+  it("supprimer un challenge complété associé à un user", async () => {
     const supabase = createSupabaseClient();
 
     const mockDelete = vi.fn().mockReturnThis();

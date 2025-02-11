@@ -1,12 +1,12 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { createSupabaseClient } from "../supabaseClient";
 
-describe("POST /api/guild", () => {
+describe("POST /api/guilds", () => {
   afterEach(() => {
     vi.restoreAllMocks();
   });
 
-  it("POST /api/test (simulé)", async () => {
+  it("ajouter une nouvelle guild", async () => {
     const supabase = createSupabaseClient();
     // Espionner la méthode "from"
     const spy = vi.spyOn(supabase, "from").mockImplementation(

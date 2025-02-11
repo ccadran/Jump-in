@@ -2,11 +2,11 @@ import { describe, it, expect, vi, afterEach } from "vitest";
 import { createSupabaseClient } from "../supabaseClient";
 import type { Guilds } from "~/types/api";
 
-describe("DELETE /api/guild", () => {
+describe("DELETE /api/guilds", () => {
   afterEach(() => {
     vi.restoreAllMocks();
   });
-  it("DELETE /api/guild (simulé)", async () => {
+  it("supprimer une guild avec son id", async () => {
     const supabase = createSupabaseClient();
 
     const spy = vi.spyOn(supabase, "from").mockImplementation(

@@ -1,15 +1,15 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { createSupabaseClient } from "../supabaseClient";
 
-describe("GET /api/guilds", () => {
+describe("GET /api/challenges", () => {
   afterEach(() => {
     vi.restoreAllMocks();
   });
 
-  it("GET /api/guilds (simulé avec plusieurs guildes)", async () => {
+  it("récupérer les challenges", async () => {
     const supabase = createSupabaseClient();
 
-    // Simulation de la réponse de Supabase pour la récupération des guildes
+    // Simulation de la réponse de Supabase pour la récupération des challenges
     const spy = vi.spyOn(supabase, "from").mockImplementation(
       () =>
         ({
@@ -39,7 +39,7 @@ describe("GET /api/guilds", () => {
         } as any)
     );
 
-    // Simuler la requête GET pour récupérer toutes les guildes
+    // Simuler la requête GET pour récupérer toutes les challenges
     const { data, error } = await supabase.from("challenges").select("*");
 
     expect(spy).toHaveBeenCalled();

@@ -6,7 +6,7 @@ describe("POST /api/auth/login", () => {
     vi.restoreAllMocks();
   });
 
-  it("POST /api/auth/login (simulé)", async () => {
+  it("connecter un user ", async () => {
     const supabase = createSupabaseClient();
 
     // Espionner la méthode "auth.signInWithPassword"
@@ -40,5 +40,3 @@ describe("POST /api/auth/login", () => {
     expect(error).toBeNull();
   });
 });
-
-// Simuler une erreur d'authentification

@@ -1,12 +1,12 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { createSupabaseClient } from "../../../supabaseClient";
 
-describe("GET /api/guilds", () => {
+describe("GET /api/users/challenges/complete", () => {
   afterEach(() => {
     vi.restoreAllMocks();
   });
 
-  it("GET /api/guilds (simulé avec plusieurs guildes, mais seulement celui avec user_id = 1)", async () => {
+  it("récupérer les challenges compléter d'un user", async () => {
     const supabase = createSupabaseClient();
 
     const mockData = {

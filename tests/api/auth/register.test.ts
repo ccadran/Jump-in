@@ -6,7 +6,7 @@ describe("POST /api/auth/register", () => {
     vi.restoreAllMocks();
   });
 
-  it("POST /api/auth/register (succès simulé)", async () => {
+  it("register un user et le connecter", async () => {
     const supabase = createSupabaseClient();
 
     // Mock de l'inscription avec Supabase Auth
