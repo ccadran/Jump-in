@@ -150,7 +150,7 @@ const fetchCompleteChallenges = async (id: string) => {
 
   try {
     const response = await $fetch<CompleteChallenges[]>(
-      `/api/challenges/${id}`
+      `/api/challenges/complete/${id}`
     );
     console.log("Complete challenges", response);
   } catch (error) {
