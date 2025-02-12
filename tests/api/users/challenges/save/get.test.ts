@@ -6,7 +6,7 @@ describe("GET /api/users/challenges/save", () => {
     vi.restoreAllMocks();
   });
 
-  it("récupérer les challenges sauvegardé d'un user", async () => {
+  it("récupérer les challenges sauvegardés d'un user", async () => {
     const supabase = createSupabaseClient();
 
     const mockData = {
