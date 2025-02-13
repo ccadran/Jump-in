@@ -19,27 +19,23 @@ export default eventHandler(async (event) => {
         coverFile = new File([field.data], field.filename || "cover", {
           type: field.type,
         });
+        console.log("coverFile", coverFile);
       } else {
         if (field.name) {
-          challengeData[field.name] = field.data.toString(); // Convertir Buffer en string
+          challengeData[field.name] = field.data.toString();
           console.log("field.name", field.name, challengeData[field.name]);
         }
       }
     }
 
-    console.log("Challenge Data:", challengeData);
-    console.log("Cover File:", coverFile);
-
     let coverUrl: string | null = null;
 
-    // Vérifier si un fichier cover est fourni
     if (coverFile) {
       const fileName = `${Date.now()}-${coverFile.name}`;
       const filePath = `challenges/${fileName}`;
 
       console.log("___FILE___", coverFile);
 
-      // Upload du fichier dans Supabase Storage
       const { error: uploadError } = await client.storage
         .from("jump-in")
         .upload(filePath, coverFile, {
@@ -47,20 +43,16 @@ export default eventHandler(async (event) => {
           upsert: false,
         });
 
-      console.log(client.storage.from("jump-in"));
-
-      console.log("uploadError", uploadError);
+      console.log("___uploadError___", uploadError);
 
       if (uploadError) throw uploadError;
 
-      // Générer l'URL publique du fichier
       coverUrl = client.storage.from("jump-in").getPublicUrl(filePath)
         .data.publicUrl;
     }
 
     console.log("___created_by___", challengeData.created_by);
 
-    // Insérer les donnéeslog dans la table "challenges"
     const { data, error } = await client
       .from("challenges")
       .insert({

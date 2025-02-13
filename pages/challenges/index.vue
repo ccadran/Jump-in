@@ -59,6 +59,9 @@ const handleSubmit = async (e: Event) => {
       description: "",
       guild: "",
     };
+
+    (document.querySelector('input[type="file"]') as HTMLInputElement).value =
+      "";
   } catch (error) {
     console.error("Erreur:", error);
   }
@@ -166,6 +169,8 @@ const fetchCompleteChallenges = async (id: string) => {
   }
 };
 const handleFileUpload = (event: Event) => {
+  console.log("____test");
+
   const target = event.target as HTMLInputElement;
   if (target.files?.length) {
     formData.value.cover = target.files[0];
