@@ -11,6 +11,8 @@ export default defineEventHandler(async (event) => {
       email,
       password,
     });
+    console.log("____login", data);
+    console.log("____login", error);
 
     if (error) throw error;
 

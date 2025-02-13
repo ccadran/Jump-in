@@ -1,15 +1,17 @@
 <script lang="ts" setup>
 import type { Guilds } from "~/types/api";
 
+const user = useSupabaseUser();
+
 const formData = ref({
   name: "",
-  cover: "",
+  cover: null as File | null,
   description: "",
 });
-const user = useSupabaseUser();
+
 const deleteGuild = async (id: string) => {
   try {
-    const response = await $fetch(`/api/guilds/${id}`, {
+    const response = await fetch(`/api/guilds/${id}`, {
       method: "DELETE",
     });
 
@@ -23,24 +25,34 @@ const deleteGuild = async (id: string) => {
 
 const handleSubmit = async (e: Event) => {
   e.preventDefault();
-  console.log("formData", formData.value);
+  console.log("____formData", formData.value);
+
+  const formDataToSend = new FormData();
+  formDataToSend.append("name", formData.value.name);
+  formDataToSend.append("description", formData.value.description);
+  formDataToSend.append("owner_id", user.value?.id || "");
+
+  if (formData.value.cover) {
+    formDataToSend.append("cover", formData.value.cover); // Add the file
+  }
 
   try {
     const response = await $fetch("/api/guilds", {
       method: "POST",
-      body: {
-        owner_id: user.value?.id,
-        guildData: formData.value,
-      },
+      body: formDataToSend,
     });
+    console.log("Response", response);
 
     refreshNuxtData("guilds");
 
     formData.value = {
       name: "",
-      cover: "",
+      cover: null,
       description: "",
     };
+
+    (document.querySelector('input[type="file"]') as HTMLInputElement).value =
+      "";
   } catch (error) {
     console.error("Erreur:", error);
   }
@@ -61,12 +73,22 @@ const joinGuild = async (guildId: string) => {
     console.error("Erreur d'ajout", error);
   }
 };
+
+const handleFileUpload = (event: Event) => {
+  console.log("____test");
+
+  const target = event.target as HTMLInputElement;
+  if (target.files?.length) {
+    formData.value.cover = target.files[0];
+    console.log("File", formData.value.cover);
+  }
+};
 </script>
 
 <template>
   <form @submit="handleSubmit">
     <input v-model="formData.name" type="text" placeholder="Nom" />
-    <input v-model="formData.cover" type="text" placeholder="Cover" />
+    <input type="file" @change="handleFileUpload" />
     <input
       v-model="formData.description"
       type="text"
