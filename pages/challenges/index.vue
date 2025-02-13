@@ -5,7 +5,7 @@ const user = useSupabaseUser();
 
 const formData = ref({
   name: "",
-  cover: "",
+  cover: null as File | null,
   description: "",
   guild: "",
 });
@@ -32,22 +32,30 @@ const deleteChallenge = async (id: string) => {
 
 const handleSubmit = async (e: Event) => {
   e.preventDefault();
-  console.log("formData", formData.value);
+  console.log("____formData", formData.value);
+
+  const formDataToSend = new FormData();
+  formDataToSend.append("name", formData.value.name);
+  formDataToSend.append("description", formData.value.description);
+  formDataToSend.append("guild", formData.value.guild);
+  formDataToSend.append("created_by", user.value?.id || "");
+
+  if (formData.value.cover) {
+    formDataToSend.append("cover", formData.value.cover); // Ajouter le fichier
+  }
 
   try {
     const response = await $fetch("/api/challenges", {
       method: "POST",
-      body: {
-        challengeData: formData.value,
-        created_by: user.value?.id,
-      },
+      body: formDataToSend,
     });
+    console.log("Response", response);
 
     refreshNuxtData("challenges");
 
     formData.value = {
       name: "",
-      cover: "",
+      cover: null,
       description: "",
       guild: "",
     };
@@ -157,6 +165,13 @@ const fetchCompleteChallenges = async (id: string) => {
     console.error("Error fetching complete challenges", error);
   }
 };
+const handleFileUpload = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  if (target.files?.length) {
+    formData.value.cover = target.files[0];
+    console.log("File", formData.value.cover);
+  }
+};
 
 onMounted(() => {
   fetchSavedChallenges();
@@ -166,7 +181,7 @@ onMounted(() => {
 <template>
   <form @submit="handleSubmit">
     <input v-model="formData.name" type="text" placeholder="Nom" />
-    <input v-model="formData.cover" type="text" placeholder="Cover" />
+    <input type="file" @change="handleFileUpload" />
     <input
       v-model="formData.description"
       type="text"
