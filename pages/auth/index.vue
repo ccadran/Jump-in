@@ -10,7 +10,7 @@ const form = reactive({
     name: "",
     username: "",
     description: "",
-    profilePicture: "",
+    profilePicture: null as File | null, // Modifier pour accepter un fichier
   },
 });
 
@@ -42,13 +42,24 @@ async function signUp() {
     loading.value = true;
     errorMsg.value = "";
 
+    // Créer un FormData pour envoyer les données
+    const formData = new FormData();
+    formData.append("email", form.email);
+    formData.append("password", form.password);
+    formData.append("firstName", form.userData.firstName);
+    formData.append("name", form.userData.name);
+    formData.append("username", form.userData.username);
+    formData.append("description", form.userData.description);
+
+    // Ajouter la photo de profil si elle existe
+    if (form.userData.profilePicture) {
+      formData.append("profilePicture", form.userData.profilePicture);
+    }
+
+    // Envoyer les données via FormData
     const { data } = await useFetch("/api/auth/register", {
       method: "POST",
-      body: {
-        email: form.email,
-        password: form.password,
-        userData: form.userData,
-      },
+      body: formData,
     });
 
     if (data.value) {
@@ -71,11 +82,19 @@ async function signOut() {
     console.error("Logout error:", error);
   }
 }
+
+// Gérer l'upload de la photo de profil
+const handleFileUpload = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  if (target.files?.length) {
+    form.userData.profilePicture = target.files[0];
+  }
+};
 </script>
 
 <template>
   <div>
-    <form @submit="signUp">
+    <form @submit.prevent="signUp">
       <input v-model="form.email" type="email" placeholder="Email" />
       <input
         v-model="form.password"
@@ -98,11 +117,8 @@ async function signOut() {
         type="text"
         placeholder="Description"
       />
-      <input
-        v-model="form.userData.profilePicture"
-        type="text"
-        placeholder="Photo de profil"
-      />
+      <!-- Remplacer l'input texte par un input fichier -->
+      <input type="file" @change="handleFileUpload" />
       <button type="submit">S'inscrire</button>
     </form>
 

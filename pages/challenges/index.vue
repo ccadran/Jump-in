@@ -32,13 +32,14 @@ const deleteChallenge = async (id: string) => {
 
 const handleSubmit = async (e: Event) => {
   e.preventDefault();
-  console.log("____formData", formData.value);
 
   const formDataToSend = new FormData();
   formDataToSend.append("name", formData.value.name);
   formDataToSend.append("description", formData.value.description);
   formDataToSend.append("guild", formData.value.guild);
   formDataToSend.append("created_by", user.value?.id || "");
+
+  console.log(user.value?.id);
 
   if (formData.value.cover) {
     formDataToSend.append("cover", formData.value.cover); // Ajouter le fichier
