@@ -31,7 +31,7 @@ export interface UserData {
   name: string;
   username: string;
   description: string;
-  profilePicture: string;
+  profil_picture: string;
 }
 
 export interface LoginPayload {

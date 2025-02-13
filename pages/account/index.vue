@@ -1,5 +1,10 @@
 <script lang="ts" setup>
-import type { Challenges, CompleteChallenges, Guilds } from "~/types/api";
+import type {
+  Challenges,
+  CompleteChallenges,
+  Guilds,
+  UserData,
+} from "~/types/api";
 
 const user = useSupabaseUser();
 
@@ -22,6 +27,16 @@ const { data: completeChallenges } = await useFetch<CompleteChallenges[]>(
     key: "complete_challenges",
   }
 );
+
+const { data: userData } = await useFetch<UserData>(
+  `/api/users/${user.value!.id}`,
+  {
+    key: "user_data",
+  }
+);
+
+console.log("____user", userData);
+
 console.log(completeChallenges);
 
 async function leaveGuild(guildId: string) {
@@ -60,6 +75,17 @@ async function deleteCompletedChallenge(id: string) {
     console.error("Erreur de suppression", error);
   }
 }
+
+const logout = async () => {
+  try {
+    await $fetch("/api/auth/logout", {
+      method: "POST",
+    });
+    navigateTo("/login");
+  } catch (error) {
+    console.error("Erreur de déconnexion", error);
+  }
+};
 </script>
 
 <template>
@@ -88,6 +114,8 @@ async function deleteCompletedChallenge(id: string) {
         </button>
       </li>
     </ul>
+    <img :src="userData!.profil_picture" alt="" />
+    <button @click="logout">se déconnecter</button>
   </div>
 </template>
 
