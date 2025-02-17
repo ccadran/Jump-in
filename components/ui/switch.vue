@@ -58,6 +58,7 @@ const toggleSwitch = (side: string) => {
     color: var(--dark);
     transition: all 0.3s ease-in-out;
     z-index: 1;
+    padding: 6px 0;
     &.active {
       color: var(--white);
     }
