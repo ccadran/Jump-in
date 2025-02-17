@@ -35,7 +35,7 @@ const otherGuilds = computed(() => {
 </script>
 
 <template>
-  <div class="hero">
+  <div class="global-hero">
     <h1>Home</h1>
     <p>
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus eos
@@ -72,7 +72,7 @@ const otherGuilds = computed(() => {
 body {
   padding: 0 20px;
 }
-.hero {
+.global-hero {
   margin: 32px 0 42px;
   display: flex;
   flex-direction: column;

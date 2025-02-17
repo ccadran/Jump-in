@@ -28,7 +28,7 @@ const saveChallenge = async (challengeId: string) => {
       <p>{{ props.data.description }}</p>
     </div>
     <div class="card-cta">
-      <p class="link" @click="saveChallenge(props.data.id)">save</p>
+      <p class="link" @click="saveChallenge(props.data.id)">save it</p>
       <UiButton
         text="see more"
         :to="`/challenges/${props.data.id}`"
