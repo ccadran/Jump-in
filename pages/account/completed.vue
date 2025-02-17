@@ -2,7 +2,7 @@
 
 <template>
   <div>
-    <h1>Les last activity</h1>
+    <h1>Challenge completed</h1>
   </div>
 </template>
 

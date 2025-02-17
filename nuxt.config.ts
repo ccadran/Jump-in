@@ -15,4 +15,5 @@ export default defineNuxtConfig({
   alias: {
     "~tests": "/tests", // Ajout de l'alias pour le dossier tests
   },
+  css: ["~/assets/styles/index.scss"],
 });

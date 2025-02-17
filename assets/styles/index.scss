@@ -1,0 +1,52 @@
+@use "./reset.scss";
+
+@font-face {
+  font-family: "Inter";
+  src: url("../fonts/Inter-VariableFont_opsz\,wght.ttf") format("ttf");
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+body {
+  font-family: "Inter";
+  font-weight: 400;
+  color: var(--dark);
+  background-color: var(--white);
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+:root {
+  --blue: #3345e9;
+  --dark: #00095a;
+  --white: #ffffff;
+  --light: #e7e9ff;
+  --grey: #f5f6f8;
+}
+
+h1 {
+  font-weight: 900;
+  font-size: 32px;
+  text-transform: uppercase;
+  line-height: 100%;
+}
+h2 {
+  font-weight: 700;
+  font-size: 32px;
+  text-transform: uppercase;
+  line-height: 100%;
+}
+
+h3 {
+  font-weight: 700;
+  font-size: 24px;
+  text-transform: uppercase;
+  line-height: 100%;
+}
+
+h4 {
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 100%;
+}
