@@ -69,6 +69,9 @@ const otherGuilds = computed(() => {
 </template>
 
 <style lang="scss">
+body {
+  padding: 0 20px;
+}
 .hero {
   margin: 32px 0 42px;
   display: flex;

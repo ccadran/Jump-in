@@ -1,26 +1,24 @@
 <script lang="ts" setup>
 const user = useSupabaseUser();
-import type { Guilds } from "~/types/api";
+import type { Challenges } from "~/types/api";
 
-interface GuildCardProps {
-  data: Guilds;
+interface challengeCardProps {
+  data: Challenges;
 }
-const emit = defineEmits();
 
-const joinGuild = async (guildId: string) => {
+const props = defineProps<challengeCardProps>();
+
+const saveChallenge = async (challengeId: string) => {
   try {
-    const response = await $fetch(`/api/users/guilds`, {
+    const response = await $fetch(`/api/users/challenges/save`, {
       method: "POST",
-      body: { userId: user.value!.id, guildId: guildId },
+      body: { userId: user.value!.id, challengeId: challengeId },
     });
-    console.log("Ajouté à la guilde", response);
-    emit("guildJoined", guildId);
+    console.log("Ajouté à challenge save", response);
   } catch (error) {
     console.error("Erreur d'ajout", error);
   }
 };
-
-const props = defineProps<GuildCardProps>();
 </script>
 
 <template>
@@ -30,8 +28,12 @@ const props = defineProps<GuildCardProps>();
       <p>{{ props.data.description }}</p>
     </div>
     <div class="card-cta">
-      <p class="link" @click="joinGuild(props.data.id)">Join</p>
-      <UiButton text="see more" :to="`/guilds/${props.data.id}`" color="blue" />
+      <p class="link" @click="saveChallenge(props.data.id)">save</p>
+      <UiButton
+        text="see more"
+        :to="`/challenges/${props.data.id}`"
+        color="blue"
+      />
     </div>
   </div>
 </template>

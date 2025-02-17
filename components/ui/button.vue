@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 interface UiButtonProps {
   text: string;
-  to: string;
+  to?: string;
   type?: "button" | "submit" | "reset";
   onClick?: () => void;
-  color: "blue" | "white";
+  color?: "blue" | "white";
 }
 
 const props = defineProps<UiButtonProps>();

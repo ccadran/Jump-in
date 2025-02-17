@@ -10,19 +10,23 @@ console.log("GuildCard", props.data);
 </script>
 
 <template>
-  <div class="member-card">
+  <div class="member-guild-card">
     <div class="card-text">
       <h4 class="uppercase">{{ props.data.name }}</h4>
       <p>{{ props.data.description }}</p>
     </div>
     <div class="card-cta">
-      <UiButton text="see more" :to="`/guild/${props.data.id}`" color="white" />
+      <UiButton
+        text="see more"
+        :to="`/guilds/${props.data.id}`"
+        color="white"
+      />
     </div>
   </div>
 </template>
 
 <style lang="scss">
-.member-card {
+.member-guild-card {
   display: flex;
   width: 100%;
   padding: 12px 18px;
