@@ -19,9 +19,12 @@ const { data: challengesData, error: challengesError } = await useFetch<
   key: "challenges",
 });
 
-const { data: countMember } = await useFetch(`/api/guilds/count/${guildId}`, {
-  key: "countMember",
-});
+const { data: countMember } = await useFetch<{ userCount: number }>(
+  `/api/guilds/count/${guildId}`,
+  {
+    key: "countMember",
+  }
+);
 
 try {
   const response = await $fetch(`/api/users/guilds/check`, {

@@ -28,12 +28,12 @@ const { data: challengesCompleteData, error: challengesCompleteError } =
     }
   );
 
-const { data: countComplete } = await useFetch(
-  `/api/challenges/count/${challengeId}`,
-  {
-    key: "countComplete",
-  }
-);
+const { data: countComplete } = await useFetch<{
+  savedCount: number;
+  completedCount: number;
+}>(`/api/challenges/count/${challengeId}`, {
+  key: "countComplete",
+});
 try {
   const response = await $fetch(`/api/users/challenges/complete/check`, {
     method: "POST",
@@ -114,7 +114,7 @@ const toggleModal = () => {
       <div class="data-complete">
         <p>
           {{
-            `${countComplete.savedCount} save - ${countComplete.completedCount} complete`
+            `${countComplete?.savedCount} save - ${countComplete?.completedCount} complete`
           }}
         </p>
         <UiButton
@@ -156,7 +156,6 @@ const toggleModal = () => {
         <label for="">Cover</label>
         <input type="file" @change="handleFileUpload" />
       </div>
-
       <button type="submit">Envoyer</button>
     </form>
   </div>
@@ -187,7 +186,6 @@ body {
       width: 100%;
       display: flex;
       justify-content: space-between;
-      // margin: 22px 0;
     }
     > .data-complete {
       display: flex;

@@ -33,55 +33,57 @@ const otherGuilds = computed(() => {
 </script>
 
 <template>
-  <div class="global-hero">
-    <h1>Home</h1>
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus eos
-      rerum aliquam dignissimos nulla soluta quasi dolor totam similique. Eos
-      repellendus veniam soluta veritatis quis!
-    </p>
-  </div>
-  <UiSwitch
-    leftText="My guilds"
-    rightText="Other guilds"
-    @switchChange="handleSwitchChange"
-  />
-
-  <div class="guilds-container">
-    <div v-if="showMyGuilds" class="guilds">
-      <GuildMemberCard
-        v-for="guild in userGuilds"
-        :key="guild.id"
-        :data="guild"
-      />
+  <div class="home-page">
+    <div class="global-hero">
+      <h1>Home</h1>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus eos
+        rerum aliquam dignissimos nulla soluta quasi dolor totam similique. Eos
+        repellendus veniam soluta veritatis quis!
+      </p>
     </div>
-    <div v-else class="guilds">
-      <GuildCard
-        v-for="guild in otherGuilds"
-        :key="guild.id"
-        :data="guild"
-        @guildJoined="handleGuildJoined"
-      />
+    <UiSwitch
+      leftText="My guilds"
+      rightText="Other guilds"
+      @switchChange="handleSwitchChange"
+    />
+
+    <div class="guilds-container">
+      <div v-if="showMyGuilds" class="guilds">
+        <GuildMemberCard
+          v-for="guild in userGuilds"
+          :key="guild.id"
+          :data="guild"
+        />
+      </div>
+      <div v-else class="guilds">
+        <GuildCard
+          v-for="guild in otherGuilds"
+          :key="guild.id"
+          :data="guild"
+          @guildJoined="handleGuildJoined"
+        />
+      </div>
     </div>
   </div>
 </template>
 
-<style lang="scss" scoped>
-body {
+<style lang="scss">
+.home-page {
   padding: 0 20px;
-}
-.global-hero {
-  margin: 32px 0 42px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-.guilds-container {
-  margin-top: 32px;
-  > .guilds {
+  > .global-hero {
+    margin: 32px 0 42px;
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 12px;
+  }
+  > .guilds-container {
+    margin-top: 32px;
+    > .guilds {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
   }
 }
 </style>
