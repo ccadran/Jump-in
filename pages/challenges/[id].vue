@@ -85,7 +85,12 @@ const toggleModal = () => {
     </div>
     <div class="hero">
       <div class="header">
-        <h3>{{ challengeData!.name }}</h3>
+        <div class="title-guild">
+          <h3>{{ challengeData!.name }}</h3>
+          <a :href="`/guilds/${challengeData!.guild}`" class="link"
+            >Voir la guild</a
+          >
+        </div>
         <p class="link">save it</p>
       </div>
       <div class="description">{{ challengeData!.description }}</div>
