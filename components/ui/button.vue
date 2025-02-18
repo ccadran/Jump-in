@@ -3,8 +3,8 @@ interface UiButtonProps {
   text: string;
   to?: string;
   type?: "button" | "submit" | "reset";
-  // onClick?: () => void;
   color?: "blue" | "white";
+  disabled?: boolean; // Ajouter la propriété disabled
 }
 
 const props = defineProps<UiButtonProps>();
@@ -12,7 +12,9 @@ const props = defineProps<UiButtonProps>();
 
 <template>
   <a :href="props.to">
-    <button :class="props.color">{{ props.text }}</button>
+    <button :class="props.color" :disabled="props.disabled">
+      {{ props.text }}
+    </button>
   </a>
 </template>
 
@@ -29,6 +31,11 @@ button {
   &.white {
     background: var(--white);
     color: var(--blue);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed; /* Empêcher le curseur de pointer */
   }
 }
 </style>

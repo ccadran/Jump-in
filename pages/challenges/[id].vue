@@ -45,7 +45,8 @@ const completeChallenge = async (e: Event) => {
       body: formCompleteToSend,
     });
 
-    showModal.value = false;
+    toggleModal();
+    isComplete.value = true;
     refreshNuxtData("challengesComplete");
 
     formComplete.value = {
@@ -76,6 +77,19 @@ const toggleModal = () => {
     filter.value.style.display = showModal.value ? "block" : "none";
   }
 };
+const isComplete = ref(false);
+console.log("challengeId", challengeId);
+
+try {
+  const response = await $fetch(`/api/users/challenges/complete/check`, {
+    method: "POST",
+    body: { userId: user.value!.id, challengeId: challengeId },
+  });
+  isComplete.value = typeof response === "boolean" ? response : false;
+  console.log("isComplete", response);
+} catch (error) {
+  console.error("Erreur de vérification de complétion", error);
+}
 </script>
 
 <template>
@@ -96,7 +110,12 @@ const toggleModal = () => {
       <div class="description">{{ challengeData!.description }}</div>
       <div class="data-complete">
         <p>24 complete - 53 save</p>
-        <UiButton text="complete" color="blue" @click="toggleModal" />
+        <UiButton
+          text="complete"
+          color="blue"
+          @click="toggleModal"
+          :disabled="isComplete ? true : false"
+        />
       </div>
       <div class="filters">
         <input type="search" name="find" id="" />

@@ -20,7 +20,6 @@ try {
   console.log("isMember", response);
 
   isMember.value = typeof response === "boolean" ? response : false;
-  // La réponse devrait être un booléen isMember
 } catch (error) {
   console.error("Erreur de vérification d'adhésion", error);
 }
