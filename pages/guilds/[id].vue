@@ -58,6 +58,12 @@ async function leaveGuild(guildId: string) {
     console.error("Erreur de suppression", error);
   }
 }
+
+const { data: countMember } = await useFetch(`/api/guilds/count/${guildId}`, {
+  key: "countMember",
+});
+
+console.log("countMember", countMember);
 </script>
 
 <template>
@@ -80,7 +86,7 @@ async function leaveGuild(guildId: string) {
         @click="leaveGuild(guildData!.id)"
       />
     </div>
-    <p class="members">member</p>
+    <p class="members">{{ `${countMember.userCount} members` }}</p>
     <p>{{ guildData!.description }}</p>
     <div class="ranking-challenge">
       <a class="link" href="">Voir le classement</a>

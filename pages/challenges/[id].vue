@@ -159,87 +159,96 @@ try {
 body {
   padding: 0;
 }
-.cover {
-  width: 100%;
-  height: 200px;
+.challenge-page {
+  > .cover {
+    width: 100%;
+    height: 200px;
 
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-}
-.hero {
-  padding: 0 20px;
-  margin-top: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  > .header {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    // margin: 22px 0;
-  }
-  > .data-complete {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-  }
-  > .filters {
-    margin-top: 24px;
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
-    & > input {
-      border-radius: 8px;
-      border: 1px solid var(--dark);
-      width: 185px;
-      height: 25px;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
   }
-}
-.complete-challenge-modal {
-  position: fixed;
-  height: 40svh;
-  z-index: 100;
-  width: calc(100% - 40px);
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: var(--grey);
-  top: 10svh;
-  border-radius: 24px;
-  padding: 20px;
-  > .cross {
-    cursor: pointer;
-    margin-left: calc(100% - 20px);
-  }
-  > .form-complete-challenge {
+  > .hero {
+    padding: 0 20px;
+    margin-top: 24px;
     display: flex;
     flex-direction: column;
     gap: 24px;
-    > .form-part {
+    > .header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      // margin: 22px 0;
+    }
+    > .data-complete {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+    }
+    > .filters {
+      margin-top: 24px;
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      align-items: center;
+      & > input {
+        border-radius: 8px;
+        border: 1px solid var(--dark);
+        width: 185px;
+        height: 25px;
+      }
+    }
+  }
+  > .complete-challenge-modal {
+    position: fixed;
+    height: 40svh;
+    z-index: 100;
+    width: calc(100% - 40px);
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--grey);
+    top: 10svh;
+    border-radius: 24px;
+    padding: 20px;
+    > .cross {
+      cursor: pointer;
+      margin-left: calc(100% - 20px);
+    }
+    > .form-complete-challenge {
       display: flex;
       flex-direction: column;
-      gap: 4px;
-      > label {
-        font-weight: 700;
-      }
-      > input {
-        padding: 8px;
-        font-family: "Inter";
-        border-radius: 8px;
-        &::placeholder {
-          opacity: 0.5;
+      gap: 24px;
+      > .form-part {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        > label {
+          font-weight: 700;
         }
+        > input {
+          padding: 8px;
+          font-family: "Inter";
+          border-radius: 8px;
+          &::placeholder {
+            opacity: 0.5;
+          }
 
-        &[type="file"] {
-          padding: 0;
-          border-radius: 0;
+          &[type="file"] {
+            padding: 0;
+            border-radius: 0;
+          }
         }
       }
     }
+  }
+  > .challenges-complete-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 32px;
+    padding: 0 20px;
   }
 }
 .filter {
@@ -250,12 +259,5 @@ body {
   backdrop-filter: blur(3px);
   background: rgba(0, 0, 0, 0.2);
   top: 0;
-}
-.challenges-complete-container {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  margin-top: 32px;
-  padding: 0 20px;
 }
 </style>
