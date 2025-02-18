@@ -3,7 +3,7 @@ interface UiButtonProps {
   text: string;
   to?: string;
   type?: "button" | "submit" | "reset";
-  onClick?: () => void;
+  // onClick?: () => void;
   color?: "blue" | "white";
 }
 
