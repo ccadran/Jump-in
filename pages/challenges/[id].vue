@@ -90,6 +90,14 @@ try {
 } catch (error) {
   console.error("Erreur de vérification de complétion", error);
 }
+
+const { data: countComplete } = await useFetch(
+  `/api/challenges/count/${challengeId}`,
+  {
+    key: "countComplete",
+  }
+);
+console.log("countComplete", countComplete);
 </script>
 
 <template>
@@ -109,7 +117,11 @@ try {
       </div>
       <div class="description">{{ challengeData!.description }}</div>
       <div class="data-complete">
-        <p>24 complete - 53 save</p>
+        <p>
+          {{
+            `${countComplete.savedCount} save - ${countComplete.completedCount} complete`
+          }}
+        </p>
         <UiButton
           text="complete"
           color="blue"

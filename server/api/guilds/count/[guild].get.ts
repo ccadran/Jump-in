@@ -12,7 +12,6 @@ export default eventHandler(async (event) => {
       });
     }
 
-    // Utilisation de count pour compter le nombre d'utilisateurs
     const { count, error } = await client
       .from("user_guilds")
       .select("*", { count: "exact", head: true }) // head: true pour ne pas récupérer les données

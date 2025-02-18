@@ -86,7 +86,7 @@ console.log("countMember", countMember);
         @click="leaveGuild(guildData!.id)"
       />
     </div>
-    <p class="members">{{ `${countMember.userCount} members` }}</p>
+    <p class="members">{{ `${countMember?.userCount} members` }}</p>
     <p>{{ guildData!.description }}</p>
     <div class="ranking-challenge">
       <a class="link" href="">Voir le classement</a>
