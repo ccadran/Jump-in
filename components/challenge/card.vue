@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-const user = useSupabaseUser();
 import type { Challenges } from "~/types/api";
 
 interface challengeCardProps {
@@ -7,6 +6,22 @@ interface challengeCardProps {
 }
 
 const props = defineProps<challengeCardProps>();
+const user = useSupabaseUser();
+const isSaved = ref(false);
+
+try {
+  const response = await $fetch(`/api/users/challenges/save/check`, {
+    method: "POST",
+    body: { userId: user.value!.id, challengeId: props.data.id },
+  });
+  console.log("response", response);
+
+  isSaved.value = typeof response === "boolean" ? response : false;
+} catch (error) {
+  console.error("Erreur de vérification d'adhésion", error);
+}
+
+console.log("isSaved", isSaved.value);
 
 const saveChallenge = async (challengeId: string) => {
   try {
@@ -14,11 +29,24 @@ const saveChallenge = async (challengeId: string) => {
       method: "POST",
       body: { userId: user.value!.id, challengeId: challengeId },
     });
+    isSaved.value = true;
     console.log("Ajouté à challenge save", response);
   } catch (error) {
     console.error("Erreur d'ajout", error);
   }
 };
+
+async function unsaveChallenge(challengeId: string) {
+  try {
+    const response = await $fetch(`/api/users/challenges/save`, {
+      method: "DELETE",
+      body: { userId: user.value!.id, challengeId: challengeId },
+    });
+    isSaved.value = false;
+  } catch (error) {
+    console.error("Erreur de suppression", error);
+  }
+}
 </script>
 
 <template>
@@ -28,7 +56,12 @@ const saveChallenge = async (challengeId: string) => {
       <p>{{ props.data.description }}</p>
     </div>
     <div class="card-cta">
-      <p class="link" @click="saveChallenge(props.data.id)">save it</p>
+      <p v-if="!isSaved" class="link" @click="saveChallenge(props.data.id)">
+        save it
+      </p>
+      <p v-if="isSaved" class="link" @click="unsaveChallenge(props.data.id)">
+        unsave it
+      </p>
       <UiButton
         text="see more"
         :to="`/challenges/${props.data.id}`"

@@ -14,12 +14,12 @@ export default defineEventHandler(async (event) => {
     .eq("user_id", userId)
     .eq("challenge_id", challengeId);
 
-  const isComplete = data ? true : false;
-  console.log(isComplete);
-
   if (error) {
     return createError({ statusCode: 500, message: error.message });
   }
+
+  const isComplete = data && data.length > 0; // ✅ Vérification correcte
+  console.log("isComplete:", isComplete); // Debug correct
 
   return isComplete;
 });
