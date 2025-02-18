@@ -9,12 +9,10 @@ const handleSwitchChange = (side: "left" | "right") => {
   console.log("parentttt", showMyGuilds.value);
 };
 
-// Fetch user guilds (on the server-side)
 const { data: allGuilds } = useFetch<Guilds[]>("/api/guilds", {
   key: "allGuilds",
 });
 
-// Fetch all guilds for the user
 const { data: userGuilds, error } = await useFetch<Guilds[]>(
   `/api/users/guilds/${user.value!.id}`,
   {

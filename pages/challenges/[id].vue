@@ -1,8 +1,18 @@
 <script lang="ts" setup>
 import type { Challenges, CompleteChallenges } from "~/types/api";
 
+const user = useSupabaseUser();
 const route = useRoute();
 const challengeId = route.params.id;
+const showModal = ref(false);
+const bluredBackground = ref(null) as Ref<HTMLElement | null>;
+const isComplete = ref(false);
+
+const formComplete = ref({
+  title: "",
+  cover: null as File | null,
+  description: "",
+});
 
 const { data: challengeData, error } = await useFetch<Challenges>(
   `/api/challenges/${challengeId}`,
@@ -10,7 +20,6 @@ const { data: challengeData, error } = await useFetch<Challenges>(
     key: "challenge",
   }
 );
-
 const { data: challengesCompleteData, error: challengesCompleteError } =
   await useFetch<CompleteChallenges[]>(
     `/api/challenges/complete/${challengeId}`,
@@ -19,14 +28,23 @@ const { data: challengesCompleteData, error: challengesCompleteError } =
     }
   );
 
-const user = useSupabaseUser();
+const { data: countComplete } = await useFetch(
+  `/api/challenges/count/${challengeId}`,
+  {
+    key: "countComplete",
+  }
+);
+try {
+  const response = await $fetch(`/api/users/challenges/complete/check`, {
+    method: "POST",
+    body: { userId: user.value!.id, challengeId: challengeId },
+  });
+  isComplete.value = typeof response === "boolean" ? response : false;
+} catch (error) {
+  console.error("Erreur de vérification de complétion", error);
+}
 
-const formComplete = ref({
-  title: "",
-  cover: null as File | null,
-  description: "",
-});
-const completeChallenge = async (e: Event) => {
+const completeChallengeSubmit = async (e: Event) => {
   e.preventDefault();
 
   const formCompleteToSend = new FormData();
@@ -68,36 +86,13 @@ const handleFileUpload = (event: Event) => {
     formComplete.value.cover = target.files[0];
   }
 };
-const showModal = ref(false);
-const filter = ref(null) as Ref<HTMLElement | null>;
+
 const toggleModal = () => {
   showModal.value = !showModal.value;
-  console.log("showModal", showModal.value);
-  if (filter.value) {
-    filter.value.style.display = showModal.value ? "block" : "none";
+  if (bluredBackground.value) {
+    bluredBackground.value.style.display = showModal.value ? "block" : "none";
   }
 };
-const isComplete = ref(false);
-console.log("challengeId", challengeId);
-
-try {
-  const response = await $fetch(`/api/users/challenges/complete/check`, {
-    method: "POST",
-    body: { userId: user.value!.id, challengeId: challengeId },
-  });
-  isComplete.value = typeof response === "boolean" ? response : false;
-  console.log("isComplete", response);
-} catch (error) {
-  console.error("Erreur de vérification de complétion", error);
-}
-
-const { data: countComplete } = await useFetch(
-  `/api/challenges/count/${challengeId}`,
-  {
-    key: "countComplete",
-  }
-);
-console.log("countComplete", countComplete);
 </script>
 
 <template>
@@ -141,10 +136,10 @@ console.log("countComplete", countComplete);
       />
     </div>
   </div>
-  <div class="filter" ref="filter"></div>
+  <div class="bluredBackground" ref="bluredBackground"></div>
   <div v-if="showModal" class="complete-challenge-modal">
     <img class="cross" src="/icons/cross.svg" alt="" @click="toggleModal" />
-    <form class="form-complete-challenge" @submit="completeChallenge">
+    <form class="form-complete-challenge" @submit="completeChallengeSubmit">
       <div class="form-part">
         <label for="">Title</label>
         <input v-model="formComplete.title" type="text" placeholder="Title" />
@@ -263,7 +258,7 @@ body {
     padding: 0 20px;
   }
 }
-.filter {
+.bluredBackground {
   display: none;
   height: 100vh;
   width: 100vw;

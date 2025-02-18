@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import type { Challenges, Guilds } from "~/types/api";
+
 const user = useSupabaseUser();
 const route = useRoute();
 const guildId = route.params.id;
+const isMember = ref(false);
 
 const { data: guildData, error } = await useFetch<Guilds>(
   `/api/guilds/${guildId}`,
@@ -10,19 +12,6 @@ const { data: guildData, error } = await useFetch<Guilds>(
     key: "guild",
   }
 );
-const isMember = ref(false);
-try {
-  const response = await $fetch(`/api/users/guilds/check`, {
-    method: "POST",
-    body: { userId: user.value!.id, guildId: guildId },
-  });
-
-  console.log("isMember", response);
-
-  isMember.value = typeof response === "boolean" ? response : false;
-} catch (error) {
-  console.error("Erreur de vérification d'adhésion", error);
-}
 
 const { data: challengesData, error: challengesError } = await useFetch<
   Challenges[]
@@ -30,7 +19,19 @@ const { data: challengesData, error: challengesError } = await useFetch<
   key: "challenges",
 });
 
-console.log("challengeData", challengesData);
+const { data: countMember } = await useFetch(`/api/guilds/count/${guildId}`, {
+  key: "countMember",
+});
+
+try {
+  const response = await $fetch(`/api/users/guilds/check`, {
+    method: "POST",
+    body: { userId: user.value!.id, guildId: guildId },
+  });
+  isMember.value = typeof response === "boolean" ? response : false;
+} catch (error) {
+  console.error("Erreur de vérification d'adhésion", error);
+}
 
 const joinGuild = async (guildId: string) => {
   try {
@@ -58,12 +59,6 @@ async function leaveGuild(guildId: string) {
     console.error("Erreur de suppression", error);
   }
 }
-
-const { data: countMember } = await useFetch(`/api/guilds/count/${guildId}`, {
-  key: "countMember",
-});
-
-console.log("countMember", countMember);
 </script>
 
 <template>
