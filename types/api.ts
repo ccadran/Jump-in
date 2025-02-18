@@ -24,6 +24,7 @@ export interface CompleteChallenges {
   description: string;
   challenge_id: string;
   user_id: string;
+  cover: string;
 }
 
 export interface UserData {

@@ -4,7 +4,7 @@ export default eventHandler(async (event) => {
   try {
     const client = await serverSupabaseClient(event);
 
-    const id = getRouterParam(event, "guild");
+    const id = getRouterParam(event, "id");
     console.log("_____ID_____", id);
 
     if (!id) {

@@ -11,13 +11,15 @@ const { data: guildData, error } = await useFetch<Guilds>(
   }
 );
 
+console.log(guildId);
+
 const { data: challengesData, error: challengesError } = await useFetch<
   Challenges[]
->(`/api/challenges/guild/${guildId}`, {
+>(`/api/guilds/challenge/${guildId}`, {
   key: "challenges",
 });
 
-console.log("____challengesData", challengesData);
+console.log("challengeData", challengesData);
 
 const joinGuild = async (guildId: string) => {
   try {
@@ -60,9 +62,6 @@ console.log("____data", guildData);
 </template>
 
 <style lang="scss">
-body {
-  padding: 0;
-}
 .cover {
   height: 200px;
   width: 100%;

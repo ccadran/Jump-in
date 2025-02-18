@@ -40,7 +40,12 @@ console.log("____challengeData", challengeData);
       <p>Newest</p>
     </div>
   </div>
-  <div class="challenges-complete-container"></div>
+  <div class="challenges-complete-container">
+    <ChallengeCompleteCard
+      v-for="challengeComplete in challengesCompleteData"
+      :data="challengeComplete"
+    />
+  </div>
 </template>
 
 <style lang="scss">
@@ -92,5 +97,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 24px;
+  margin-top: 32px;
+  padding: 0 20px;
 }
 </style>
