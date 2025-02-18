@@ -10,8 +10,20 @@ const { data: guildData, error } = await useFetch<Guilds>(
     key: "guild",
   }
 );
+const isMember = ref(false);
+try {
+  const response = await $fetch(`/api/users/guilds/check`, {
+    method: "POST",
+    body: { userId: user.value!.id, guildId: guildId },
+  });
 
-console.log(guildId);
+  console.log("isMember", response);
+
+  isMember.value = typeof response === "boolean" ? response : false;
+  // La réponse devrait être un booléen isMember
+} catch (error) {
+  console.error("Erreur de vérification d'adhésion", error);
+}
 
 const { data: challengesData, error: challengesError } = await useFetch<
   Challenges[]
@@ -28,12 +40,25 @@ const joinGuild = async (guildId: string) => {
       body: { userId: user.value!.id, guildId: guildId },
     });
     console.log("Ajouté à la guilde", response);
+    isMember.value = true;
   } catch (error) {
     console.error("Erreur d'ajout", error);
   }
 };
 
-console.log("____data", guildData);
+async function leaveGuild(guildId: string) {
+  try {
+    const response = await $fetch(`/api/users/guilds`, {
+      method: "DELETE",
+      body: { userId: user.value!.id, guildId: guildId },
+    });
+    console.log("Retiré de la guilde", response);
+    isMember.value = false;
+    refreshNuxtData("guilds");
+  } catch (error) {
+    console.error("Erreur de suppression", error);
+  }
+}
 </script>
 
 <template>
@@ -43,7 +68,18 @@ console.log("____data", guildData);
   <div class="hero">
     <div class="header">
       <h1>{{ guildData!.name }}</h1>
-      <UiButton text="Join" color="blue" @click="joinGuild(guildData!.id)" />
+      <UiButton
+        v-if="!isMember"
+        text="Join"
+        color="blue"
+        @click="joinGuild(guildData!.id)"
+      />
+      <UiButton
+        v-if="isMember"
+        text="Leave"
+        color="blue"
+        @click="leaveGuild(guildData!.id)"
+      />
     </div>
     <p class="members">member</p>
     <p>{{ guildData!.description }}</p>
