@@ -4,11 +4,12 @@ import type { Challenges } from "~/types/api";
 
 const user = useSupabaseUser();
 
-const { data: activitiesData, error: activitiesError } = await useFetch<
-  Challenges[]
->(`/api/activity/${user.value?.id}`, {
-  key: "activities",
-});
+const { data: activitiesData, error: activitiesError } = useFetch<Challenges[]>(
+  `/api/activity/${user.value?.id}`,
+  {
+    key: "activities",
+  }
+);
 
 console.log(activitiesData);
 </script>

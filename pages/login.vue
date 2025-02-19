@@ -13,7 +13,7 @@ async function signIn(e: Event) {
     loading.value = true;
     errorMsg.value = "";
 
-    const { data } = await useFetch("/api/auth/login", {
+    const { data } = useFetch("/api/auth/login", {
       method: "POST",
       body: {
         email: formIn.email,
@@ -63,7 +63,7 @@ async function signUp() {
       formData.append("profilePicture", form.userData.profilePicture);
     }
 
-    const { data } = await useFetch("/api/auth/register", {
+    const { data } = useFetch("/api/auth/register", {
       method: "POST",
       body: formData,
     });

@@ -1,6 +1,8 @@
 <script lang="ts" setup>
-const showGuildForm = ref(true);
+import { CreateChallengeForm, CreateGuildForm } from "#components";
 
+const showGuildForm = ref(true);
+const user = useSupabaseUser();
 const handleSwitchChange = (side: "left" | "right") => {
   showGuildForm.value = side === "left";
 };
@@ -23,14 +25,24 @@ const handleSwitchChange = (side: "left" | "right") => {
     />
 
     <div class="forms">
-      <div v-if="showGuildForm" class="guild-form">
-        <!-- <GuildForm /> -->
+      <div v-if="showGuildForm" class="guild-form-container">
+        <CreateGuildForm />
       </div>
-      <div v-else class="challenge-form">
-        <!-- <ChallengeForm /> -->
+      <div v-else class="challenge-form-container">
+        <CreateChallengeForm />
       </div>
     </div>
   </div>
 </template>
 
-<style lang="scss"></style>
+<style lang="scss">
+.create-page {
+  padding: 0 20px;
+  > .global-hero {
+    margin-bottom: 32px;
+  }
+  > .forms {
+    margin-top: 32px;
+  }
+}
+</style>

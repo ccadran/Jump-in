@@ -19,7 +19,7 @@ async function signIn() {
     loading.value = true;
     errorMsg.value = "";
 
-    const { data } = await useFetch("/api/auth/login", {
+    const { data } = useFetch("/api/auth/login", {
       method: "POST",
       body: {
         email: form.email,
@@ -57,7 +57,7 @@ async function signUp() {
     }
 
     // Envoyer les données via FormData
-    const { data } = await useFetch("/api/auth/register", {
+    const { data } = useFetch("/api/auth/register", {
       method: "POST",
       body: formData,
     });
@@ -74,7 +74,7 @@ async function signUp() {
 
 async function signOut() {
   try {
-    await useFetch("/api/auth/logout", {
+    useFetch("/api/auth/logout", {
       method: "POST",
     });
     navigateTo("/login");

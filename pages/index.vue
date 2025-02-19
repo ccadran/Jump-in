@@ -13,7 +13,7 @@ const { data: allGuilds } = useFetch<Guilds[]>("/api/guilds", {
   key: "allGuilds",
 });
 
-const { data: userGuilds, error } = await useFetch<Guilds[]>(
+const { data: userGuilds, error } = useFetch<Guilds[]>(
   `/api/users/guilds/${user.value!.id}`,
   {
     key: "userGuilds",

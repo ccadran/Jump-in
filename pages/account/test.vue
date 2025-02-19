@@ -8,32 +8,29 @@ import type {
 
 const user = useSupabaseUser();
 
-const { data, error } = await useFetch<Guilds[]>(
+const { data, error } = useFetch<Guilds[]>(
   `/api/users/guilds/${user.value!.id}`,
   {
     key: "guilds",
   }
 );
-const { data: savedChallenge } = await useFetch<Challenges[]>(
+const { data: savedChallenge } = useFetch<Challenges[]>(
   `/api/users/challenges/save/${user.value!.id}`,
   {
     key: "saved_challenges",
   }
 );
 
-const { data: completeChallenges } = await useFetch<CompleteChallenges[]>(
+const { data: completeChallenges } = useFetch<CompleteChallenges[]>(
   `/api/users/challenges/complete/${user.value!.id}`,
   {
     key: "complete_challenges",
   }
 );
 
-const { data: userData } = await useFetch<UserData>(
-  `/api/users/${user.value!.id}`,
-  {
-    key: "user_data",
-  }
-);
+const { data: userData } = useFetch<UserData>(`/api/users/${user.value!.id}`, {
+  key: "user_data",
+});
 
 console.log("____user", userData);
 

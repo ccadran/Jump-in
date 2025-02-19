@@ -5,20 +5,29 @@ interface UiButtonProps {
   type?: "button" | "submit" | "reset";
   color?: "blue" | "white";
   disabled?: boolean; // Ajouter la propriété disabled
+  size?: "small" | "medium" | "large";
 }
 
 const props = defineProps<UiButtonProps>();
 </script>
 
 <template>
-  <a :href="props.to">
-    <button :class="props.color" :disabled="props.disabled">
+  <a :href="props.to" class="cta" :class="props.size">
+    <button :class="props.color" :disabled="props.disabled" :type="props.type">
       {{ props.text }}
     </button>
   </a>
 </template>
 
 <style lang="scss">
+.cta.large {
+  width: 100%;
+  > button {
+    width: 100%;
+    font-size: 16px;
+    padding: 10px;
+  }
+}
 button {
   padding: 6px 10px;
   border-radius: 8px;

@@ -14,21 +14,18 @@ const formComplete = ref({
   description: "",
 });
 
-const { data: challengeData, error } = await useFetch<Challenges>(
+const { data: challengeData, error } = useFetch<Challenges>(
   `/api/challenges/${challengeId}`,
   {
     key: "challenge",
   }
 );
 const { data: challengesCompleteData, error: challengesCompleteError } =
-  await useFetch<CompleteChallenges[]>(
-    `/api/challenges/complete/${challengeId}`,
-    {
-      key: "challengesComplete",
-    }
-  );
+  useFetch<CompleteChallenges[]>(`/api/challenges/complete/${challengeId}`, {
+    key: "challengesComplete",
+  });
 
-const { data: countComplete } = await useFetch<{
+const { data: countComplete } = useFetch<{
   savedCount: number;
   completedCount: number;
 }>(`/api/challenges/count/${challengeId}`, {
@@ -154,7 +151,7 @@ const toggleModal = () => {
           <label for="">Cover</label>
           <input type="file" @change="handleFileUpload" />
         </div>
-        <button type="submit">Envoyer</button>
+        <UiButton text="Envoyer" color="blue" type="submit" />
       </form>
     </div>
     <div class="bluredBackground" ref="bluredBackground"></div>
@@ -232,11 +229,14 @@ body {
         gap: 4px;
         > label {
           font-weight: 700;
+          font-size: 14px;
         }
         > input {
           padding: 8px;
           font-family: "Inter";
           border-radius: 8px;
+          border: 0.25px solid var(--dark);
+          background-color: var(--grey);
           &::placeholder {
             opacity: 0.5;
           }

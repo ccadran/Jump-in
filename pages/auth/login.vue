@@ -12,7 +12,7 @@ async function signIn(e: Event) {
     loading.value = true;
     errorMsg.value = "";
 
-    const { data } = await useFetch("/api/auth/login", {
+    const { data } = useFetch("/api/auth/login", {
       method: "POST",
       body: {
         email: form.email,

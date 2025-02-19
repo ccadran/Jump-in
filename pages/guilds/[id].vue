@@ -6,20 +6,18 @@ const route = useRoute();
 const guildId = route.params.id;
 const isMember = ref(false);
 
-const { data: guildData, error } = await useFetch<Guilds>(
-  `/api/guilds/${guildId}`,
+const { data: guildData, error } = useFetch<Guilds>(`/api/guilds/${guildId}`, {
+  key: "guild",
+});
+
+const { data: challengesData, error: challengesError } = useFetch<Challenges[]>(
+  `/api/guilds/challenge/${guildId}`,
   {
-    key: "guild",
+    key: "challenges",
   }
 );
 
-const { data: challengesData, error: challengesError } = await useFetch<
-  Challenges[]
->(`/api/guilds/challenge/${guildId}`, {
-  key: "challenges",
-});
-
-const { data: countMember } = await useFetch<{ userCount: number }>(
+const { data: countMember } = useFetch<{ userCount: number }>(
   `/api/guilds/count/${guildId}`,
   {
     key: "countMember",
