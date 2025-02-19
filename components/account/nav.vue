@@ -22,7 +22,7 @@
   margin-bottom: 32px;
   display: flex;
   width: 100%;
-  padding: 0 20px;
+
   justify-content: space-between;
   > .nav-item {
     background-color: var(--grey);

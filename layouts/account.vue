@@ -7,19 +7,21 @@ const props = defineProps<accountLayoutProps>();
 </script>
 
 <template>
-  <div class="global-hero">
-    <h1>{{ props.title }}</h1>
-    <p>{{ props.description }}</p>
-  </div>
-  <AccountNav />
   <div class="account-page">
+    <div class="global-hero">
+      <h1>{{ props.title }}</h1>
+      <p>{{ props.description }}</p>
+    </div>
+    <AccountNav />
     <slot />
   </div>
 </template>
 
 <style lang="scss">
-.global-hero {
+.account-page {
   padding: 0 20px;
-  height: 120px;
+  .global-hero {
+    height: 120px;
+  }
 }
 </style>

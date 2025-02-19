@@ -21,23 +21,24 @@ const handleGuildLeave = (guildId: string) => {
 
 <template>
   <NuxtLayout title="Account" description="Account page">
-    <div class="guilds-member">
-      <h4>Your guilds</h4>
-      <div class="guilds-member-container">
-        <AccountGuildCard
-          v-for="guild in memberGuilds"
-          :key="guild.id"
-          :data="guild"
-          @guildLeaved="handleGuildLeave"
-        />
+    <div class="general-page">
+      <div class="guilds-member">
+        <h4>Your guilds</h4>
+        <div class="guilds-member-container">
+          <AccountGuildCard
+            v-for="guild in memberGuilds"
+            :key="guild.id"
+            :data="guild"
+            @guildLeaved="handleGuildLeave"
+          />
+        </div>
       </div>
     </div>
   </NuxtLayout>
 </template>
 
 <style lang="scss">
-.account-page {
-  padding: 0 20px;
+.general-page {
   > .guilds-member {
     > h4 {
       margin-bottom: 24px;

@@ -189,19 +189,6 @@ body {
       width: 100%;
       justify-content: space-between;
     }
-    > .filters {
-      margin-top: 24px;
-      display: flex;
-      width: 100%;
-      justify-content: space-between;
-      align-items: center;
-      & > input {
-        border-radius: 8px;
-        border: 1px solid var(--dark);
-        width: 185px;
-        height: 25px;
-      }
-    }
   }
   > .complete-challenge-modal {
     position: fixed;
