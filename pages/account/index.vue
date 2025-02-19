@@ -1,15 +1,58 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import type { Guilds } from "~/types/api";
+
+const user = useSupabaseUser();
+
+const { data: memberGuilds } = useFetch<Guilds[]>(
+  `/api/users/guilds/${user.value?.id}`,
+  {
+    key: "memberGuilds",
+  }
+);
+
+console.log(memberGuilds);
+const handleGuildLeave = (guildId: string) => {
+  console.log("leave", guildId);
+  refreshNuxtData("memberGuilds");
+};
+</script>
 
 <template>
-  <div>
-    <h1>MY ACCOUNT</h1>
+  <div class="account-page">
+    <div class="global-hero">
+      <h1>ACCOUNT</h1>
+      <p>
+        Ipsum enim proident deserunt occaecat quis eu officia occaecat amet
+        exercitation.Ipsum enim proident deserunt occa.
+      </p>
+    </div>
+    <AccountNav />
+    <div class="guilds-member">
+      <h4>Your guilds</h4>
+      <div class="guilds-member-container">
+        <AccountGuildCard
+          v-for="guild in memberGuilds"
+          :key="guild.id"
+          :data="guild"
+          @guildLeaved="handleGuildLeave"
+        />
+      </div>
+    </div>
   </div>
-  <nav>
-    <NuxtLink to="/account/byMe">Created by me</NuxtLink>
-    <NuxtLink to="/account/saved">Challenges saved</NuxtLink>
-    <NuxtLink to="/account/completed">Challenge completed</NuxtLink>
-    <NuxtLink to="/account/">Home</NuxtLink>
-  </nav>
 </template>
 
-<style lang="scss"></style>
+<style lang="scss">
+.account-page {
+  padding: 0 20px;
+  > .guilds-member {
+    > h4 {
+      margin-bottom: 24px;
+    }
+    > .guilds-member-container {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+  }
+}
+</style>

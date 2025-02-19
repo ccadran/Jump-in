@@ -151,7 +151,7 @@ const toggleModal = () => {
           <label for="">Cover</label>
           <input type="file" @change="handleFileUpload" />
         </div>
-        <UiButton text="Envoyer" color="blue" type="submit" />
+        <UiButton text="Envoyer" color="blue" type="submit" size="large" />
       </form>
     </div>
     <div class="bluredBackground" ref="bluredBackground"></div>

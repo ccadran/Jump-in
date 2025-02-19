@@ -71,12 +71,7 @@ const otherGuilds = computed(() => {
 <style lang="scss">
 .home-page {
   padding: 0 20px;
-  > .global-hero {
-    margin: 32px 0 42px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
+
   > .guilds-container {
     margin-top: 32px;
     > .guilds {
