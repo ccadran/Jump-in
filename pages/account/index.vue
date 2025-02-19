@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import type { Guilds } from "~/types/api";
-
+definePageMeta({
+  layout: "account",
+});
 const user = useSupabaseUser();
 
 const { data: memberGuilds } = useFetch<Guilds[]>(
@@ -18,15 +20,7 @@ const handleGuildLeave = (guildId: string) => {
 </script>
 
 <template>
-  <div class="account-page">
-    <div class="global-hero">
-      <h1>ACCOUNT</h1>
-      <p>
-        Ipsum enim proident deserunt occaecat quis eu officia occaecat amet
-        exercitation.Ipsum enim proident deserunt occa.
-      </p>
-    </div>
-    <AccountNav />
+  <NuxtLayout title="Account" description="Account page">
     <div class="guilds-member">
       <h4>Your guilds</h4>
       <div class="guilds-member-container">
@@ -38,7 +32,7 @@ const handleGuildLeave = (guildId: string) => {
         />
       </div>
     </div>
-  </div>
+  </NuxtLayout>
 </template>
 
 <style lang="scss">

@@ -2,15 +2,36 @@
 
 <template>
   <nav class="account-nav">
-    <NuxtLink to="/account/byMe">Created by me</NuxtLink>
-    <NuxtLink to="/account/saved">Challenges saved</NuxtLink>
-    <NuxtLink to="/account/completed">Challenge completed</NuxtLink>
-    <NuxtLink to="/account/">Home</NuxtLink>
+    <NuxtLink activeClass="active" class="nav-item" to="/account/"
+      >general</NuxtLink
+    >
+    <NuxtLink activeClass="active" class="nav-item" to="/account/saved"
+      >saved</NuxtLink
+    >
+    <NuxtLink activeClass="active" class="nav-item" to="/account/completed"
+      >completed</NuxtLink
+    >
+    <NuxtLink activeClass="active" class="nav-item" to="/account/byMe"
+      >by me
+    </NuxtLink>
   </nav>
 </template>
 
 <style lang="scss">
 .account-nav {
   margin-bottom: 32px;
+  display: flex;
+  width: 100%;
+  padding: 0 20px;
+  justify-content: space-between;
+  > .nav-item {
+    background-color: var(--grey);
+    padding: 6px 14px;
+    border-radius: 24px;
+    &.active {
+      background-color: var(--blue);
+      color: var(--white);
+    }
+  }
 }
 </style>

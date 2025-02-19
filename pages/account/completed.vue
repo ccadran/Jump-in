@@ -1,9 +1,55 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import type { Guilds } from "~/types/api";
+definePageMeta({
+  layout: "account",
+});
+const user = useSupabaseUser();
+
+const { data: memberGuilds } = useFetch<Guilds[]>(
+  `/api/users/guilds/${user.value?.id}`,
+  {
+    key: "memberGuilds",
+  }
+);
+
+console.log(memberGuilds);
+const handleGuildLeave = (guildId: string) => {
+  console.log("leave", guildId);
+  refreshNuxtData("memberGuilds");
+};
+</script>
 
 <template>
-  <div>
-    <h1>Challenge completed</h1>
-  </div>
+  <NuxtLayout
+    title="Challenge completed"
+    description="Challenge completed page"
+  >
+    <div class="guilds-member">
+      <h4>Your guilds</h4>
+      <div class="guilds-member-container">
+        <AccountGuildCard
+          v-for="guild in memberGuilds"
+          :key="guild.id"
+          :data="guild"
+          @guildLeaved="handleGuildLeave"
+        />
+      </div>
+    </div>
+  </NuxtLayout>
 </template>
 
-<style lang="scss"></style>
+<style lang="scss">
+.account-page {
+  padding: 0 20px;
+  > .guilds-member {
+    > h4 {
+      margin-bottom: 24px;
+    }
+    > .guilds-member-container {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+  }
+}
+</style>
