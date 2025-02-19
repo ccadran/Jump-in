@@ -1,22 +1,16 @@
 <script lang="ts" setup>
-import type { Guilds } from "~/types/api";
+import type { CompleteChallenges } from "~/types/api";
 definePageMeta({
   layout: "account",
 });
 const user = useSupabaseUser();
 
-const { data: memberGuilds } = useFetch<Guilds[]>(
-  `/api/users/guilds/${user.value?.id}`,
+const { data: memberChallengeComplete } = useFetch<CompleteChallenges[]>(
+  `/api/users/challenges/complete/${user.value?.id}`,
   {
-    key: "memberGuilds",
+    key: "memberChallengeComplete",
   }
 );
-
-console.log(memberGuilds);
-const handleGuildLeave = (guildId: string) => {
-  console.log("leave", guildId);
-  refreshNuxtData("memberGuilds");
-};
 </script>
 
 <template>
@@ -25,16 +19,16 @@ const handleGuildLeave = (guildId: string) => {
     description="Challenge completed page"
   >
     <div class="completed-page">
-      <div class="guilds-member">
-        <h4>Your guilds</h4>
-        <div class="guilds-member-container">
-          <AccountGuildCard
-            v-for="guild in memberGuilds"
-            :key="guild.id"
-            :data="guild"
-            @guildLeaved="handleGuildLeave"
-          />
-        </div>
+      <div class="filters">
+        <input type="search" name="find" id="" />
+        <p>Newest</p>
+      </div>
+      <div class="challenges-completed-container">
+        <AccountCompletedChallengeCard
+          v-for="challenge in memberChallengeComplete"
+          :key="challenge.id"
+          :data="challenge"
+        />
       </div>
     </div>
   </NuxtLayout>
@@ -42,15 +36,10 @@ const handleGuildLeave = (guildId: string) => {
 
 <style lang="scss">
 .completed-page {
-  > .guilds-member {
-    > h4 {
-      margin-bottom: 24px;
-    }
-    > .guilds-member-container {
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-    }
+  > .challenges-completed-container {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
   }
 }
 </style>

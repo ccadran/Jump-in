@@ -2,11 +2,11 @@
 import { ChallengeCard } from "#components";
 import type { Challenges, Guilds } from "~/types/api";
 
-interface challengeCardProps {
+interface savedChallengeCardProps {
   data: Challenges;
 }
 
-const props = defineProps<challengeCardProps>();
+const props = defineProps<savedChallengeCardProps>();
 console.log(props.data.guild);
 const { data: guildData } = useFetch<Guilds>(`/api/guilds/${props.data.guild}`);
 console.log(guildData.value?.name);
@@ -30,7 +30,6 @@ console.log(guildData.value?.name);
     color: var(--blue);
     font-weight: 700;
     font-size: 14px;
-    // text-transform: lowercase;
   }
 }
 </style>
