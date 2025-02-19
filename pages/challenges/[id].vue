@@ -135,29 +135,29 @@ const toggleModal = () => {
         :data="challengeComplete"
       />
     </div>
-  </div>
-  <div class="bluredBackground" ref="bluredBackground"></div>
-  <div v-if="showModal" class="complete-challenge-modal">
-    <img class="cross" src="/icons/cross.svg" alt="" @click="toggleModal" />
-    <form class="form-complete-challenge" @submit="completeChallengeSubmit">
-      <div class="form-part">
-        <label for="">Title</label>
-        <input v-model="formComplete.title" type="text" placeholder="Title" />
-      </div>
-      <div class="form-part">
-        <label for="">Description</label>
-        <input
-          v-model="formComplete.description"
-          type="text"
-          placeholder="Description"
-        />
-      </div>
-      <div class="form-part">
-        <label for="">Cover</label>
-        <input type="file" @change="handleFileUpload" />
-      </div>
-      <button type="submit">Envoyer</button>
-    </form>
+    <div v-if="showModal" class="complete-challenge-modal">
+      <img class="cross" src="/icons/cross.svg" alt="" @click="toggleModal" />
+      <form class="form-complete-challenge" @submit="completeChallengeSubmit">
+        <div class="form-part">
+          <label for="">Title</label>
+          <input v-model="formComplete.title" type="text" placeholder="Title" />
+        </div>
+        <div class="form-part">
+          <label for="">Description</label>
+          <input
+            v-model="formComplete.description"
+            type="text"
+            placeholder="Description"
+          />
+        </div>
+        <div class="form-part">
+          <label for="">Cover</label>
+          <input type="file" @change="handleFileUpload" />
+        </div>
+        <button type="submit">Envoyer</button>
+      </form>
+    </div>
+    <div class="bluredBackground" ref="bluredBackground"></div>
   </div>
 </template>
 
@@ -208,13 +208,13 @@ body {
   }
   > .complete-challenge-modal {
     position: fixed;
-    height: 40svh;
+    height: auto;
     z-index: 100;
     width: calc(100% - 40px);
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
     background-color: var(--grey);
-    top: 10svh;
+    top: 50%;
     border-radius: 24px;
     padding: 20px;
     > .cross {
@@ -225,6 +225,7 @@ body {
       display: flex;
       flex-direction: column;
       gap: 24px;
+      margin-bottom: 32px;
       > .form-part {
         display: flex;
         flex-direction: column;
