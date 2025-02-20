@@ -65,7 +65,9 @@ const handleFileUpload = (event: Event) => {
 </script>
 
 <template>
-  <!-- <button @click="$router.back()">Back</button> -->
+  <div class="back" @click="$router.back()">
+    <img src="/icons/back.svg" alt="" />
+  </div>
   <div class="settings-page">
     <div class="global-hero">
       <h1>SETTINGS</h1>
@@ -111,7 +113,8 @@ const handleFileUpload = (event: Event) => {
 
 <style lang="scss">
 .settings-page {
-  padding: 0 20px;
+  padding: 32px 20px 0;
+
   form {
     .form-part {
       > .profil-picture-container {

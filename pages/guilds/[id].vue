@@ -156,6 +156,9 @@ const switchSortValue = (value: "newest" | "oldest") => {
 
 <template>
   <div class="guild-page">
+    <div class="back" @click="$router.back()">
+      <img src="/icons/back.svg" alt="" />
+    </div>
     <div class="cover">
       <img :src="guildData?.cover" alt="" />
     </div>

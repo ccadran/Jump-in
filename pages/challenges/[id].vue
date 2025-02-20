@@ -124,6 +124,9 @@ const switchSortValue = (value: "newest" | "oldest") => {
 
 <template>
   <div class="challenge-page">
+    <div class="back" @click="$router.back()">
+      <img src="/icons/back.svg" alt="" />
+    </div>
     <div class="cover">
       <img :src="challengeData!.cover" alt="" />
     </div>
