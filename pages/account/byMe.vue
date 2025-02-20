@@ -55,13 +55,7 @@ const filteredChallenges = computed(() => {
         @switchChange="handleSwitchChange"
       />
       <div class="filters">
-        <input
-          ref="searchBar"
-          v-model="searchQuery"
-          type="search"
-          name="find"
-          id=""
-        />
+        <input v-model="searchQuery" type="search" name="find" />
         <p>Newest</p>
       </div>
       <div class="cards-container">

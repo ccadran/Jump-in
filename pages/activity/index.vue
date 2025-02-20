@@ -3,6 +3,7 @@ import { ActivityCard, ChallengeCard } from "#components";
 import type { Challenges } from "~/types/api";
 
 const user = useSupabaseUser();
+const searchQuery = ref("");
 
 const { data: activitiesData, error: activitiesError } = useFetch<Challenges[]>(
   `/api/activity/${user.value?.id}`,
@@ -11,7 +12,12 @@ const { data: activitiesData, error: activitiesError } = useFetch<Challenges[]>(
   }
 );
 
-console.log(activitiesData);
+const filteredActivities = computed(() => {
+  if (!searchQuery.value) return activitiesData.value || [];
+  return (activitiesData.value || []).filter((activity) =>
+    activity.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+  );
+});
 </script>
 
 <template>
@@ -25,11 +31,11 @@ console.log(activitiesData);
       </p>
     </div>
     <div class="filters">
-      <input type="search" name="find" id="" />
+      <input v-model="searchQuery" type="search" name="find" />
       <p>Newest</p>
     </div>
     <div class="activity-challenges-container">
-      <ActivityCard v-for="activity in activitiesData" :data="activity" />
+      <ActivityCard v-for="activity in filteredActivities" :data="activity" />
     </div>
   </div>
 </template>

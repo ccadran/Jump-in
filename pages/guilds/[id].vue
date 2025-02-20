@@ -7,6 +7,7 @@ const guildId = route.params.id;
 const isMember = ref(false);
 const bluredBackground = ref(null) as Ref<HTMLElement | null>;
 const showModal = ref(false);
+const searchQuery = ref("");
 const formNewChallenge = ref({
   name: "",
   cover: null as File | null,
@@ -23,6 +24,12 @@ const { data: challengesData, error: challengesError } = useFetch<Challenges[]>(
     key: "challenges",
   }
 );
+const filteredChallenges = computed(() => {
+  if (!searchQuery.value) return challengesData.value || [];
+  return (challengesData.value || []).filter((challenge) =>
+    challenge.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+  );
+});
 
 const { data: countMember } = useFetch<{ userCount: number }>(
   `/api/guilds/count/${guildId}`,
@@ -149,12 +156,15 @@ const handleFileUpload = (event: Event) => {
         <UiButton text="New challenge +" @click="toggleModal" />
       </div>
       <div class="filters">
-        <input type="search" name="find" id="" />
+        <input v-model="searchQuery" type="search" name="find" />
         <p>Newest</p>
       </div>
     </div>
     <div class="challenges-container">
-      <ChallengeCard v-for="challenge in challengesData" :data="challenge" />
+      <ChallengeCard
+        v-for="challenge in filteredChallenges"
+        :data="challenge"
+      />
     </div>
     <div v-if="showModal" class="new-challenge-modal">
       <img class="cross" src="/icons/cross.svg" alt="" @click="toggleModal" />

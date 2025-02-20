@@ -5,6 +5,7 @@ definePageMeta({
   layout: "account",
 });
 const user = useSupabaseUser();
+const searchQuery = ref("");
 
 const { data: userChallengesSaved } = useFetch<Challenges[]>(
   `/api/users/challenges/save/${user.value?.id}`,
@@ -12,18 +13,25 @@ const { data: userChallengesSaved } = useFetch<Challenges[]>(
     key: "userChallengesSaved",
   }
 );
+
+const filteredChallengesSaved = computed(() => {
+  if (!searchQuery.value) return userChallengesSaved.value || [];
+  return (userChallengesSaved.value || []).filter((challenge) =>
+    challenge.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+  );
+});
 </script>
 
 <template>
   <NuxtLayout title="Challenge saved" description="Challenge saved page">
     <div class="saved-page">
       <div class="filters">
-        <input type="search" name="find" id="" />
+        <input v-model="searchQuery" type="search" name="find" />
         <p>Newest</p>
       </div>
       <div class="saved-challenges-container">
         <AccountSavedChallengeCard
-          v-for="challenge in userChallengesSaved"
+          v-for="challenge in filteredChallengesSaved"
           :key="challenge.id"
           :data="challenge"
         />

@@ -4,6 +4,7 @@ definePageMeta({
   layout: "account",
 });
 const user = useSupabaseUser();
+const searchQuery = ref("");
 
 const { data: memberChallengeComplete } = useFetch<CompleteChallenges[]>(
   `/api/users/challenges/complete/${user.value?.id}`,
@@ -11,6 +12,13 @@ const { data: memberChallengeComplete } = useFetch<CompleteChallenges[]>(
     key: "memberChallengeComplete",
   }
 );
+
+const filteredChallengesComplete = computed(() => {
+  if (!searchQuery.value) return memberChallengeComplete.value || [];
+  return (memberChallengeComplete.value || []).filter((challenge) =>
+    challenge.title.toLowerCase().includes(searchQuery.value.toLowerCase())
+  );
+});
 </script>
 
 <template>
@@ -20,12 +28,12 @@ const { data: memberChallengeComplete } = useFetch<CompleteChallenges[]>(
   >
     <div class="completed-page">
       <div class="filters">
-        <input type="search" name="find" id="" />
+        <input v-model="searchQuery" type="search" name="find" />
         <p>Newest</p>
       </div>
       <div class="challenges-completed-container">
         <AccountCompletedChallengeCard
-          v-for="challenge in memberChallengeComplete"
+          v-for="challenge in filteredChallengesComplete"
           :key="challenge.id"
           :data="challenge"
         />

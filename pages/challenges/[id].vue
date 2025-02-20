@@ -7,6 +7,7 @@ const challengeId = route.params.id;
 const showModal = ref(false);
 const bluredBackground = ref(null) as Ref<HTMLElement | null>;
 const isComplete = ref(false);
+const searchQuery = ref("");
 
 const formComplete = ref({
   title: "",
@@ -24,7 +25,12 @@ const { data: challengesCompleteData, error: challengesCompleteError } =
   useFetch<CompleteChallenges[]>(`/api/challenges/complete/${challengeId}`, {
     key: "challengesComplete",
   });
-
+const filteredChallengesComplete = computed(() => {
+  if (!searchQuery.value) return challengesCompleteData.value || [];
+  return (challengesCompleteData.value || []).filter((challenge) =>
+    challenge.title.toLowerCase().includes(searchQuery.value.toLowerCase())
+  );
+});
 const { data: countComplete } = useFetch<{
   savedCount: number;
   completedCount: number;
@@ -122,13 +128,13 @@ const toggleModal = () => {
         />
       </div>
       <div class="filters">
-        <input type="search" name="find" id="" />
+        <input v-model="searchQuery" type="search" name="find" />
         <p>Newest</p>
       </div>
     </div>
     <div class="challenges-complete-container">
       <ChallengeCompleteCard
-        v-for="challengeComplete in challengesCompleteData"
+        v-for="challengeComplete in filteredChallengesComplete"
         :data="challengeComplete"
       />
     </div>
