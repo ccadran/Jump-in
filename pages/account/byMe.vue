@@ -8,6 +8,7 @@ const showMyGuilds = ref(true);
 
 const handleSwitchChange = (side: "left" | "right") => {
   showMyGuilds.value = side === "left";
+  searchQuery.value = "";
 };
 
 const { data: createdGuilds } = useFetch<Guilds[]>(
@@ -29,6 +30,20 @@ const handleGuildDelete = () => {
 const handleChallengeDelete = () => {
   refreshNuxtData("createdChallenge");
 };
+
+const searchQuery = ref("");
+const filteredGuilds = computed(() => {
+  if (!searchQuery.value) return createdGuilds.value || [];
+  return (createdGuilds.value || []).filter((guild) =>
+    guild.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+  );
+});
+const filteredChallenges = computed(() => {
+  if (!searchQuery.value) return createdChallenge.value || [];
+  return (createdChallenge.value || []).filter((challenge) =>
+    challenge.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+  );
+});
 </script>
 
 <template>
@@ -40,13 +55,19 @@ const handleChallengeDelete = () => {
         @switchChange="handleSwitchChange"
       />
       <div class="filters">
-        <input type="search" name="find" id="" />
+        <input
+          ref="searchBar"
+          v-model="searchQuery"
+          type="search"
+          name="find"
+          id=""
+        />
         <p>Newest</p>
       </div>
       <div class="cards-container">
         <div v-if="showMyGuilds" class="guilds-container">
           <AccountCreatedGuildCard
-            v-for="guild in createdGuilds"
+            v-for="guild in filteredGuilds"
             :key="guild.id"
             :data="guild"
             @guildDeleted="handleGuildDelete"
@@ -54,7 +75,7 @@ const handleChallengeDelete = () => {
         </div>
         <div v-if="!showMyGuilds" class="challenges-container">
           <AccountCreatedChallengeCard
-            v-for="challenge in createdChallenge"
+            v-for="challenge in filteredChallenges"
             :key="challenge.id"
             :data="challenge"
             @challengeDeleted="handleChallengeDelete"
