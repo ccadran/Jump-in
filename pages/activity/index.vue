@@ -94,7 +94,7 @@ const switchSortValue = (value: "newest" | "oldest") => {
 
 <style lang="scss">
 .activity-page {
-  padding: 0 20px;
+  padding: 0 20px 92px;
 
   > .activity-challenges-container {
     display: flex;

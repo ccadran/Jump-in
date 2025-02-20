@@ -75,7 +75,7 @@ const otherGuilds = computed(() => {
 
 <style lang="scss">
 .home-page {
-  padding: 0 20px;
+  padding: 0 20px 92px;
 
   > .guilds-container {
     margin-top: 32px;

@@ -44,7 +44,7 @@ const handleSwitchChange = (side: "left" | "right") => {
 
 <style lang="scss">
 .create-page {
-  padding: 0 20px;
+  padding: 0 20px 92px;
   > .global-hero {
     margin-bottom: 32px;
   }

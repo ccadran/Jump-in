@@ -274,7 +274,7 @@ body {
     flex-direction: column;
     gap: 24px;
     margin-top: 32px;
-    padding: 0 20px;
+    padding: 0 20px 92px;
   }
 }
 .bluredBackground {

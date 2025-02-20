@@ -285,7 +285,7 @@ const switchSortValue = (value: "newest" | "oldest") => {
     }
   }
   > .challenges-container {
-    padding: 0 20px;
+    padding: 0 20px 92px;
     display: flex;
     flex-direction: column;
     gap: 24px;

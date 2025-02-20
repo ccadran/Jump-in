@@ -28,7 +28,7 @@ const props = defineProps<accountLayoutProps>();
 
 <style lang="scss">
 .account-page {
-  padding: 0 20px;
+  padding: 0 20px 92px;
   .header {
     display: flex;
     justify-content: space-between;
