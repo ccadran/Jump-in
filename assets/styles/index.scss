@@ -75,6 +75,7 @@ h4 {
     border: 1px solid var(--dark);
     width: 185px;
     height: 25px;
+    padding: 8px;
   }
   > .sort-results-container {
     position: relative;
@@ -98,6 +99,11 @@ h4 {
       display: none;
       &.open {
         display: flex;
+        > p {
+          &.active {
+            font-weight: 700;
+          }
+        }
       }
     }
   }

@@ -8,6 +8,8 @@ const isMember = ref(false);
 const bluredBackground = ref(null) as Ref<HTMLElement | null>;
 const showModal = ref(false);
 const searchQuery = ref("");
+const sortOrder = ref<"newest" | "oldest">("newest"); // Par défaut, tri du plus récent au plus ancien
+const sortOptions = ref<HTMLElement | null>(null);
 const formNewChallenge = ref({
   name: "",
   cover: null as File | null,
@@ -24,11 +26,23 @@ const { data: challengesData, error: challengesError } = useFetch<Challenges[]>(
     key: "challenges",
   }
 );
+
 const filteredChallenges = computed(() => {
-  if (!searchQuery.value) return challengesData.value || [];
-  return (challengesData.value || []).filter((challenge) =>
-    challenge.name.toLowerCase().includes(searchQuery.value.toLowerCase())
-  );
+  let result = challengesData.value || [];
+
+  // Filtrage par nom
+  if (searchQuery.value) {
+    result = result.filter((guild) =>
+      guild.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+    );
+  }
+
+  // Tri par date de création
+  return result.sort((a, b) => {
+    return sortOrder.value === "newest"
+      ? new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      : new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+  });
 });
 
 const { data: countMember } = useFetch<{ userCount: number }>(
@@ -126,6 +140,16 @@ const handleFileUpload = (event: Event) => {
     console.log("File", formNewChallenge.value.cover);
   }
 };
+
+const toggleSortOptions = () => {
+  if (sortOptions.value) {
+    sortOptions.value.classList.toggle("open");
+  }
+};
+const switchSortValue = (value: "newest" | "oldest") => {
+  sortOrder.value = value;
+  toggleSortOptions();
+};
 </script>
 
 <template>
@@ -156,8 +180,32 @@ const handleFileUpload = (event: Event) => {
         <UiButton text="New challenge +" @click="toggleModal" />
       </div>
       <div class="filters">
-        <input v-model="searchQuery" type="search" name="find" />
-        <p>Newest</p>
+        <input
+          v-model="searchQuery"
+          type="search"
+          name="find"
+          placeholder="Search..."
+        />
+        <div class="sort-results-container">
+          <div class="sort-values" @click="toggleSortOptions">
+            <p>{{ sortOrder === "newest" ? "Newest" : "Oldest" }}</p>
+            <img src="/icons/chevron.svg" alt="Sort options" />
+          </div>
+          <div class="sorts-options" ref="sortOptions">
+            <p
+              @click="switchSortValue('oldest')"
+              :class="{ active: sortOrder === 'oldest' }"
+            >
+              Oldest
+            </p>
+            <p
+              @click="switchSortValue('newest')"
+              :class="{ active: sortOrder === 'newest' }"
+            >
+              Newest
+            </p>
+          </div>
+        </div>
       </div>
     </div>
     <div class="challenges-container">

@@ -107,8 +107,18 @@ const switchSortValue = (value: "newest" | "oldest") => {
             <img src="/icons/chevron.svg" alt="Sort options" />
           </div>
           <div class="sorts-options" ref="sortOptions">
-            <p @click="switchSortValue('oldest')">Oldest</p>
-            <p @click="switchSortValue('newest')">Newest</p>
+            <p
+              @click="switchSortValue('oldest')"
+              :class="{ active: sortOrder === 'oldest' }"
+            >
+              Oldest
+            </p>
+            <p
+              @click="switchSortValue('newest')"
+              :class="{ active: sortOrder === 'newest' }"
+            >
+              Newest
+            </p>
           </div>
         </div>
       </div>

@@ -8,6 +8,8 @@ const showModal = ref(false);
 const bluredBackground = ref(null) as Ref<HTMLElement | null>;
 const isComplete = ref(false);
 const searchQuery = ref("");
+const sortOrder = ref<"newest" | "oldest">("newest"); // Par défaut, tri du plus récent au plus ancien
+const sortOptions = ref<HTMLElement | null>(null);
 
 const formComplete = ref({
   title: "",
@@ -25,11 +27,23 @@ const { data: challengesCompleteData, error: challengesCompleteError } =
   useFetch<CompleteChallenges[]>(`/api/challenges/complete/${challengeId}`, {
     key: "challengesComplete",
   });
+
 const filteredChallengesComplete = computed(() => {
-  if (!searchQuery.value) return challengesCompleteData.value || [];
-  return (challengesCompleteData.value || []).filter((challenge) =>
-    challenge.title.toLowerCase().includes(searchQuery.value.toLowerCase())
-  );
+  let result = challengesCompleteData.value || [];
+
+  // Filtrage par nom
+  if (searchQuery.value) {
+    result = result.filter((guild) =>
+      guild.title.toLowerCase().includes(searchQuery.value.toLowerCase())
+    );
+  }
+
+  // Tri par date de création
+  return result.sort((a, b) => {
+    return sortOrder.value === "newest"
+      ? new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      : new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+  });
 });
 const { data: countComplete } = useFetch<{
   savedCount: number;
@@ -96,6 +110,16 @@ const toggleModal = () => {
     bluredBackground.value.style.display = showModal.value ? "block" : "none";
   }
 };
+
+const toggleSortOptions = () => {
+  if (sortOptions.value) {
+    sortOptions.value.classList.toggle("open");
+  }
+};
+const switchSortValue = (value: "newest" | "oldest") => {
+  sortOrder.value = value;
+  toggleSortOptions();
+};
 </script>
 
 <template>
@@ -128,8 +152,32 @@ const toggleModal = () => {
         />
       </div>
       <div class="filters">
-        <input v-model="searchQuery" type="search" name="find" />
-        <p>Newest</p>
+        <input
+          v-model="searchQuery"
+          type="search"
+          name="find"
+          placeholder="Search..."
+        />
+        <div class="sort-results-container">
+          <div class="sort-values" @click="toggleSortOptions">
+            <p>{{ sortOrder === "newest" ? "Newest" : "Oldest" }}</p>
+            <img src="/icons/chevron.svg" alt="Sort options" />
+          </div>
+          <div class="sorts-options" ref="sortOptions">
+            <p
+              @click="switchSortValue('oldest')"
+              :class="{ active: sortOrder === 'oldest' }"
+            >
+              Oldest
+            </p>
+            <p
+              @click="switchSortValue('newest')"
+              :class="{ active: sortOrder === 'newest' }"
+            >
+              Newest
+            </p>
+          </div>
+        </div>
       </div>
     </div>
     <div class="challenges-complete-container">
