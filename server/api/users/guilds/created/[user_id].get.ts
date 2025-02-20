@@ -1,0 +1,20 @@
+import { serverSupabaseClient } from "#supabase/server";
+import { Database } from "~/types/supabase";
+
+export default defineEventHandler(async (event) => {
+  const userId = getRouterParam(event, "user_id") as string;
+  const client = await serverSupabaseClient<Database>(event);
+
+  console.log("userId", userId);
+
+  const { data, error } = await client
+    .from("guilds")
+    .select("*")
+    .eq("owner_id", userId);
+
+  if (error) {
+    return createError({ statusCode: 500, message: error.message });
+  }
+
+  return data;
+});

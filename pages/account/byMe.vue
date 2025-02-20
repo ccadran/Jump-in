@@ -1,9 +1,60 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import type { Challenges, Guilds } from "~/types/api";
+definePageMeta({
+  layout: "account",
+});
+const user = useSupabaseUser();
+const showMyGuilds = ref(true);
+
+const handleSwitchChange = (side: "left" | "right") => {
+  showMyGuilds.value = side === "left";
+};
+
+const { data: createdGuilds } = useFetch<Guilds[]>(
+  `/api/users/guilds/created/${user.value?.id}`,
+  {
+    key: "createdGuilds",
+  }
+);
+
+const { data: createdChallenge } = useFetch<Challenges[]>(
+  `/api/users/challenges/created/${user.value?.id}`,
+  {
+    key: "createdChallenge",
+  }
+);
+</script>
 
 <template>
-  <div>
-    <h1>Created by me</h1>
-  </div>
+  <NuxtLayout title="created by me" description="created by me page">
+    <div class="byMe-page">
+      <UiSwitch
+        leftText="Guilds"
+        rightText="Challenges"
+        @switchChange="handleSwitchChange"
+      />
+      <div class="filters">
+        <input type="search" name="find" id="" />
+        <p>Newest</p>
+      </div>
+      <div class="cards-container">
+        <div v-if="showMyGuilds" class="guilds-container">
+          <GuildCard
+            v-for="guild in createdGuilds"
+            :key="guild.id"
+            :data="guild"
+          />
+        </div>
+        <div v-if="!showMyGuilds" class="challenges-container">
+          <ChallengeCard
+            v-for="challenge in createdChallenge"
+            :key="challenge.id"
+            :data="challenge"
+          />
+        </div>
+      </div>
+    </div>
+  </NuxtLayout>
 </template>
 
 <style lang="scss"></style>
