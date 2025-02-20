@@ -76,4 +76,22 @@ h4 {
     width: 185px;
     height: 25px;
   }
+  > .sort-results-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    > .sort-values {
+      display: flex;
+      gap: 8px;
+    }
+    > .sorts-options {
+      background-color: var(--grey);
+      display: flex;
+      flex-direction: column;
+      align-items: end;
+      padding: 12px;
+      gap: 12px;
+      border-radius: 16px;
+    }
+  }
 }
