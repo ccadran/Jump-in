@@ -10,6 +10,13 @@ const handleSwitchChange = (side: "left" | "right") => {
 
 <template>
   <div class="create-page">
+    <div class="header">
+      <div class="header">
+        <a href="/" class="logo">
+          <img src="/logo.svg" alt="" />
+        </a>
+      </div>
+    </div>
     <div class="global-hero">
       <h1>NEW ONE</h1>
       <p>

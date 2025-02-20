@@ -57,11 +57,16 @@ h4 {
   text-decoration: underline;
 }
 
+.header {
+  margin-top: 16px;
+}
+
 .global-hero {
   margin: 32px 0 42px;
   display: flex;
   flex-direction: column;
   gap: 12px;
+  height: 124px;
 }
 .filters {
   margin-top: 24px;

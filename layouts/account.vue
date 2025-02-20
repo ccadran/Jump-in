@@ -8,9 +8,15 @@ const props = defineProps<accountLayoutProps>();
 
 <template>
   <div class="account-page">
-    <a href="/account/settings">
-      <img src="/icons/setting.svg" alt="" />
-    </a>
+    <div class="header">
+      <a href="/" class="logo">
+        <img src="/logo.svg" alt="" />
+      </a>
+
+      <a href="/account/settings">
+        <img src="/icons/setting.svg" alt="" />
+      </a>
+    </div>
     <div class="global-hero">
       <h1>{{ props.title }}</h1>
       <p>{{ props.description }}</p>
@@ -23,6 +29,15 @@ const props = defineProps<accountLayoutProps>();
 <style lang="scss">
 .account-page {
   padding: 0 20px;
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    margin-top: 16px;
+    > .logo {
+      margin: 0;
+    }
+  }
   .global-hero {
     height: 120px;
   }

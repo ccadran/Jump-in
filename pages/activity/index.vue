@@ -45,6 +45,11 @@ const switchSortValue = (value: "newest" | "oldest") => {
 
 <template>
   <div class="activity-page">
+    <div class="header">
+      <a href="/" class="logo">
+        <img src="/logo.svg" alt="" />
+      </a>
+    </div>
     <div class="global-hero">
       <h1>Home</h1>
       <p>

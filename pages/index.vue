@@ -34,6 +34,11 @@ const otherGuilds = computed(() => {
 
 <template>
   <div class="home-page">
+    <div class="header">
+      <a href="/" class="logo">
+        <img src="/logo.svg" alt="" />
+      </a>
+    </div>
     <div class="global-hero">
       <h1>Home</h1>
       <p>
