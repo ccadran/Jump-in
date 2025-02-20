@@ -23,6 +23,9 @@ const { data: createdChallenge } = useFetch<Challenges[]>(
     key: "createdChallenge",
   }
 );
+const handleGuildDelete = () => {
+  refreshNuxtData("createdGuilds");
+};
 </script>
 
 <template>
@@ -39,14 +42,15 @@ const { data: createdChallenge } = useFetch<Challenges[]>(
       </div>
       <div class="cards-container">
         <div v-if="showMyGuilds" class="guilds-container">
-          <GuildCard
+          <AccountCreatedGuildCard
             v-for="guild in createdGuilds"
             :key="guild.id"
             :data="guild"
+            @guildDeleted="handleGuildDelete"
           />
         </div>
         <div v-if="!showMyGuilds" class="challenges-container">
-          <ChallengeCard
+          <AccountCreatedChallengeCard
             v-for="challenge in createdChallenge"
             :key="challenge.id"
             :data="challenge"
