@@ -8,6 +8,9 @@ const props = defineProps<accountLayoutProps>();
 
 <template>
   <div class="account-page">
+    <a href="/account/settings">
+      <img src="/icons/setting.svg" alt="" />
+    </a>
     <div class="global-hero">
       <h1>{{ props.title }}</h1>
       <p>{{ props.description }}</p>
