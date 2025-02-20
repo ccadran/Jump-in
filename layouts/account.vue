@@ -32,7 +32,7 @@ const props = defineProps<accountLayoutProps>();
   .header {
     display: flex;
     justify-content: space-between;
-    align-items: end;
+
     margin-top: 16px;
     > .logo {
       margin: 0;
