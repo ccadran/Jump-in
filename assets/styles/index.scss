@@ -92,6 +92,13 @@ h4 {
       padding: 12px;
       gap: 12px;
       border-radius: 16px;
+      position: absolute;
+      top: 100%;
+      z-index: 1;
+      display: none;
+      &.open {
+        display: flex;
+      }
     }
   }
 }

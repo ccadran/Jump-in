@@ -8,7 +8,7 @@ const user = useSupabaseUser();
 const showMyGuilds = ref(true);
 const searchQuery = ref("");
 const sortOrder = ref<"newest" | "oldest">("newest"); // Par défaut, tri du plus récent au plus ancien
-
+const sortOptions = ref<HTMLElement | null>(null);
 const handleSwitchChange = (side: "left" | "right") => {
   showMyGuilds.value = side === "left";
   searchQuery.value = "";
@@ -72,6 +72,16 @@ const filteredChallenges = computed(() => {
       : new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
   });
 });
+
+const toggleSortOptions = () => {
+  if (sortOptions.value) {
+    sortOptions.value.classList.toggle("open");
+  }
+};
+const switchSortValue = (value: "newest" | "oldest") => {
+  sortOrder.value = value;
+  toggleSortOptions();
+};
 </script>
 
 <template>
@@ -92,13 +102,13 @@ const filteredChallenges = computed(() => {
         />
 
         <div class="sort-results-container">
-          <div class="sort-values">
-            <p>Sort by: {{ sortOrder === "newest" ? "Newest" : "Oldest" }}</p>
+          <div class="sort-values" @click="toggleSortOptions">
+            <p>{{ sortOrder === "newest" ? "Newest" : "Oldest" }}</p>
             <img src="/icons/chevron.svg" alt="Sort options" />
           </div>
-          <div class="sorts-options">
-            <p @click="sortOrder = 'oldest'">Oldest</p>
-            <p @click="sortOrder = 'newest'">Newest</p>
+          <div class="sorts-options" ref="sortOptions">
+            <p @click="switchSortValue('oldest')">Oldest</p>
+            <p @click="switchSortValue('newest')">Newest</p>
           </div>
         </div>
       </div>
