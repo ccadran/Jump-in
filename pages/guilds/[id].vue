@@ -91,6 +91,8 @@ async function leaveGuild(guildId: string) {
 
 const toggleModal = () => {
   showModal.value = !showModal.value;
+  console.log("____showModal", showModal.value);
+
   if (bluredBackground.value) {
     bluredBackground.value.style.display = showModal.value ? "block" : "none";
   }
@@ -216,7 +218,7 @@ const switchSortValue = (value: "newest" | "oldest") => {
     </div>
     <div v-if="showModal" class="new-challenge-modal">
       <img class="cross" src="/icons/cross.svg" alt="" @click="toggleModal" />
-      <form class="form-complete-challenge" @submit="newChallengeSubmit">
+      <form class="form-new-challenge" @submit="newChallengeSubmit">
         <div class="form-part">
           <label for="">Title</label>
           <input
@@ -286,7 +288,7 @@ const switchSortValue = (value: "newest" | "oldest") => {
     gap: 24px;
     margin-top: 24px;
   }
-  > .complete-challenge-modal {
+  > .new-challenge-modal {
     position: fixed;
     height: auto;
     z-index: 100;
@@ -301,7 +303,7 @@ const switchSortValue = (value: "newest" | "oldest") => {
       cursor: pointer;
       margin-left: calc(100% - 20px);
     }
-    > .form-complete-challenge {
+    > .form-new-challenge {
       display: flex;
       flex-direction: column;
       gap: 24px;
