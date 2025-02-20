@@ -1,20 +1,15 @@
 <script lang="ts" setup>
+import type { UserData } from "~/types/api";
+
 definePageMeta({
   layout: "account",
 });
 
 const user = useSupabaseUser();
-interface UserData {
-  first_name: string;
-  name: string;
-  username: string;
-  description: string;
-}
 
 const { data: userData } = useFetch<UserData>(`/api/users/${user.value?.id}`, {
   key: "userData",
 });
-console.log(userData);
 
 const form = reactive({
   firstName: "",
@@ -28,7 +23,7 @@ watch(
   userData,
   (newUserData) => {
     if (newUserData) {
-      form.firstName = newUserData.first_name || "";
+      form.firstName = newUserData.firstName || "";
       form.name = newUserData.name || "";
       form.username = newUserData.username || "";
       form.description = newUserData.description || "";
@@ -46,7 +41,6 @@ async function updateUser() {
     formData.append("username", form.username);
     formData.append("description", form.description);
 
-    // Ajouter la photo de profil si elle existe
     if (form.profilePicture) {
       formData.append("profilePicture", form.profilePicture);
     }
@@ -71,16 +65,67 @@ const handleFileUpload = (event: Event) => {
 </script>
 
 <template>
-  <button @click="$router.back()">Back</button>
-  <form @submit.prevent="updateUser">
-    <input v-model="form.firstName" type="text" placeholder="Prénom" />
-    <input v-model="form.name" type="text" placeholder="Nom" />
-    <input v-model="form.username" type="text" placeholder="Pseudo" />
-    <input v-model="form.description" type="text" placeholder="Description" />
+  <!-- <button @click="$router.back()">Back</button> -->
+  <div class="settings-page">
+    <div class="global-hero">
+      <h1>SETTINGS</h1>
+      <p>
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Unde magni
+        necessitatibus distinctio! Consectetur aut necessitatibus deleniti natus
+        enim sapiente illo saepe voluptatem dignissimos, optio a.
+      </p>
+    </div>
 
-    <input type="file" @change="handleFileUpload" />
-    <button type="submit">Update</button>
-  </form>
+    <form @submit.prevent="updateUser">
+      <div class="form-part">
+        <label for="">First name</label>
+        <input v-model="form.firstName" type="text" placeholder="Prénom" />
+      </div>
+      <div class="form-part">
+        <label for="">Name</label>
+        <input v-model="form.name" type="text" placeholder="Nom" />
+      </div>
+      <div class="form-part">
+        <label for="">Username</label>
+        <input v-model="form.username" type="text" placeholder="Pseudo" />
+      </div>
+      <div class="form-part">
+        <label for="">Description</label>
+        <input
+          v-model="form.description"
+          type="text"
+          placeholder="Description"
+        />
+      </div>
+      <div class="form-part">
+        <label for="">Profil picture</label>
+        <div class="profil-picture-container">
+          <img :src="userData?.profil_picture" alt="Profile picture" />
+        </div>
+        <input type="file" @change="handleFileUpload" />
+      </div>
+      <UiButton text="Update" type="submit" size="large" />
+    </form>
+  </div>
 </template>
 
-<style lang="scss"></style>
+<style lang="scss">
+.settings-page {
+  padding: 0 20px;
+  form {
+    .form-part {
+      > .profil-picture-container {
+        height: 70px;
+        width: 70px;
+        border-radius: 50%;
+        overflow: hidden;
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+    }
+  }
+}
+</style>

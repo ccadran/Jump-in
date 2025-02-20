@@ -84,30 +84,7 @@ const handleFileUpload = (event: Event) => {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  > .form-part {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    > label {
-      font-weight: 700;
-      font-size: 14px;
-    }
-    > input {
-      padding: 8px;
-      font-family: "Inter";
-      border-radius: 8px;
-      border: 0.25px solid var(--dark);
-      background-color: var(--grey);
-      &::placeholder {
-        opacity: 0.5;
-      }
 
-      &[type="file"] {
-        padding: 0;
-        border-radius: 0;
-      }
-    }
-  }
   > .cta {
     margin-top: 32px;
     margin-left: auto;
