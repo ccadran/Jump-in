@@ -5,7 +5,7 @@ import type { Guilds } from "~/types/api";
 interface GuildCardProps {
   data: Guilds;
 }
-const emit = defineEmits();
+const emit = defineEmits(["guildLeaved"]);
 
 const leaveGuild = async (guildId: string) => {
   try {

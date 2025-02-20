@@ -6,62 +6,37 @@ interface challengeCardProps {
 }
 
 const props = defineProps<challengeCardProps>();
+const emit = defineEmits(["challengeDeleted"]);
+
 const user = useSupabaseUser();
-const isSaved = ref(false);
-
-try {
-  const response = await $fetch(`/api/users/challenges/save/check`, {
-    method: "POST",
-    body: { userId: user.value!.id, challengeId: props.data.id },
-  });
-  console.log("response", response);
-
-  isSaved.value = typeof response === "boolean" ? response : false;
-} catch (error) {
-  console.error("Erreur de vérification d'adhésion", error);
-}
-
-console.log("isSaved", isSaved.value);
-
-const saveChallenge = async (challengeId: string) => {
-  try {
-    const response = await $fetch(`/api/users/challenges/save`, {
-      method: "POST",
-      body: { userId: user.value!.id, challengeId: challengeId },
-    });
-    isSaved.value = true;
-    console.log("Ajouté à challenge save", response);
-  } catch (error) {
-    console.error("Erreur d'ajout", error);
-  }
+const showModal = ref(false);
+const toggleModal = () => {
+  showModal.value = !showModal.value;
 };
 
-async function unsaveChallenge(challengeId: string) {
+const deleteChallenge = async (challengeId: string) => {
   try {
-    const response = await $fetch(`/api/users/challenges/save`, {
+    const response = await $fetch(`/api/challenges/${challengeId}`, {
       method: "DELETE",
-      body: { userId: user.value!.id, challengeId: challengeId },
     });
-    isSaved.value = false;
+    emit("challengeDeleted", challengeId);
+
+    console.log("Challenge delete", response);
   } catch (error) {
     console.error("Erreur de suppression", error);
   }
-}
+};
 </script>
 
 <template>
-  <div class="guild-card">
+  <div class="challenge-card">
     <div class="card-text">
       <h4 class="uppercase">{{ props.data.name }}</h4>
       <p>{{ props.data.description }}</p>
     </div>
     <div class="card-cta">
-      <p v-if="!isSaved" class="link" @click="saveChallenge(props.data.id)">
-        save it
-      </p>
-      <p v-if="isSaved" class="link" @click="unsaveChallenge(props.data.id)">
-        unsave it
-      </p>
+      <img class="delete" src="/icons/cross.svg" @click="toggleModal" />
+
       <UiButton
         text="see more"
         :to="`/challenges/${props.data.id}`"
@@ -69,10 +44,30 @@ async function unsaveChallenge(challengeId: string) {
       />
     </div>
   </div>
+  <div v-if="showModal" class="confirmation">
+    <div class="confirmation-text">
+      <h4>Do you really want to delete the challenge ?</h4>
+      <p>
+        {{
+          `All the challenges of the ${props.data.name} challenge will be deleted`
+        }}
+      </p>
+    </div>
+    <div class="confirmation-cta">
+      <UiButton text="cancel" color="white" size="large" @click="toggleModal" />
+      <UiButton
+        text="delete"
+        color="blue"
+        size="large"
+        @click="deleteChallenge(props.data.id)"
+      />
+    </div>
+  </div>
+  <div v-if="showModal" class="bluredBackground" ref="bluredBackground"></div>
 </template>
 
 <style lang="scss">
-.guild-card {
+.challenge-card {
   display: flex;
   width: 100%;
   padding: 12px 18px;
@@ -95,5 +90,40 @@ async function unsaveChallenge(challengeId: string) {
     flex-direction: column;
     justify-content: space-between;
   }
+}
+.confirmation {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--grey);
+  padding: 24px;
+  border-radius: 16px;
+  width: 90vw;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 3;
+  > .confirmation-text {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  > .confirmation-cta {
+    display: flex;
+    margin-top: 32px;
+    gap: 24px;
+  }
+}
+.bluredBackground {
+  //   display: none;
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  backdrop-filter: blur(3px);
+  background: rgba(0, 0, 0, 0.2);
+  top: 0;
+  left: 0;
+  z-index: 2;
 }
 </style>

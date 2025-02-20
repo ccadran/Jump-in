@@ -6,7 +6,7 @@ import type { Guilds } from "~/types/api";
 interface GuildCardProps {
   data: Guilds;
 }
-const emit = defineEmits();
+const emit = defineEmits(["guildDeleted"]);
 
 const props = defineProps<GuildCardProps>();
 const showModal = ref(false);
@@ -20,8 +20,6 @@ const deleteGuild = async (guildId: string) => {
       method: "DELETE",
     });
     emit("guildDeleted", guildId);
-
-    console.log("Retiré de la guilde", response);
   } catch (error) {
     console.error("Erreur de suppression", error);
   }
