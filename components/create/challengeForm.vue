@@ -10,9 +10,13 @@ const formData = ref({
   guild: "",
 });
 
-const { data: dataGuilds } = useFetch<Guilds[]>("/api/guilds", {
-  key: "guilds",
-});
+const { data: dataGuilds } = useFetch<Guilds[]>(
+  `/api/users/guilds/${user.value?.id}`,
+  {
+    key: "guilds",
+  }
+);
+console.log("___________", dataGuilds.value);
 
 const handleChallengeSubmit = async (e: Event) => {
   e.preventDefault();
