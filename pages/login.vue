@@ -69,7 +69,6 @@ async function signUp() {
     });
 
     if (data.value) {
-      // Réinitialiser les champs du formulaire
       form.email = "";
       form.password = "";
       form.userData.firstName = "";
@@ -96,58 +95,106 @@ const handleFileUpload = (event: Event) => {
     form.userData.profilePicture = target.files[0];
   }
 };
+
+const handleSwitchChange = (side: "left" | "right") => {
+  wantRegister.value = side === "right";
+};
 </script>
 
 <template>
-  <div v-if="!wantRegister">
-    <!-- Formulaire de connexion -->
-    <form @submit="signIn">
-      <input v-model="formIn.email" type="email" placeholder="Email" />
-      <input
-        v-model="formIn.password"
-        type="password"
-        placeholder="Mot de passe"
-      />
-      <button type="submit">Se connecter</button>
-    </form>
-  </div>
+  <div class="login-page">
+    <div class="global-hero">
+      <h1>CONNEXION</h1>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex dolorem
+        neque, sapiente sed voluptatibus sequi fugiat ipsa? Consectetur
+        corrupti, quidem provident cupiditate consequuntur dignissimos deserunt!
+      </p>
+    </div>
+    <UiSwitch
+      leftText="Se connecter"
+      rightText="S'inscrire"
+      @switchChange="handleSwitchChange"
+    />
+    <div v-if="!wantRegister" class="login-form">
+      <form @submit="signIn">
+        <div class="form-part">
+          <label for="">Email</label>
+          <input v-model="formIn.email" type="email" placeholder="Email" />
+        </div>
+        <div class="form-part">
+          <label for="">Password</label>
+          <input
+            v-model="formIn.password"
+            type="password"
+            placeholder="Mot de passe"
+          />
+        </div>
+        <UiButton text="Se connecter" type="submit" color="blue" size="large" />
+      </form>
+    </div>
 
-  <div v-if="wantRegister">
-    <!-- Formulaire d'inscription -->
-    <form @submit.prevent="signUp">
-      <input v-model="form.email" type="email" placeholder="Email" />
-      <input
-        v-model="form.password"
-        type="password"
-        placeholder="Mot de passe"
-      />
-      <input
-        v-model="form.userData.firstName"
-        type="text"
-        placeholder="Prénom"
-      />
-      <input v-model="form.userData.name" type="text" placeholder="Nom" />
-      <input
-        v-model="form.userData.username"
-        type="text"
-        placeholder="Pseudo"
-      />
-      <input
-        v-model="form.userData.description"
-        type="text"
-        placeholder="Description"
-      />
-      <input type="file" @change="handleFileUpload" />
-      <button type="submit">S'inscrire</button>
-    </form>
+    <div v-if="wantRegister" class="register-form">
+      <form @submit.prevent="signUp">
+        <div class="form-part">
+          <label for="">Email</label>
+          <input v-model="form.email" type="email" placeholder="Email" />
+        </div>
+        <div class="form-part">
+          <label for="">Password</label>
+          <input
+            v-model="form.password"
+            type="password"
+            placeholder="Mot de passe"
+          />
+        </div>
+        <div class="form-part">
+          <label for="">First name</label>
+          <input
+            v-model="form.userData.firstName"
+            type="text"
+            placeholder="Prénom"
+          />
+        </div>
+        <div class="form-part">
+          <label for="">Name</label>
+          <input v-model="form.userData.name" type="text" placeholder="Nom" />
+        </div>
+        <div class="form-part">
+          <label for="">Username</label>
+          <input
+            v-model="form.userData.username"
+            type="text"
+            placeholder="Pseudo"
+          />
+        </div>
+        <div class="form-part">
+          <label for="">Description</label>
+          <input
+            v-model="form.userData.description"
+            type="text"
+            placeholder="Description"
+          />
+        </div>
+        <div class="form-part">
+          <label for="">Profil picture</label>
+          <input type="file" @change="handleFileUpload" />
+        </div>
+        <UiButton text="S'inscrire" type="submit" color="blue" size="large" />
+      </form>
+    </div>
   </div>
-
-  <h1 @click="wantRegister = !wantRegister">
-    {{ wantRegister ? "Retour à la connexion" : "S'inscrire" }}
-  </h1>
 
   <p v-if="loading">Chargement...</p>
   <p v-if="errorMsg">{{ errorMsg }}</p>
 </template>
 
-<style lang="scss"></style>
+<style lang="scss">
+.login-page {
+  padding: 0 20px;
+  > .register-form,
+  .login-form {
+    margin-top: 32px;
+  }
+}
+</style>
