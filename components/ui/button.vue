@@ -3,7 +3,7 @@ interface UiButtonProps {
   text: string;
   to?: string;
   type?: "button" | "submit" | "reset";
-  color?: "blue" | "white";
+  color?: "blue" | "white" | "red";
   disabled?: boolean; // Ajouter la propriété disabled
   size?: "small" | "medium" | "large";
 }
@@ -40,6 +40,10 @@ button {
   &.white {
     background: var(--white);
     color: var(--blue);
+  }
+  &.red {
+    background: var(--red);
+    color: var(--white);
   }
 
   &:disabled {

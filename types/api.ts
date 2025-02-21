@@ -28,7 +28,7 @@ export interface CompleteChallenges {
 }
 
 export interface UserData {
-  firstName: string;
+  first_name: string;
   name: string;
   username: string;
   description: string;

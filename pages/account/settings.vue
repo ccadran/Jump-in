@@ -11,19 +11,21 @@ const { data: userData } = useFetch<UserData>(`/api/users/${user.value?.id}`, {
   key: "userData",
 });
 
+console.log(userData.value);
+
 const form = reactive({
   firstName: "",
   name: "",
   username: "",
   description: "",
-  profilePicture: null as File | null, // Modifier pour accepter un fichier
+  profilePicture: null as File | null,
 });
 
 watch(
   userData,
   (newUserData) => {
     if (newUserData) {
-      form.firstName = newUserData.firstName || "";
+      form.firstName = newUserData.first_name || "";
       form.name = newUserData.name || "";
       form.username = newUserData.username || "";
       form.description = newUserData.description || "";
@@ -55,6 +57,17 @@ async function updateUser() {
     }
   } catch (error: any) {}
 }
+
+const logout = async () => {
+  try {
+    await $fetch("/api/auth/logout", {
+      method: "POST",
+    });
+    navigateTo("/login");
+  } catch (error) {
+    console.error("Erreur de déconnexion", error);
+  }
+};
 
 const handleFileUpload = (event: Event) => {
   const target = event.target as HTMLInputElement;
@@ -108,6 +121,13 @@ const handleFileUpload = (event: Event) => {
       </div>
       <UiButton text="Update" type="submit" size="large" />
     </form>
+    <UiButton
+      text="Disconnect"
+      size="large"
+      color="red"
+      class="disconnect"
+      @click="logout"
+    />
   </div>
 </template>
 
@@ -116,6 +136,7 @@ const handleFileUpload = (event: Event) => {
   padding: 32px 20px 0;
 
   form {
+    margin-bottom: 12px;
     .form-part {
       > .profil-picture-container {
         height: 70px;
