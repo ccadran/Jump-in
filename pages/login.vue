@@ -13,7 +13,7 @@ async function signIn(e: Event) {
     loading.value = true;
     errorMsg.value = "";
 
-    const { data } = useFetch("/api/auth/login", {
+    const { data, error } = await useFetch("/api/auth/login", {
       method: "POST",
       body: {
         email: formIn.email,
@@ -21,7 +21,13 @@ async function signIn(e: Event) {
       },
     });
 
-    await navigateTo("/");
+    if (error.value) {
+      throw new Error(error.value.message);
+    }
+
+    if (data.value) {
+      await navigateTo("/");
+    }
   } catch (error: any) {
     errorMsg.value = error.message;
   } finally {
