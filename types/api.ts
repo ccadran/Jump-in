@@ -35,6 +35,16 @@ export interface UserData {
   profil_picture: string;
 }
 
+export interface userRanking {
+  firstName: string;
+  name: string;
+  username: string;
+  description: string;
+  profil_picture: string;
+  challenges_completed: number;
+  user_id: string;
+}
+
 export interface LoginPayload {
   email: string;
   password: string;
