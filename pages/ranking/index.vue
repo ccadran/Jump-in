@@ -69,6 +69,13 @@ console.log(topUsersByGuild.value);
           </div>
         </div>
       </div>
+      <div class="top-users-guilds">
+        <h4>Top users by guilds</h4>
+        <RankingGuildranking
+          v-for="topUsers in topUsersByGuild"
+          :topUsers="topUsers"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -120,6 +127,12 @@ console.log(topUsersByGuild.value);
             }
           }
         }
+      }
+    }
+    > .top-users-guilds {
+      margin-top: 42px;
+      > h4 {
+        margin-bottom: 18px;
       }
     }
   }
