@@ -39,4 +39,4 @@ jobs:
         uses: nuxt-hub/action@v1
         id: deploy
         with:
-          project-key: jump-in-atj1
+          project-key: jump-in-oj32
