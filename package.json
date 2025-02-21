@@ -13,6 +13,7 @@
   "dependencies": {
     "@nuxthub/core": "^0.8.17",
     "@nuxtjs/supabase": "^1.4.6",
+    "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.48.1",
     "gsap": "^3.12.7",
     "nuxt": "^3.15.4",
