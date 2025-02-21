@@ -5,10 +5,10 @@ export default defineEventHandler(async (event) => {
   const client = await serverSupabaseClient<Database>(event);
 
   try {
-    // Récupérer les défis complétés avec les informations sur les utilisateurs et les défis
+    // Récupérer les défis complétés avec les informations sur les utilisateurs, les défis et les guildes
     const { data: completedChallenges, error: challengeError } = await client
       .from("complete_challenges")
-      .select("user_id, users(*), challenges(guild)")
+      .select("user_id, users(*), challenges(guild, guilds(name))")
       .not("user_id", "is", null);
 
     if (challengeError) {
@@ -31,6 +31,23 @@ export default defineEventHandler(async (event) => {
       {}
     );
 
+    // Récupérer les noms des guildes
+    const guildIds = Object.keys(guildUserChallengeCounts);
+    const { data: guilds, error: guildError } = await client
+      .from("guilds")
+      .select("id, name")
+      .in("id", guildIds);
+
+    if (guildError) {
+      throw createError({ statusCode: 500, message: guildError.message });
+    }
+
+    // Créer un mapping des guildes pour accéder facilement à leur nom
+    const guildMap = guilds.reduce((acc, guild) => {
+      acc[guild.id] = guild.name;
+      return acc;
+    }, {} as { [key: string]: string });
+
     // Trier les utilisateurs par nombre de défis complétés dans chaque guilde
     const sortedGuildUsers = Object.entries(guildUserChallengeCounts).map(
       ([guild, userCounts]) => {
@@ -40,6 +57,7 @@ export default defineEventHandler(async (event) => {
 
         return {
           guild,
+          guild_name: guildMap[guild] || "Unknown Guild", // Ajouter le nom de la guilde
           users: sortedUsers
             .map((sortedUser) => {
               const user = completedChallenges.find(
