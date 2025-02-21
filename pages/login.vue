@@ -197,7 +197,7 @@ const handleSwitchChange = (side: "left" | "right") => {
 
 <style lang="scss">
 .login-page {
-  padding: 0 20px;
+  padding: 0 20px 92px;
   > .register-form,
   .login-form {
     margin-top: 32px;

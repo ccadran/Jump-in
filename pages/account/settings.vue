@@ -133,7 +133,7 @@ const handleFileUpload = (event: Event) => {
 
 <style lang="scss">
 .settings-page {
-  padding: 32px 20px 72px;
+  padding: 32px 20px 92px;
 
   form {
     margin-bottom: 12px;

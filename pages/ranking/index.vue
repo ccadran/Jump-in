@@ -81,7 +81,7 @@ console.log(topUsersByGuild.value);
 </template>
 <style lang="scss">
 .ranking-page {
-  padding: 0 20px;
+  padding: 0 20px 92px;
 
   .rankings-container {
     .top-users-ranking {
