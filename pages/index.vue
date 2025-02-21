@@ -30,6 +30,11 @@ const otherGuilds = computed(() => {
     return !userGuilds.value?.find((userGuild) => userGuild.id === guild.id);
   });
 });
+
+onMounted(() => {
+  refreshNuxtData("allGuilds");
+  refreshNuxtData("userGuilds");
+});
 </script>
 
 <template>
