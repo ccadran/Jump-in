@@ -39,7 +39,7 @@ const handleGuildSubmit = async (e: Event) => {
     (document.querySelector('input[type="file"]') as HTMLInputElement).value =
       "";
   } catch (error) {
-    console.error("Erreur:", error);
+    console.log("Erreur:", error);
   }
 };
 

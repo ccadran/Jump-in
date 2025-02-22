@@ -51,7 +51,7 @@ const switchSortValue = (value: "newest" | "oldest") => {
       </a>
     </div>
     <div class="global-hero">
-      <h1>Home</h1>
+      <h1>ACTIVITY</h1>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus eos
         rerum aliquam dignissimos nulla soluta quasi dolor totam similique. Eos

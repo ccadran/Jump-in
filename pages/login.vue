@@ -26,7 +26,9 @@ async function signIn(e: Event) {
     }
 
     if (data.value) {
-      await navigateTo("/");
+      console.log("___________", data.value);
+
+      await navigateTo("/ranking");
     }
   } catch (error: any) {
     errorMsg.value = error.message;
@@ -84,7 +86,6 @@ async function signUp() {
       form.userData.profilePicture = null;
 
       wantRegister.value = false;
-      navigateTo("/login");
     }
   } catch (error: any) {
     errorMsg.value = error.message;
@@ -105,6 +106,8 @@ const handleFileUpload = (event: Event) => {
 const handleSwitchChange = (side: "left" | "right") => {
   wantRegister.value = side === "right";
 };
+
+onMounted;
 </script>
 
 <template>
