@@ -1,75 +1,110 @@
 import { serverSupabaseClient } from "#supabase/server";
-import { readMultipartFormData } from "h3"; // Import correct pour traiter FormData
+import { readMultipartFormData } from "h3";
 import type { Database } from "~/types/supabase";
 
 export default eventHandler(async (event) => {
   try {
-    const client = await serverSupabaseClient<Database>(event);
-    const formData = await readMultipartFormData(event); // Lire FormData
+    console.log("=== Début du traitement ===");
 
-    console.log("FormData:", formData);
+    const client = await serverSupabaseClient<Database>(event);
+    console.log("Supabase client initialisé");
+
+    const formData = await readMultipartFormData(event);
+    console.log("FormData reçue:", formData?.length, "champs");
 
     if (!formData) throw new Error("FormData is empty");
 
     const guildData: any = {};
-    let coverFile: File | null = null;
+    let fileData: Buffer | null = null;
+    let fileType: string | null = null;
+    let fileName: string | null = null;
+
+    // Stockez les données du fichier directement
     for (const field of formData) {
       if (field.name === "cover" && field.data) {
-        coverFile = new File([field.data], field.filename || "cover", {
-          type: field.type,
+        fileData = field.data;
+        fileType = field.type ?? null;
+        fileName = field.filename ?? null;
+        console.log("Cover file info:", {
+          fileType,
+          fileName,
+          size: field.data.length,
         });
-        console.log("coverFile", coverFile);
       } else {
         if (field.name) {
           guildData[field.name] = field.data.toString();
-          console.log("field.name", field.name, guildData[field.name]);
+          console.log("Field data:", {
+            name: field.name,
+            value: guildData[field.name],
+          });
         }
       }
     }
 
     let coverUrl: string | null = null;
+    if (fileData) {
+      const uniqueFileName = `${Date.now()}-${fileName || "cover"}`;
+      const filePath = `guilds/${uniqueFileName}`;
 
-    if (coverFile) {
-      const fileName = `${Date.now()}-${coverFile.name}`;
-      const filePath = `guilds/${fileName}`;
-
-      console.log("___FILE___", coverFile);
+      console.log("Préparation upload:", {
+        filePath,
+        fileType,
+        fileSize: fileData.length,
+      });
 
       const { error: uploadError } = await client.storage
-        .from("jump-in") // Le bucket 'jump-in' ici
-        .upload(filePath, coverFile, {
+        .from("jump-in")
+        .upload(filePath, fileData, {
+          contentType: fileType || "application/octet-stream",
           cacheControl: "3600",
           upsert: false,
         });
 
-      console.log("___uploadError___", uploadError);
+      if (uploadError) {
+        console.error("Erreur upload:", uploadError);
+        throw uploadError;
+      }
 
-      if (uploadError) throw uploadError;
+      console.log("Upload réussi, génération URL publique");
 
       coverUrl = client.storage.from("jump-in").getPublicUrl(filePath)
         .data.publicUrl;
+
+      console.log("URL générée:", coverUrl);
     }
 
-    console.log("___guildData___", guildData);
+    console.log("Préparation données guild:", guildData);
 
     const { data, error } = await client
       .from("guilds")
       .insert({
         name: guildData.name,
-        cover: coverUrl || "", // L'URL de la cover ici
+        cover: coverUrl || "",
         description: guildData.description,
         owner_id: guildData.owner_id,
       })
       .select();
 
-    if (error) throw error;
+    if (error) {
+      console.error("Erreur insertion BD:", error);
+      throw error;
+    }
 
+    console.log("Insertion réussie:", data);
     return { data };
-  } catch (error) {
-    console.error("Error inserting data:", error);
+  } catch (error: any) {
+    console.error("Erreur détaillée:", {
+      message: error.message,
+      stack: error.stack,
+      // Si c'est une erreur Supabase
+      supabaseError: error.error,
+      statusCode: error.statusCode,
+    });
+
     return createError({
       statusCode: 500,
-      statusMessage: "Erreur lors de l'insertion des données",
+      statusMessage: `Erreur: ${error.message}`,
+      data: { error: error.message },
     });
   }
 });
