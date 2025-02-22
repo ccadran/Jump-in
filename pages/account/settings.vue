@@ -51,10 +51,6 @@ async function updateUser() {
       method: "POST",
       body: formData,
     });
-
-    if (data.value) {
-      navigateTo("/login");
-    }
   } catch (error: any) {}
 }
 
