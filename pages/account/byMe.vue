@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { Challenges, Guilds } from "~/types/api";
+import { CompleteChallenges, type Challenges, type Guilds } from "~/types/api";
 definePageMeta({
   layout: "account",
 });
@@ -9,8 +9,14 @@ const showMyGuilds = ref(true);
 const searchQuery = ref("");
 const sortOrder = ref<"newest" | "oldest">("newest"); // Par défaut, tri du plus récent au plus ancien
 const sortOptions = ref<HTMLElement | null>(null);
-const handleSwitchChange = (side: "left" | "right") => {
+const showCompletedChallenges = ref(false);
+const handleSwitchChange = (side: "left" | "right" | "third") => {
   showMyGuilds.value = side === "left";
+  showCompletedChallenges.value = side === "third";
+
+  console.log("showMyGuilds", showMyGuilds.value);
+  console.log("showCompletedChallenges", showCompletedChallenges.value);
+
   searchQuery.value = "";
 };
 
@@ -28,11 +34,21 @@ const { data: createdChallenge } = useFetch<Challenges[]>(
   }
 );
 
+const { data: completedChallenges } = useFetch<CompleteChallenges[]>(
+  `/api/users/challenges/complete/${user.value?.id}`,
+  {
+    key: "completedChallenges",
+  }
+);
+
 const handleGuildDelete = () => {
   refreshNuxtData("createdGuilds");
 };
 const handleChallengeDelete = () => {
   refreshNuxtData("createdChallenge");
+};
+const handleCompleteChallengeDelete = () => {
+  refreshNuxtData("completedChallenges");
 };
 
 // Filtrage et tri des guildes
@@ -62,6 +78,24 @@ const filteredChallenges = computed(() => {
   if (searchQuery.value) {
     result = result.filter((challenge) =>
       challenge.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+    );
+  }
+
+  // Tri par date de création
+  return result.sort((a, b) => {
+    return sortOrder.value === "newest"
+      ? new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      : new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+  });
+});
+
+const filteredChallengesComplete = computed(() => {
+  let result = completedChallenges.value || [];
+
+  // Filtrage par nom
+  if (searchQuery.value) {
+    result = result.filter((guild) =>
+      guild.title.toLowerCase().includes(searchQuery.value.toLowerCase())
     );
   }
 
@@ -133,12 +167,26 @@ const switchSortValue = (value: "newest" | "oldest") => {
             @guildDeleted="handleGuildDelete"
           />
         </div>
-        <div v-if="!showMyGuilds" class="challenges-container">
+        <div
+          v-if="!showMyGuilds && !showCompletedChallenges"
+          class="challenges-container"
+        >
           <AccountCreatedChallengeCard
             v-for="challenge in filteredChallenges"
             :key="challenge.id"
             :data="challenge"
             @challengeDeleted="handleChallengeDelete"
+          />
+        </div>
+        <div
+          class="completed-challenges-container"
+          v-if="showCompletedChallenges"
+        >
+          <AccountCreatedCompletedChallengeCard
+            v-for="challenge in filteredChallengesComplete"
+            :key="challenge.id"
+            :data="challenge"
+            @challengeCompletedDeleted="handleCompleteChallengeDelete"
           />
         </div>
       </div>

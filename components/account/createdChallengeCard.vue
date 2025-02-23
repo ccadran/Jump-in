@@ -116,7 +116,7 @@ const deleteChallenge = async (challengeId: string) => {
   }
 }
 .bluredBackground {
-  //   display: none;
+  display: none;
   height: 100vh;
   width: 100vw;
   position: fixed;
