@@ -4,17 +4,31 @@ import gsap from "gsap";
 interface UiSwitchProps {
   leftText: string;
   rightText: string;
+  thirdText?: string;
 }
 const props = defineProps<UiSwitchProps>();
-const emit = defineEmits(["switchChange"]); // Déclarez l'émetteur
+const emit = defineEmits(["switchChange"]);
 
-const switchSide = ref<"left" | "right">("left");
+const switchSide = ref<"left" | "right" | "third">("left");
 const backgroundOn = ref<HTMLDivElement | null>(null);
 
 const toggleSwitch = (side: string) => {
-  switchSide.value = side as "left" | "right";
+  switchSide.value = side as "left" | "right" | "third";
+  let positionX = 0;
+  switch (side) {
+    case "left":
+      positionX = 0;
+      break;
+    case "right":
+      props.thirdText ? (positionX = 115) : (positionX = 130);
+      break;
+    case "third":
+      props.thirdText ? (positionX = 230) : (positionX = 260);
+
+      break;
+  }
   gsap.to(backgroundOn.value, {
-    x: switchSide.value === "left" ? 0 : 130,
+    x: positionX,
     duration: 0.3,
     ease: "power2.inOut",
   });
@@ -23,7 +37,7 @@ const toggleSwitch = (side: string) => {
 </script>
 
 <template>
-  <div class="switch">
+  <div class="switch" :class="props.thirdText ? 'three-sides' : ''">
     <div
       @click="toggleSwitch('left')"
       class="switch-side"
@@ -37,6 +51,14 @@ const toggleSwitch = (side: string) => {
       :class="switchSide == 'right' ? 'active' : ''"
     >
       <span>{{ props.rightText }}</span>
+    </div>
+    <div
+      v-if="props.thirdText"
+      @click="toggleSwitch('third')"
+      class="switch-side"
+      :class="switchSide == 'third' ? 'active' : ''"
+    >
+      <span>{{ props.thirdText }}</span>
     </div>
     <div ref="backgroundOn" class="background-on"></div>
   </div>
@@ -70,6 +92,15 @@ const toggleSwitch = (side: string) => {
     position: absolute;
     z-index: 0;
     border-radius: 24px;
+  }
+  &.three-sides {
+    width: 345px;
+    > .switch-side {
+      width: 115px;
+    }
+    > .background-on {
+      width: 115px;
+    }
   }
 }
 </style>

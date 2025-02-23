@@ -51,6 +51,7 @@ async function updateUser() {
       method: "POST",
       body: formData,
     });
+    form.profilePicture = null;
   } catch (error: any) {}
 }
 

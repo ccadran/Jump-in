@@ -90,6 +90,7 @@ const switchSortValue = (value: "newest" | "oldest") => {
       <UiSwitch
         leftText="Guilds"
         rightText="Challenges"
+        thirdText="Completed"
         @switchChange="handleSwitchChange"
       />
 
