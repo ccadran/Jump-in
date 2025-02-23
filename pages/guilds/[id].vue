@@ -181,7 +181,9 @@ const switchSortValue = (value: "newest" | "oldest") => {
       <p class="members">{{ `${countMember?.userCount} members` }}</p>
       <p>{{ guildData!.description }}</p>
       <div class="ranking-challenge">
-        <a class="link" href="">Voir le classement</a>
+        <a class="link" :href="`/ranking/${guildData?.id}`"
+          >Voir le classement</a
+        >
         <UiButton text="New challenge +" @click="toggleModal" />
       </div>
       <div class="filters">
