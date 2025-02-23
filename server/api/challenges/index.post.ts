@@ -4,13 +4,9 @@ import type { Database } from "~/types/supabase";
 
 export default eventHandler(async (event) => {
   try {
-    console.log("=== Début du traitement ===");
-
     const client = await serverSupabaseClient<Database>(event);
-    console.log("Supabase client initialisé");
 
     const formData = await readMultipartFormData(event);
-    console.log("FormData reçue:", formData?.length, "champs");
 
     if (!formData) throw new Error("FormData is empty");
 
@@ -61,19 +57,12 @@ export default eventHandler(async (event) => {
         });
 
       if (uploadError) {
-        console.error("Erreur upload:", uploadError);
         throw uploadError;
       }
 
-      console.log("Upload réussi, génération URL publique");
-
       coverUrl = client.storage.from("jump-in").getPublicUrl(filePath)
         .data.publicUrl;
-
-      console.log("URL générée:", coverUrl);
     }
-
-    console.log("Préparation données challenge:", challengeData);
 
     const { data, error } = await client
       .from("challenges")
@@ -87,11 +76,9 @@ export default eventHandler(async (event) => {
       .select();
 
     if (error) {
-      console.error("Erreur insertion BD:", error);
       throw error;
     }
 
-    console.log("Insertion réussie:", data);
     return { data };
   } catch (error: Error | any) {
     console.error("Erreur détaillée:", {

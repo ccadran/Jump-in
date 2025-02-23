@@ -41,7 +41,6 @@ export default defineEventHandler(async (event) => {
 
     return enrichedUsers;
   } catch (error) {
-    console.error("Error in API route:", error);
     return createError({ statusCode: 500, message: "Internal Server Error" });
   }
 });

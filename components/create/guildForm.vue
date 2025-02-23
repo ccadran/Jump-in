@@ -10,7 +10,6 @@ const formData = ref({
 
 const handleGuildSubmit = async (e: Event) => {
   e.preventDefault();
-  console.log("____formData", formData.value);
 
   const formDataToSend = new FormData();
   formDataToSend.append("name", formData.value.name);
@@ -26,7 +25,6 @@ const handleGuildSubmit = async (e: Event) => {
       method: "POST",
       body: formDataToSend,
     });
-    console.log("Response", response);
 
     refreshNuxtData("guilds");
 
@@ -38,16 +36,13 @@ const handleGuildSubmit = async (e: Event) => {
 
     (document.querySelector('input[type="file"]') as HTMLInputElement).value =
       "";
-  } catch (error) {
-    console.log("Erreur:", error);
-  }
+  } catch (error) {}
 };
 
 const handleFileUpload = (event: Event) => {
   const target = event.target as HTMLInputElement;
   if (target.files?.length) {
     formData.value.cover = target.files[0];
-    console.log("File", formData.value.cover);
   }
 };
 </script>

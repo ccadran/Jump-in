@@ -8,7 +8,6 @@ interface topUsers {
 
 const route = useRoute();
 const guildId = route.params.guild;
-console.log(guildId);
 
 const { data: guildData, error } = useFetch<Guilds>(`/api/guilds/${guildId}`, {
   key: "guild",
@@ -20,8 +19,6 @@ const { data: guildTopUsers } = useFetch<topUsers>(
     key: "guildTopUsers",
   }
 );
-console.log(guildTopUsers);
-console.log("tesssst");
 
 const guildUsers = computed(() => {
   const users = guildTopUsers.value?.users;
@@ -50,8 +47,6 @@ const guildUsers = computed(() => {
     };
   });
 });
-
-console.log(guildUsers.value);
 </script>
 
 <template>

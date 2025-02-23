@@ -4,13 +4,9 @@ import type { Database } from "~/types/supabase";
 
 export default eventHandler(async (event) => {
   try {
-    console.log("=== Début du traitement ===");
-
     const client = await serverSupabaseClient<Database>(event);
-    console.log("Supabase client initialisé");
 
     const formData = await readMultipartFormData(event);
-    console.log("FormData reçue:", formData?.length, "champs");
 
     if (!formData) throw new Error("FormData is empty");
 
@@ -39,14 +35,12 @@ export default eventHandler(async (event) => {
       }
     }
 
-    console.log("Création du compte utilisateur");
     const { data: authData, error: authError } = await client.auth.signUp({
       email: userData.email,
       password: userData.password,
     });
 
     if (authError) {
-      console.error("Erreur création compte:", authError);
       throw authError;
     }
 
@@ -70,16 +64,11 @@ export default eventHandler(async (event) => {
         });
 
       if (uploadError) {
-        console.error("Erreur upload photo:", uploadError);
         throw uploadError;
       }
 
-      console.log("Upload réussi, génération URL publique");
-
       profilePictureUrl = client.storage.from("jump-in").getPublicUrl(filePath)
         .data.publicUrl;
-
-      console.log("URL générée:", profilePictureUrl);
     }
 
     console.log("Préparation données utilisateur:", {
@@ -101,11 +90,9 @@ export default eventHandler(async (event) => {
       .select();
 
     if (error) {
-      console.error("Erreur insertion utilisateur:", error);
       throw error;
     }
 
-    console.log("Création utilisateur réussie:", data);
     return { data };
   } catch (error: any) {
     console.error("Erreur détaillée:", {

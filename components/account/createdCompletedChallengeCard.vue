@@ -15,7 +15,6 @@ const emit = defineEmits(["challengeCompletedDeleted"]);
 const { data: challengeData } = useFetch<Challenges>(
   `/api/challenges/${props.data.challenge_id}`
 );
-console.log("____challengeData", challengeData);
 
 const deleteChallenge = async (challengeId: string) => {
   try {
@@ -28,11 +27,7 @@ const deleteChallenge = async (challengeId: string) => {
     });
     emit("challengeCompletedDeleted", challengeId);
     showModal.value = false;
-
-    console.log("Challenge delete", response);
-  } catch (error) {
-    console.error("Erreur de suppression", error);
-  }
+  } catch (error) {}
 };
 </script>
 

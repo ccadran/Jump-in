@@ -12,9 +12,7 @@ const { data: memberGuilds } = useFetch<Guilds[]>(
   }
 );
 
-console.log(memberGuilds);
 const handleGuildLeave = (guildId: string) => {
-  console.log("leave", guildId);
   refreshNuxtData("memberGuilds");
 };
 </script>

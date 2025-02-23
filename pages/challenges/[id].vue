@@ -57,9 +57,7 @@ try {
     body: { userId: user.value!.id, challengeId: challengeId },
   });
   isComplete.value = typeof response === "boolean" ? response : false;
-} catch (error) {
-  console.error("Erreur de vérification de complétion", error);
-}
+} catch (error) {}
 
 const completeChallengeSubmit = async (e: Event) => {
   e.preventDefault();
@@ -92,9 +90,7 @@ const completeChallengeSubmit = async (e: Event) => {
 
     (document.querySelector('input[type="file"]') as HTMLInputElement).value =
       "";
-  } catch (error) {
-    console.error("Erreur:", error);
-  }
+  } catch (error) {}
 };
 
 const handleFileUpload = (event: Event) => {

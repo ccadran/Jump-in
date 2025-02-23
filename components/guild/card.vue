@@ -13,11 +13,9 @@ const joinGuild = async (guildId: string) => {
       method: "POST",
       body: { userId: user.value!.id, guildId: guildId },
     });
-    console.log("Ajouté à la guilde", response);
+
     emit("guildJoined", guildId);
-  } catch (error) {
-    console.error("Erreur d'ajout", error);
-  }
+  } catch (error) {}
 };
 
 const props = defineProps<GuildCardProps>();

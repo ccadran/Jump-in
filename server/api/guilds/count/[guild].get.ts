@@ -21,7 +21,6 @@ export default eventHandler(async (event) => {
 
     return { userCount: count };
   } catch (error) {
-    console.error("Error counting guild users:", error);
     return createError({
       statusCode: 500,
       statusMessage: "Erreur lors du comptage des utilisateurs",

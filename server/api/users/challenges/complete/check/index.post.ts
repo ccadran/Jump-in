@@ -4,9 +4,6 @@ import { Database } from "~/types/supabase";
 export default defineEventHandler(async (event) => {
   const { userId, challengeId } = await readBody(event);
 
-  console.log("userId", userId);
-  console.log("challengeId", challengeId);
-
   const client = await serverSupabaseClient<Database>(event);
   const { data, error } = await client
     .from("complete_challenges")
@@ -19,7 +16,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const isComplete = data && data.length > 0; // ✅ Vérification correcte
-  console.log("isComplete:", isComplete); // Debug correct
+  // Debug correct
 
   return isComplete;
 });

@@ -22,8 +22,6 @@ async function signIn(e: Event) {
 
     if (data.value) {
       const user = useSupabaseUser();
-
-      console.log(user.value);
     }
   } catch (error: any) {
     errorMsg.value = error.message;
@@ -34,8 +32,6 @@ async function signIn(e: Event) {
 
 const logUser = () => {
   const user = useSupabaseUser();
-
-  console.log(user.value);
 };
 </script>
 

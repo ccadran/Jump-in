@@ -48,7 +48,6 @@ describe("DELETE /api/challenges", () => {
 
     // Vérification que la réponse contient l'objet supprimé
     expect(data).toBeDefined();
-    console.log(data);
 
     expect(data![0].id).toBe("1");
     expect(data![0].name).toBe("Challenge Test");

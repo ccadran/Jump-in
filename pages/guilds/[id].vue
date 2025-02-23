@@ -58,9 +58,7 @@ try {
     body: { userId: user.value!.id, guildId: guildId },
   });
   isMember.value = typeof response === "boolean" ? response : false;
-} catch (error) {
-  console.error("Erreur de vérification d'adhésion", error);
-}
+} catch (error) {}
 
 const joinGuild = async (guildId: string) => {
   try {
@@ -68,11 +66,9 @@ const joinGuild = async (guildId: string) => {
       method: "POST",
       body: { userId: user.value!.id, guildId: guildId },
     });
-    console.log("Ajouté à la guilde", response);
+
     isMember.value = true;
-  } catch (error) {
-    console.error("Erreur d'ajout", error);
-  }
+  } catch (error) {}
 };
 
 async function leaveGuild(guildId: string) {
@@ -81,17 +77,14 @@ async function leaveGuild(guildId: string) {
       method: "DELETE",
       body: { userId: user.value!.id, guildId: guildId },
     });
-    console.log("Retiré de la guilde", response);
+
     isMember.value = false;
     refreshNuxtData("guilds");
-  } catch (error) {
-    console.error("Erreur de suppression", error);
-  }
+  } catch (error) {}
 }
 
 const toggleModal = () => {
   showModal.value = !showModal.value;
-  console.log("____showModal", showModal.value);
 
   if (bluredBackground.value) {
     bluredBackground.value.style.display = showModal.value ? "block" : "none";
@@ -100,7 +93,6 @@ const toggleModal = () => {
 
 const newChallengeSubmit = async (e: Event) => {
   e.preventDefault();
-  console.log("____formData", formNewChallenge.value);
 
   const formDataToSend = new FormData();
   formDataToSend.append("name", formNewChallenge.value.name);
@@ -117,7 +109,6 @@ const newChallengeSubmit = async (e: Event) => {
       method: "POST",
       body: formDataToSend,
     });
-    console.log("Response", response);
 
     refreshNuxtData("guilds");
 
@@ -129,17 +120,12 @@ const newChallengeSubmit = async (e: Event) => {
 
     (document.querySelector('input[type="file"]') as HTMLInputElement).value =
       "";
-  } catch (error) {
-    console.error("Erreur:", error);
-  }
+  } catch (error) {}
 };
 const handleFileUpload = (event: Event) => {
-  console.log("____test");
-
   const target = event.target as HTMLInputElement;
   if (target.files?.length) {
     formNewChallenge.value.cover = target.files[0];
-    console.log("File", formNewChallenge.value.cover);
   }
 };
 

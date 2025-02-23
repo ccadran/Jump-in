@@ -16,7 +16,6 @@ const { data: dataGuilds } = useFetch<Guilds[]>(
     key: "guilds",
   }
 );
-console.log("___________", dataGuilds.value);
 
 const handleChallengeSubmit = async (e: Event) => {
   e.preventDefault();
@@ -27,8 +26,6 @@ const handleChallengeSubmit = async (e: Event) => {
   formDataToSend.append("guild", formData.value.guild);
   formDataToSend.append("created_by", user.value?.id || "");
 
-  console.log(user.value?.id);
-
   if (formData.value.cover) {
     formDataToSend.append("cover", formData.value.cover); // Ajouter le fichier
   }
@@ -38,7 +35,6 @@ const handleChallengeSubmit = async (e: Event) => {
       method: "POST",
       body: formDataToSend,
     });
-    console.log("Response", response);
 
     refreshNuxtData("challenges");
 
@@ -51,17 +47,12 @@ const handleChallengeSubmit = async (e: Event) => {
 
     (document.querySelector('input[type="file"]') as HTMLInputElement).value =
       "";
-  } catch (error) {
-    console.error("Erreur:", error);
-  }
+  } catch (error) {}
 };
 const handleFileUpload = (event: Event) => {
-  console.log("____test");
-
   const target = event.target as HTMLInputElement;
   if (target.files?.length) {
     formData.value.cover = target.files[0];
-    console.log("File", formData.value.cover);
   }
 };
 </script>

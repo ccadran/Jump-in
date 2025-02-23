@@ -20,11 +20,7 @@ const deleteChallenge = async (challengeId: string) => {
       method: "DELETE",
     });
     emit("challengeDeleted", challengeId);
-
-    console.log("Challenge delete", response);
-  } catch (error) {
-    console.error("Erreur de suppression", error);
-  }
+  } catch (error) {}
 };
 </script>
 

@@ -19,7 +19,6 @@ export default eventHandler(async (event) => {
 
     return { success: true, data };
   } catch (error) {
-    console.error("Error deleting guild:", error);
     return createError({
       statusCode: 500,
       statusMessage: "Erreur lors de la suppression de la guild",

@@ -5,7 +5,6 @@ export default eventHandler(async (event) => {
     const client = await serverSupabaseClient(event);
 
     const id = getRouterParam(event, "id");
-    console.log("_____ID_____", id);
 
     if (!id) {
       throw createError({
@@ -18,7 +17,6 @@ export default eventHandler(async (event) => {
       .from("challenges")
       .select()
       .eq("guild", id);
-    console.log("_____ERROR_____", error);
 
     if (error) throw error;
 

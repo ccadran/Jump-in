@@ -1,5 +1,9 @@
 <script lang="ts" setup>
-import { CompleteChallenges, type Challenges, type Guilds } from "~/types/api";
+import {
+  type CompleteChallenges,
+  type Challenges,
+  type Guilds,
+} from "~/types/api";
 definePageMeta({
   layout: "account",
 });
@@ -13,9 +17,6 @@ const showCompletedChallenges = ref(false);
 const handleSwitchChange = (side: "left" | "right" | "third") => {
   showMyGuilds.value = side === "left";
   showCompletedChallenges.value = side === "third";
-
-  console.log("showMyGuilds", showMyGuilds.value);
-  console.log("showCompletedChallenges", showCompletedChallenges.value);
 
   searchQuery.value = "";
 };

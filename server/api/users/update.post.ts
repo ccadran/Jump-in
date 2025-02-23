@@ -4,13 +4,9 @@ import type { Database } from "~/types/supabase";
 
 export default eventHandler(async (event) => {
   try {
-    console.log("=== Début de la mise à jour ===");
-
     const client = await serverSupabaseClient<Database>(event);
-    console.log("Supabase client initialisé");
 
     const formData = await readMultipartFormData(event);
-    console.log("FormData reçue:", formData?.length, "champs");
 
     if (!formData) throw new Error("FormData is empty");
 
@@ -42,7 +38,6 @@ export default eventHandler(async (event) => {
     const { userId, firstName, name, username, description } = userData;
 
     if (!userId) {
-      console.error("User ID manquant");
       throw new Error("User ID is required");
     }
 
@@ -66,16 +61,11 @@ export default eventHandler(async (event) => {
         });
 
       if (uploadError) {
-        console.error("Erreur upload photo:", uploadError);
         throw uploadError;
       }
 
-      console.log("Upload réussi, génération URL publique");
-
       profilePictureUrl = client.storage.from("jump-in").getPublicUrl(filePath)
         .data.publicUrl;
-
-      console.log("URL générée:", profilePictureUrl);
     }
 
     console.log("Préparation mise à jour utilisateur:", {
@@ -98,11 +88,9 @@ export default eventHandler(async (event) => {
       .select();
 
     if (error) {
-      console.error("Erreur mise à jour utilisateur:", error);
       throw error;
     }
 
-    console.log("Mise à jour utilisateur réussie:", data);
     return { data };
   } catch (error: any) {
     console.error("Erreur détaillée:", {

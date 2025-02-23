@@ -5,12 +5,10 @@ interface challengeCompleteCardProps {
   data: CompleteChallenges;
 }
 const props = defineProps<challengeCompleteCardProps>();
-console.log(props.data);
 
 const { data: challengeData } = useFetch<Challenges>(
   `/api/challenges/${props.data.challenge_id}`
 );
-console.log("____challengeData", challengeData);
 </script>
 
 <template>

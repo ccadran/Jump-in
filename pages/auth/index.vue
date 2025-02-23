@@ -78,9 +78,7 @@ async function signOut() {
       method: "POST",
     });
     navigateTo("/login");
-  } catch (error: any) {
-    console.error("Logout error:", error);
-  }
+  } catch (error: any) {}
 }
 
 // Gérer l'upload de la photo de profil

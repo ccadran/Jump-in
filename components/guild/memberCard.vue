@@ -6,7 +6,6 @@ interface GuildCardProps {
 }
 
 const props = defineProps<GuildCardProps>();
-console.log("GuildCard", props.data);
 </script>
 
 <template>

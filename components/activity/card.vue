@@ -7,9 +7,8 @@ interface challengeCardProps {
 }
 
 const props = defineProps<challengeCardProps>();
-console.log(props.data.guild);
+
 const { data: guildData } = useFetch<Guilds>(`/api/guilds/${props.data.guild}`);
-console.log(guildData.value?.name);
 </script>
 
 <template>

@@ -14,14 +14,9 @@ try {
     method: "POST",
     body: { userId: user.value!.id, challengeId: props.data.id },
   });
-  console.log("response", response);
 
   isSaved.value = typeof response === "boolean" ? response : false;
-} catch (error) {
-  console.error("Erreur de vérification d'adhésion", error);
-}
-
-console.log("isSaved", isSaved.value);
+} catch (error) {}
 
 const saveChallenge = async (challengeId: string) => {
   try {
@@ -30,10 +25,7 @@ const saveChallenge = async (challengeId: string) => {
       body: { userId: user.value!.id, challengeId: challengeId },
     });
     isSaved.value = true;
-    console.log("Ajouté à challenge save", response);
-  } catch (error) {
-    console.error("Erreur d'ajout", error);
-  }
+  } catch (error) {}
 };
 
 async function unsaveChallenge(challengeId: string) {
@@ -43,9 +35,7 @@ async function unsaveChallenge(challengeId: string) {
       body: { userId: user.value!.id, challengeId: challengeId },
     });
     isSaved.value = false;
-  } catch (error) {
-    console.error("Erreur de suppression", error);
-  }
+  } catch (error) {}
 }
 </script>
 

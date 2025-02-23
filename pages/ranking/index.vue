@@ -31,10 +31,7 @@ const topUsers = computed(() => {
   });
 });
 
-console.log(topUsers.value);
-
 const { data: topUsersByGuild } = useFetch("/api/ranking/guilds");
-console.log(topUsersByGuild.value);
 </script>
 
 <template>

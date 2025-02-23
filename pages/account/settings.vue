@@ -11,8 +11,6 @@ const { data: userData } = useFetch<UserData>(`/api/users/${user.value?.id}`, {
   key: "userData",
 });
 
-console.log(userData.value);
-
 const form = reactive({
   firstName: "",
   name: "",
@@ -61,9 +59,7 @@ const logout = async () => {
       method: "POST",
     });
     navigateTo("/login");
-  } catch (error) {
-    console.error("Erreur de déconnexion", error);
-  }
+  } catch (error) {}
 };
 
 const handleFileUpload = (event: Event) => {

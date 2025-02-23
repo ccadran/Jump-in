@@ -31,7 +31,6 @@ describe("POST /api/auth/login", () => {
 
     // Vérifier que la réponse contient les données attendues
     expect(data).toBeDefined();
-    console.log(data);
 
     expect(data.user!.id).toBe("123");
     expect(data.user!.email).toBe("test@example.com");

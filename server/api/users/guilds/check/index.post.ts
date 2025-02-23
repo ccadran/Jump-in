@@ -4,9 +4,6 @@ import { Database } from "~/types/supabase";
 export default defineEventHandler(async (event) => {
   const { userId, guildId } = await readBody(event);
 
-  console.log("userId", userId);
-  console.log("guildId", guildId);
-
   const client = await serverSupabaseClient<Database>(event);
   const { data, error } = await client
     .from("user_guilds")
@@ -15,7 +12,6 @@ export default defineEventHandler(async (event) => {
     .eq("guild_id", guildId);
 
   const isMember = data ? true : false;
-  console.log(isMember);
 
   if (error) {
     return createError({ statusCode: 500, message: error.message });

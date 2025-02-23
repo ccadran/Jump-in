@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 const loading = ref(false);
 const errorMsg = ref("");
+const router = useRouter();
 
 const formIn = reactive({
   email: "",
@@ -13,7 +14,7 @@ async function signIn(e: Event) {
     loading.value = true;
     errorMsg.value = "";
 
-    const { data, error } = await useFetch("/api/auth/login", {
+    const data = await $fetch("/api/auth/login", {
       method: "POST",
       body: {
         email: formIn.email,
@@ -21,14 +22,12 @@ async function signIn(e: Event) {
       },
     });
 
-    if (error.value) {
-      throw new Error(error.value.message);
-    }
-
-    if (data.value) {
-      console.log("___________", data.value);
-
-      await navigateTo("/ranking");
+    if (data) {
+      try {
+        await router.push("/account");
+      } catch (routerError) {
+        window.location.href = "/account";
+      }
     }
   } catch (error: any) {
     errorMsg.value = error.message;
@@ -36,10 +35,8 @@ async function signIn(e: Event) {
     loading.value = false;
   }
 }
-
 const logUser = () => {
   const user = useSupabaseUser();
-  console.log(user.value);
 };
 
 const form = reactive({
@@ -106,8 +103,6 @@ const handleFileUpload = (event: Event) => {
 const handleSwitchChange = (side: "left" | "right") => {
   wantRegister.value = side === "right";
 };
-
-onMounted;
 </script>
 
 <template>

@@ -65,7 +65,6 @@ export default defineEventHandler(async (event) => {
       users: sortedUsers,
     };
   } catch (error) {
-    console.error("Error in API route:", error);
     return createError({ statusCode: 500, message: "Internal Server Error" });
   }
 });

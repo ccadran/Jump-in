@@ -9,7 +9,6 @@ const sortOptions = ref<HTMLElement | null>(null);
 
 const handleSwitchChange = (side: "left" | "right") => {
   showMyGuilds.value = side === "left";
-  console.log("parentttt", showMyGuilds.value);
 };
 
 const { data: allGuilds } = useFetch<Guilds[]>("/api/guilds", {

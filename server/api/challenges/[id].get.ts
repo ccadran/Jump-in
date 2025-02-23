@@ -23,7 +23,6 @@ export default eventHandler(async (event) => {
 
     return data;
   } catch (error) {
-    console.error("Error deleting challenge:", error);
     return createError({
       statusCode: 500,
       statusMessage: "Erreur lors de la révupération du challenge",

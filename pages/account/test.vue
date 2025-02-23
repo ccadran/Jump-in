@@ -32,21 +32,15 @@ const { data: userData } = useFetch<UserData>(`/api/users/${user.value!.id}`, {
   key: "user_data",
 });
 
-console.log("____user", userData);
-
-console.log(completeChallenges);
-
 async function leaveGuild(guildId: string) {
   try {
     const response = await $fetch(`/api/users/guilds`, {
       method: "DELETE",
       body: { userId: user.value!.id, guildId: guildId },
     });
-    console.log("Retiré de la guilde", response);
+
     refreshNuxtData("guilds");
-  } catch (error) {
-    console.error("Erreur de suppression", error);
-  }
+  } catch (error) {}
 }
 async function deleteChallengeSaved(challenge_id: string) {
   try {
@@ -56,9 +50,7 @@ async function deleteChallengeSaved(challenge_id: string) {
     });
 
     refreshNuxtData("saved_challenges");
-  } catch (error) {
-    console.error("Erreur de suppression", error);
-  }
+  } catch (error) {}
 }
 async function deleteCompletedChallenge(id: string) {
   try {
@@ -68,9 +60,7 @@ async function deleteCompletedChallenge(id: string) {
     });
 
     refreshNuxtData("complete_challenges");
-  } catch (error) {
-    console.error("Erreur de suppression", error);
-  }
+  } catch (error) {}
 }
 
 const logout = async () => {
@@ -79,9 +69,7 @@ const logout = async () => {
       method: "POST",
     });
     navigateTo("/login");
-  } catch (error) {
-    console.error("Erreur de déconnexion", error);
-  }
+  } catch (error) {}
 };
 </script>
 

@@ -20,9 +20,7 @@ const deleteGuild = async (guildId: string) => {
       method: "DELETE",
     });
     emit("guildDeleted", guildId);
-  } catch (error) {
-    console.error("Erreur de suppression", error);
-  }
+  } catch (error) {}
 };
 </script>
 

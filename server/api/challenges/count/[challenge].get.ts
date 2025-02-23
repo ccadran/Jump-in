@@ -4,8 +4,6 @@ import { Database } from "~/types/supabase";
 export default defineEventHandler(async (event) => {
   const challengeId = getRouterParam(event, "challenge") as string;
 
-  console.log("challengeId", challengeId);
-
   const client = await serverSupabaseClient<Database>(event);
   const { count: savedCount, error } = await client
     .from("saved_challenges")
@@ -16,9 +14,6 @@ export default defineEventHandler(async (event) => {
     .from("complete_challenges")
     .select("*", { count: "exact", head: true })
     .eq("challenge_id", challengeId);
-
-  console.log("data", savedCount);
-  console.log("data2", completeCount);
 
   if (error || error2) {
     return createError({

@@ -8,8 +8,6 @@ const props = defineProps({
   },
 });
 
-console.log(props.topUsers);
-
 const guildUsers = computed(() => {
   const users = props.topUsers.users;
 
@@ -37,8 +35,6 @@ const guildUsers = computed(() => {
     };
   });
 });
-
-console.log(guildUsers.value);
 </script>
 
 <template>
