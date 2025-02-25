@@ -46,7 +46,7 @@ const switchSortValue = (value: "newest" | "oldest") => {
 <template>
   <NuxtLayout
     title="Challenge completed"
-    description="Challenge completed page"
+    description="View all the challenges you’ve completed and track your progress across different guilds."
   >
     <div class="completed-page">
       <div class="filters">

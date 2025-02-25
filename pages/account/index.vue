@@ -18,7 +18,12 @@ const handleGuildLeave = (guildId: string) => {
 </script>
 
 <template>
-  <NuxtLayout title="Account" description="Account page">
+  <NuxtLayout
+    title="Account"
+    description="     Manage your journey! View the guilds you’ve joined, your saved
+        challenges, and track the guilds, challenges, and completed challenges
+        you’ve created."
+  >
     <div class="general-page">
       <div class="guilds-member">
         <h4>Your guilds</h4>

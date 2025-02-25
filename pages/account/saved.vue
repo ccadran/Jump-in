@@ -45,7 +45,10 @@ const switchSortValue = (value: "newest" | "oldest") => {
 </script>
 
 <template>
-  <NuxtLayout title="Challenge saved" description="Challenge saved page">
+  <NuxtLayout
+    title="Challenge saved"
+    description="Here are the challenges you've saved? Complete them at your own pace and track your progress!"
+  >
     <div class="saved-page">
       <div class="filters">
         <input

@@ -24,9 +24,9 @@ async function signIn(e: Event) {
 
     if (data) {
       try {
-        await router.push("/account");
-      } catch (routerError) {
         window.location.href = "/account";
+      } catch (routerError) {
+        console.log("routerError", routerError);
       }
     }
   } catch (error: any) {
@@ -116,7 +116,7 @@ const handleSwitchChange = (side: "left" | "right") => {
     </div>
     <UiSwitch
       leftText="Sign in"
-      rightText="S'Sign up"
+      rightText="Sign up"
       @switchChange="handleSwitchChange"
     />
     <div v-if="!wantRegister" class="login-form">

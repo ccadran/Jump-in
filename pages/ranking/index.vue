@@ -44,9 +44,8 @@ const { data: topUsersByGuild } = useFetch("/api/ranking/guilds");
     <div class="global-hero">
       <h1>RANKING</h1>
       <p>
-        Manage your journey! View the guilds you’ve joined, your saved
-        challenges, and track the guilds, challenges, and completed challenges
-        you’ve created.
+        Discover the top challengers! See the users who have completed the most
+        challenges overall and explore rankings within each guild.
       </p>
     </div>
     <div class="rankings-container">

@@ -120,7 +120,11 @@ const switchSortValue = (value: "newest" | "oldest") => {
 </script>
 
 <template>
-  <NuxtLayout title="created by me" description="created by me page">
+  <NuxtLayout
+    title="created by me"
+    description="Manage the guilds, challenges, and completed challenges
+        you’ve created."
+  >
     <div class="byMe-page">
       <UiSwitch
         leftText="Guilds"
