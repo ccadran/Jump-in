@@ -3,13 +3,14 @@ import type { Challenges, CompleteChallenges } from "~/types/api";
 
 const user = useSupabaseUser();
 const route = useRoute();
-const challengeId = route.params.id;
+const challengeId = route.params.id as string;
 const showModal = ref(false);
 const bluredBackground = ref(null) as Ref<HTMLElement | null>;
 const isComplete = ref(false);
 const searchQuery = ref("");
 const sortOrder = ref<"newest" | "oldest">("newest"); // Par défaut, tri du plus récent au plus ancien
 const sortOptions = ref<HTMLElement | null>(null);
+const isSaved = ref(false);
 
 const formComplete = ref({
   title: "",
@@ -27,6 +28,35 @@ const { data: challengesCompleteData, error: challengesCompleteError } =
   useFetch<CompleteChallenges[]>(`/api/challenges/complete/${challengeId}`, {
     key: "challengesComplete",
   });
+
+try {
+  const response = await $fetch(`/api/users/challenges/save/check`, {
+    method: "POST",
+    body: { userId: user.value!.id, challengeId: challengeId },
+  });
+
+  isSaved.value = typeof response === "boolean" ? response : false;
+} catch (error) {}
+
+const saveChallenge = async (challengeId: string) => {
+  try {
+    const response = await $fetch(`/api/users/challenges/save`, {
+      method: "POST",
+      body: { userId: user.value!.id, challengeId: challengeId },
+    });
+    isSaved.value = true;
+  } catch (error) {}
+};
+
+const unsaveChallenge = async (challengeId: string) => {
+  try {
+    const response = await $fetch(`/api/users/challenges/save`, {
+      method: "DELETE",
+      body: { userId: user.value!.id, challengeId: challengeId },
+    });
+    isSaved.value = false;
+  } catch (error) {}
+};
 
 const filteredChallengesComplete = computed(() => {
   let result = challengesCompleteData.value || [];
@@ -134,7 +164,12 @@ const switchSortValue = (value: "newest" | "oldest") => {
             >Voir la guild</a
           >
         </div>
-        <p class="link">save it</p>
+        <p v-if="!isSaved" class="link" @click="saveChallenge(challengeId)">
+          save it
+        </p>
+        <p v-if="isSaved" class="link" @click="unsaveChallenge(challengeId)">
+          unsave it
+        </p>
       </div>
       <div class="description">{{ challengeData!.description }}</div>
       <div class="data-complete">

@@ -42,6 +42,9 @@ const switchSortValue = (value: "newest" | "oldest") => {
   sortOrder.value = value;
   toggleSortOptions();
 };
+const test = () => {
+  console.log("test");
+};
 </script>
 
 <template>
@@ -83,6 +86,7 @@ const switchSortValue = (value: "newest" | "oldest") => {
           v-for="challenge in filteredChallengesSaved"
           :key="challenge.id"
           :data="challenge"
+          @refresh="refreshNuxtData('userChallengesSaved')"
         />
       </div>
     </div>

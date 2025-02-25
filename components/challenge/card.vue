@@ -8,13 +8,13 @@ interface challengeCardProps {
 const props = defineProps<challengeCardProps>();
 const user = useSupabaseUser();
 const isSaved = ref(false);
+const emit = defineEmits(["refresh"]);
 
 try {
   const response = await $fetch(`/api/users/challenges/save/check`, {
     method: "POST",
     body: { userId: user.value!.id, challengeId: props.data.id },
   });
-
   isSaved.value = typeof response === "boolean" ? response : false;
 } catch (error) {}
 
@@ -24,19 +24,21 @@ const saveChallenge = async (challengeId: string) => {
       method: "POST",
       body: { userId: user.value!.id, challengeId: challengeId },
     });
+    emit("refresh");
     isSaved.value = true;
   } catch (error) {}
 };
 
-async function unsaveChallenge(challengeId: string) {
+const unsaveChallenge = async (challengeId: string) => {
   try {
     const response = await $fetch(`/api/users/challenges/save`, {
       method: "DELETE",
       body: { userId: user.value!.id, challengeId: challengeId },
     });
+    emit("refresh");
     isSaved.value = false;
   } catch (error) {}
-}
+};
 </script>
 
 <template>

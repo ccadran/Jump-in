@@ -5,10 +5,11 @@ import type { Challenges, Guilds } from "~/types/api";
 interface savedChallengeCardProps {
   data: Challenges;
 }
-
+const emit = defineEmits(["refresh"]);
 const props = defineProps<savedChallengeCardProps>();
 
 const { data: guildData } = useFetch<Guilds>(`/api/guilds/${props.data.guild}`);
+const emitRefresh = () => emit("refresh");
 </script>
 
 <template>
@@ -16,7 +17,7 @@ const { data: guildData } = useFetch<Guilds>(`/api/guilds/${props.data.guild}`);
     <a :href="`/guilds/${props.data.guild}`" class="guild-name link">{{
       guildData?.name
     }}</a>
-    <ChallengeCard :data="props.data" />
+    <ChallengeCard :data="props.data" @refresh="emitRefresh" />
   </div>
 </template>
 
