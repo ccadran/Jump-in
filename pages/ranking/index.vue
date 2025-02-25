@@ -24,9 +24,9 @@ const topUsers = computed(() => {
         : 30;
 
     return {
-      username: user.username || "Unknown",
-      challenges_completed: user.challenges_completed || 0,
-      height: `${relativeHeight.toFixed(1)}%`, // Pour la hauteur CSS
+      username: user.username,
+      challenges_completed: user.challenges_completed,
+      height: `${relativeHeight.toFixed(1)}%`,
     };
   });
 });
@@ -44,9 +44,9 @@ const { data: topUsersByGuild } = useFetch("/api/ranking/guilds");
     <div class="global-hero">
       <h1>RANKING</h1>
       <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex dolorem
-        neque, sapiente sed voluptatibus sequi fugiat ipsa? Consectetur
-        corrupti, quidem provident cupiditate consequuntur dignissimos deserunt!
+        Manage your journey! View the guilds you’ve joined, your saved
+        challenges, and track the guilds, challenges, and completed challenges
+        you’ve created.
       </p>
     </div>
     <div class="rankings-container">

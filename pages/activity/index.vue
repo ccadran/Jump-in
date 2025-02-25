@@ -53,9 +53,8 @@ const switchSortValue = (value: "newest" | "oldest") => {
     <div class="global-hero">
       <h1>ACTIVITY</h1>
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus eos
-        rerum aliquam dignissimos nulla soluta quasi dolor totam similique. Eos
-        repellendus veniam soluta veritatis quis!
+        Stay updated with the latest challenges from your guilds. Save them to
+        complete later and tackle them at your own pace!
       </p>
     </div>
     <div class="filters">

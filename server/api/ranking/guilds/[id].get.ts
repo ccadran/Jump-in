@@ -14,15 +14,14 @@ export default defineEventHandler(async (event) => {
   try {
     const { data: completedChallenges, error: challengeError } = await client
       .from("complete_challenges")
-      .select("user_id, users(*), challenges(guild, guilds(name))")
+      .select("user_id, users(*), challenges(guild)")
       .not("user_id", "is", null)
-      .eq("challenges.guild", guildId); // Filtrer par l'ID de la guilde
+      .eq("challenges.guild", guildId);
 
     if (challengeError) {
       throw createError({ statusCode: 500, message: challengeError.message });
     }
 
-    // Regrouper les défis complétés par utilisateur pour cette guilde
     const userChallengeCounts = completedChallenges.reduce(
       (acc: { [key: string]: number }, { user_id }) => {
         if (user_id !== null) {
@@ -33,18 +32,6 @@ export default defineEventHandler(async (event) => {
       {}
     );
 
-    // Récupérer le nom de la guilde
-    const { data: guild, error: guildError } = await client
-      .from("guilds")
-      .select("id, name")
-      .eq("id", guildId)
-      .single();
-
-    if (guildError) {
-      throw createError({ statusCode: 500, message: guildError.message });
-    }
-
-    // Trier les utilisateurs par nombre de défis complétés pour cette guilde
     const sortedUsers = Object.entries(userChallengeCounts)
       .map(([user_id, completed_count]) => ({ user_id, completed_count }))
       .sort((a, b) => b.completed_count - a.completed_count)
@@ -58,10 +45,7 @@ export default defineEventHandler(async (event) => {
       })
       .filter(Boolean);
 
-    // Retourner les résultats pour cette guilde
     return {
-      guild_id: guildId,
-      guild_name: guild.name,
       users: sortedUsers,
     };
   } catch (error) {

@@ -20,9 +20,8 @@ const handleSwitchChange = (side: "left" | "right") => {
     <div class="global-hero">
       <h1>NEW ONE</h1>
       <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet libero
-        odio voluptatibus dolorum commodi, laborum harum. Doloremque facere sint
-        quas nostrum adipisci ullam nisi magni.
+        Create your own guild or new challenges within your guilds. Shape the
+        adventure and inspire others to take on new goals!
       </p>
     </div>
     <UiSwitch

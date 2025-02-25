@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import type { Guilds } from "~/types/api";
 interface topUsers {
-  guild_id: string;
-  guild_name: string;
   users: object;
 }
 
@@ -43,7 +41,7 @@ const guildUsers = computed(() => {
     return {
       username: user.username || "Unknown",
       challenges_completed: user.challenges_completed || 0,
-      height: `${relativeHeight.toFixed(1)}%`, // Pour la hauteur CSS
+      height: `${relativeHeight.toFixed(1)}%`,
     };
   });
 });

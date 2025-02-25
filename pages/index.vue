@@ -15,12 +15,15 @@ const { data: allGuilds } = useFetch<Guilds[]>("/api/guilds", {
   key: "allGuilds",
 });
 
-const { data: userGuilds, error } = useFetch<Guilds[]>(
-  `/api/users/guilds/${user.value!.id}`,
-  {
-    key: "userGuilds",
-  }
-);
+const {
+  data: userGuilds,
+  error,
+  status,
+} = useFetch<Guilds[]>(`/api/users/guilds/${user.value!.id}`, {
+  key: "userGuilds",
+});
+console.log({ userGuilds, error, status });
+
 const handleGuildJoined = () => {
   refreshNuxtData("allGuilds");
   refreshNuxtData("userGuilds");
@@ -93,9 +96,9 @@ const switchSortValue = (value: "newest" | "oldest") => {
     <div class="global-hero">
       <h1>Home</h1>
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus eos
-        rerum aliquam dignissimos nulla soluta quasi dolor totam similique. Eos
-        repellendus veniam soluta veritatis quis!
+        Explore and manage your guilds or discover new ones to join. Connect
+        with like-minded people, take on exciting challenges, and engage with
+        your community!
       </p>
     </div>
     <UiSwitch

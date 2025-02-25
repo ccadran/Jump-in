@@ -108,16 +108,15 @@ const handleSwitchChange = (side: "left" | "right") => {
 <template>
   <div class="login-page">
     <div class="global-hero">
-      <h1>CONNEXION</h1>
+      <h1>Connection</h1>
       <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex dolorem
-        neque, sapiente sed voluptatibus sequi fugiat ipsa? Consectetur
-        corrupti, quidem provident cupiditate consequuntur dignissimos deserunt!
+        Join the adventure! Sign up to create an account or log in to continue
+        exploring guilds and challenges.
       </p>
     </div>
     <UiSwitch
-      leftText="Se connecter"
-      rightText="S'inscrire"
+      leftText="Sign in"
+      rightText="S'Sign up"
       @switchChange="handleSwitchChange"
     />
     <div v-if="!wantRegister" class="login-form">

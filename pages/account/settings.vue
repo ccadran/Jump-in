@@ -78,9 +78,8 @@ const handleFileUpload = (event: Event) => {
     <div class="global-hero">
       <h1>SETTINGS</h1>
       <p>
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Unde magni
-        necessitatibus distinctio! Consectetur aut necessitatibus deleniti natus
-        enim sapiente illo saepe voluptatem dignissimos, optio a.
+        Customize your experience! Update your profile information and manage
+        your account settings.
       </p>
     </div>
 
