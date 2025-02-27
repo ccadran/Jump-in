@@ -42,9 +42,6 @@ const switchSortValue = (value: "newest" | "oldest") => {
   sortOrder.value = value;
   toggleSortOptions();
 };
-const test = () => {
-  console.log("test");
-};
 </script>
 
 <template>
