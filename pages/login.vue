@@ -111,8 +111,7 @@ const handleSwitchChange = (side: "left" | "right") => {
       <h1>Connection</h1>
       <p>
         Join the adventure! Sign up to create an account or log in to continue
-        exploring guilds and challenges. (you can log in with the following
-        credentials: secondcompte33300@gmail.com / test33)
+        exploring guilds and challenges.
       </p>
     </div>
     <UiSwitch
