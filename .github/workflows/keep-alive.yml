@@ -1,0 +1,30 @@
+name: Keep Supabase Alive via Challenges API
+
+on:
+  schedule:
+    - cron: "0 */12 * * *" # Exécute toutes les 12 heures
+  workflow_dispatch: # Permet l'exécution manuelle pour tester
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Challenges API
+        run: |
+          curl -X GET "https://jump-in.netlify.app/api/challenges" \
+          -H "Content-Type: application/json" \
+          -w "\n%{http_code}" \
+          -o response.txt
+
+          HTTP_STATUS=$(tail -n1 response.txt)
+          RESPONSE_BODY=$(sed '$d' response.txt)
+
+          echo "Response Status: $HTTP_STATUS"
+          echo "Response Body Preview: $(echo "$RESPONSE_BODY" | head -c 300)..."
+
+          if [ "$HTTP_STATUS" != "200" ]; then
+            echo "Error: API check failed with status $HTTP_STATUS"
+            exit 1
+          else
+            echo "Success! API responded with status 200"
+          fi
