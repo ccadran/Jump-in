@@ -12,7 +12,7 @@ const handleSwitchChange = (side: "left" | "right") => {
   <div class="create-page">
     <div class="header">
       <div class="header">
-        <a href="/" class="logo">
+        <a href="/home" class="logo">
           <img src="/logo.svg" alt="" />
         </a>
       </div>

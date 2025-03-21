@@ -2,7 +2,7 @@
 
 <template>
   <nav class="global-nav">
-    <NuxtLink to="/" activeClass="active">
+    <NuxtLink to="/home" activeClass="active">
       <img src="/icons/navHome.svg" alt="" class="icon" />
       <img src="/icons/navHomeActive.svg" alt="" class="iconActive" />
     </NuxtLink>

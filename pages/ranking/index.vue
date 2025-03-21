@@ -37,7 +37,7 @@ const { data: topUsersByGuild } = useFetch("/api/ranking/guilds");
 <template>
   <div class="ranking-page">
     <div class="header">
-      <a href="/" class="logo">
+      <a href="/home" class="logo">
         <img src="/logo.svg" alt="" />
       </a>
     </div>

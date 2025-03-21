@@ -24,7 +24,7 @@ async function signIn(e: Event) {
 
     if (data) {
       try {
-        window.location.href = "/account";
+        window.location.href = "/home";
       } catch (routerError) {
         console.log("routerError", routerError);
       }
