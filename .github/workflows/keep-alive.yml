@@ -11,20 +11,15 @@ jobs:
     steps:
       - name: Ping Challenges API
         run: |
-          curl -X GET "https://jump-in.netlify.app/api/challenges" \
-          -H "Content-Type: application/json" \
-          -w "\n%{http_code}" \
-          -o response.txt
+          # On effectue l'appel API et on capture uniquement le code de statut
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            -X GET "https://jump-in.netlify.app/api/challenges" \
+            -H "Content-Type: application/json")
 
-          HTTP_STATUS=$(tail -n1 response.txt)
-          RESPONSE_BODY=$(sed '$d' response.txt)
-
-          echo "Response Status: $HTTP_STATUS"
-          echo "Response Body Preview: $(echo "$RESPONSE_BODY" | head -c 300)..."
-
-          if [ "$HTTP_STATUS" != "200" ]; then
+          # On vérifie si le code de statut est 200 (Success)
+          if [ "$HTTP_STATUS" -eq 200 ]; then
+            echo "Success! API responded with status 200"
+          else
             echo "Error: API check failed with status $HTTP_STATUS"
             exit 1
-          else
-            echo "Success! API responded with status 200"
           fi
