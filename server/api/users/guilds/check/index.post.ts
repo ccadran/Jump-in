@@ -11,8 +11,7 @@ export default defineEventHandler(async (event) => {
     .eq("user_id", userId)
     .eq("guild_id", guildId);
 
-  const isMember = data ? true : false;
-
+  const isMember = data && data.length > 0;
   if (error) {
     return createError({ statusCode: 500, message: error.message });
   }

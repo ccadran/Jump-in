@@ -57,6 +57,8 @@ try {
     method: "POST",
     body: { userId: user.value!.id, guildId: guildId },
   });
+  console.log("response", response);
+
   isMember.value = typeof response === "boolean" ? response : false;
 } catch (error) {}
 
