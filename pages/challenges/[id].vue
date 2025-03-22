@@ -91,6 +91,14 @@ try {
 
 const completeChallengeSubmit = async (e: Event) => {
   e.preventDefault();
+  if (formComplete.value.title.length > 20) {
+    alert("Title should be less than 20 characters");
+    return;
+  }
+  if (formComplete.value.description.length > 84) {
+    alert("Description should be less than 100 characters");
+    return;
+  }
 
   const formCompleteToSend = new FormData();
   formCompleteToSend.append("title", formComplete.value.title);

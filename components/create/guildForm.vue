@@ -11,6 +11,15 @@ const formData = ref({
 const handleGuildSubmit = async (e: Event) => {
   e.preventDefault();
 
+  if (formData.value.name.length > 20) {
+    alert("Name should be less than 20 characters");
+    return;
+  }
+  if (formData.value.description.length > 84) {
+    alert("Description should be less than 100 characters");
+    return;
+  }
+
   const formDataToSend = new FormData();
   formDataToSend.append("name", formData.value.name);
   formDataToSend.append("description", formData.value.description);
